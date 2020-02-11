@@ -8,7 +8,7 @@ a web micro-framework.
 
 - Jonathan Baxley
 - Andre Da Costa
-- MEMBER3
+- Joe Netti
 - MEMBER4
 
 
