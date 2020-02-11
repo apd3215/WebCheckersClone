@@ -9,7 +9,7 @@ a web micro-framework.
 - Jonathan Baxley
 - Andre Da Costa
 - Joe Netti
-- MEMBER4
+- Joshua Yoder
 
 
 ## Prerequisites
