@@ -7,7 +7,7 @@ a web micro-framework.
 ## Team
 
 - Jonathan Baxley
-- MEMBER2
+- Andre Da Costa
 - MEMBER3
 - MEMBER4
 
