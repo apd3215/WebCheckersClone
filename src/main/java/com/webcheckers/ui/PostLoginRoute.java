@@ -1,19 +1,19 @@
 package com.webcheckers.ui;
 
+import spark.Route;
 import spark.*;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+public class PostLoginRoute implements Route {
 
-public class GetLoginRoute implements Route {
-    
     private final TemplateEngine templateEngine;
     static final String GET_LOGGED_IN = "isLoggedIn";
 
 
-    public GetLoginRoute(final TemplateEngine templateEngine) {
+    public PostLoginRoute(final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required!");
     }
 
@@ -21,11 +21,15 @@ public class GetLoginRoute implements Route {
     static final String TITLE = "Sign In";
     static final String USERNAME = "username";
     static final String PASSWORD = "password";
-    
+
     @Override
     public Object handle(Request request, Response response) {
         Map<String, Object> vm = new HashMap<>();
         vm.put(TITLE_ATTR, TITLE);
+        final String usernameStr = request.queryParams(USERNAME);
+        final String passStr = request.queryParams(PASSWORD);
+        System.out.println(usernameStr);
+        System.out.println(passStr);
         return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
     }
 }
