@@ -10,7 +10,7 @@ a web micro-framework.
 - Andre Da Costa
 - Joe Netti
 - Joshua Yoder
-
+- Dhaval Shrishrimali
 
 ## Prerequisites
 
