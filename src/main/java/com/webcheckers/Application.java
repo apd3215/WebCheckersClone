@@ -1,6 +1,8 @@
 package com.webcheckers;
 
 import java.io.InputStream;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.Objects;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -11,7 +13,6 @@ import com.webcheckers.ui.WebServer;
 import spark.TemplateEngine;
 import spark.template.freemarker.FreeMarkerEngine;
 
-
 /**
  * The entry point for the WebCheckers web application.
  *
@@ -19,6 +20,8 @@ import spark.template.freemarker.FreeMarkerEngine;
  */
 public final class Application {
   private static final Logger LOG = Logger.getLogger(Application.class.getName());
+
+  public Dictionary<String, String> Users;
 
   /**
    * Queries whether the application is being run in demo-mode.
@@ -128,7 +131,7 @@ public final class Application {
 
   private void initialize() {
     LOG.config("WebCheckers is initializing.");
-
+    this.Users = new Hashtable<>();
     // configure Spark and startup the Jetty web server
     webServer.initialize();
 
@@ -137,4 +140,18 @@ public final class Application {
     LOG.config("WebCheckers initialization complete.");
   }
 
+  //Returns true if logged in or new account created
+  //Returns false if wrong password
+  private boolean login(String username, String password){
+    if (this.Users.get(username) != null){
+      this.Users.put(username, password);
+      return true;
+    }
+    else{
+      if (this.Users.get(username).equals(password)){
+        return true;
+      }
+    }
+    return false;
+  }
 }
