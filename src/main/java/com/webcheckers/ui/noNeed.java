@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class PostLoginRoute implements Route {
+public class noNeed implements Route {
 
-    static final String USER_NAME = "my_UserName";
+    static final String USERNAME = "my_UserName";
     static final String PASSWORD = "my_Password";
 
     static final String VIEW_NAME = "signin.ftl";
@@ -20,7 +20,7 @@ public class PostLoginRoute implements Route {
         return logged_in;
     }
 
-    public PostLoginRoute(final TemplateEngine templateEngine){
+    public noNeed(final TemplateEngine templateEngine){
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required!");
     }
 
@@ -30,13 +30,16 @@ public class PostLoginRoute implements Route {
     public Object handle(Request request, Response response){
         Map<String, Object> vm = new HashMap<>();
 
-        final String user_name = request.queryParams(USER_NAME);
-        final String password = request.queryParams(PASSWORD);
+        //final String username = request.queryParams(USERNAME);
+        //final String password = request.queryParams(PASSWORD);
+
+        //System.out.println(username);
+        //System.out.println(password);
 
         boolean logged;
-        logged = WebServer.sign_in(user_name, password);
+//        logged = WebServer.sign_in(username, password);
 
-        vm.put(GetLoginRoute.GET_LOGGED_IN, logged);
+//        vm.put(GetLoginRoute.GET_LOGGED_IN, logged);
 
         return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
 
