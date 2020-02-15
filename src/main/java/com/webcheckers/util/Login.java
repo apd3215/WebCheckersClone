@@ -12,7 +12,7 @@ public class Login {
     }
     //Returns true if logged in or new account created
     //Returns false if wrong password
-    private boolean login(String username, String password){
+    private boolean sign_in(String username, String password){
         if (this.Users.get(username) != null){
             this.Users.put(username, password);
             return true;
