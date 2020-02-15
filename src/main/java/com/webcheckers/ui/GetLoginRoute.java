@@ -20,13 +20,16 @@ public class GetLoginRoute implements Route {
     static final String TITLE_ATTR = "title";
     static final String TITLE = "Sign In";
     static final String USERNAME = "username";
+    static final String PASSWORD = "password";
     
     @Override
     public Object handle(Request request, Response response) {
         Map<String, Object> vm = new HashMap<>();
         vm.put(TITLE_ATTR, TITLE);
         final String usernameStr = request.queryParams(USERNAME);
+        final String passStr = request.queryParams(PASSWORD);
         System.out.println(usernameStr);
+        System.out.println(passStr);
         return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
     }
 }
