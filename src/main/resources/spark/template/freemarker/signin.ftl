@@ -1,3 +1,9 @@
-<div class="signin">
+<!DOCTYPE html>
+<head>
+    <div class="signin">
+    <title>${title}</title>
+</head>
 
-</div>
+    </div>
+</html>
+

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
  <div class="navigation">
   <#if currentUser??>
     <a href="/">my home</a> |
