@@ -10,6 +10,7 @@ import java.util.Objects;
 public class GetLoginRoute implements Route {
     
     private final TemplateEngine templateEngine;
+    static final String GET_LOGGED_IN = "isLoggedIn";
 
 
     public GetLoginRoute(final TemplateEngine templateEngine) {

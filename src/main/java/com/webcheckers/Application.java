@@ -140,20 +140,7 @@ public final class Application {
     LOG.config("WebCheckers initialization complete.");
   }
 
-  //Returns true if logged in or new account created
-  //Returns false if wrong password
-  public static boolean sign_in(String username, String password){
-    if (Application.login.Users.get(username) != null){
-      Application.login.Users.put(username, password);
-      return true;
-    }
-    else{
-      if (Application.login.Users.get(username).equals(password)){
-        return true;
-      }
-    }
-    return false;
-  }
+
 }
 
 
