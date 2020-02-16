@@ -28,8 +28,9 @@ public class PostLoginRoute implements Route {
         vm.put(TITLE_ATTR, TITLE);
         final String usernameStr = request.queryParams(USERNAME);
         final String passStr = request.queryParams(PASSWORD);
-        System.out.println(usernameStr);
-        System.out.println(passStr);
+        boolean logged;
+        logged = WebServer.sign_in(usernameStr, passStr);
+        vm.put(GetLoginRoute.GET_LOGGED_IN, logged);
         return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
     }
 }
