@@ -150,6 +150,9 @@ public class WebServer {
 
 
   public static boolean sign_in(String username, String password){
+    if (username.equals("") || username.equals(" ")){
+      return false;
+    }
     if (Application.login.Users.get(username) != null){
       Application.login.Users.put(username, password);
       return true;

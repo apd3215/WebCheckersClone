@@ -11,7 +11,7 @@ public class PostLoginRoute implements Route {
     static final String USER_NAME = "my_UserName";
     static final String PASSWORD = "my_Password";
 
-    static final String VIEW_NAME = "signin.ftl";
+    static final String VIEW_NAME = "home.ftl";
 
     private final TemplateEngine templateEngine;
 
