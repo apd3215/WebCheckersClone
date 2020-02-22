@@ -162,14 +162,22 @@ public class WebServer {
     return first;
   }
 
+  private static boolean check_pass(String password){
+    for (int i = 0; i < password.length(); i++){
+      if (password.charAt(i) != ' '){
+        return true;
+      }
+    }
+    return false;
 
+  }
   public static int sign_in(String username, String password){
     if (!check_name(username)){
       return 0;
     }
 
     if (Application.login.Users.get(username) == null){
-      if (password.replace(" ", "") == ""){
+      if (!check_pass(password)){
         return -1;
       }
       Application.login.Users.put(username, password);
