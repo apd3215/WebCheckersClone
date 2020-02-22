@@ -1,6 +1,8 @@
 
 package com.webcheckers.ui;
 
+import com.webcheckers.Application;
+import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.util.Message;
 import spark.Route;
 import spark.*;
@@ -12,7 +14,6 @@ import java.util.Objects;
 public class PostLoginRoute implements Route {
 
     private final TemplateEngine templateEngine;
-    static final String GET_LOGGED_IN = "isLoggedIn";
     static final Message NAME_ERR = Message.error("Username cannot be empty AND cannot contain special characters.");
     static final Message WRONG = Message.error("Wrong Password OR Username already exists.");
     static final Message PASS = Message.error("Password Cannot be empty.");
@@ -33,12 +34,11 @@ public class PostLoginRoute implements Route {
         final String usernameStr = request.queryParams(USERNAME);
         final String passStr = request.queryParams(PASSWORD);
         int logged;
-        logged = WebServer.sign_in(usernameStr, passStr);
+        logged = Application.playerLobby.sign_in(usernameStr, passStr);
         if (logged == 0){
             vm.put("message", NAME_ERR);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
         } else if (logged == -1){
-            // add more stuff
             vm.put("message", PASS);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
         } else if (logged == 2 || logged == 1){
