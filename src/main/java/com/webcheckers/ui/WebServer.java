@@ -167,7 +167,11 @@ public class WebServer {
     if (!check_name(username)){
       return 0;
     }
+
     if (Application.login.Users.get(username) == null){
+      if (password.replace(" ", "") == ""){
+        return -1;
+      }
       Application.login.Users.put(username, password);
       return 1;
     }

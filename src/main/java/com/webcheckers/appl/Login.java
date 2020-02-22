@@ -1,4 +1,4 @@
-package com.webcheckers.util;
+package com.webcheckers.appl;
 
 import java.util.Dictionary;
 import java.util.Hashtable;

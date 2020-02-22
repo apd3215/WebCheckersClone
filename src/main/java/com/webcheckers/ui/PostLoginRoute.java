@@ -37,11 +37,11 @@ public class PostLoginRoute implements Route {
         if (logged == 0){
             vm.put("message", NAME_ERR);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
-        } else if (logged == 1){
+        } else if (logged == -1){
             // add more stuff
             vm.put("message", PASS);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
-        } else if (logged == 2){
+        } else if (logged == 2 || logged == 1){
             return templateEngine.render(new ModelAndView(vm, "home.ftl"));
         } else {
             vm.put("message", WRONG);
