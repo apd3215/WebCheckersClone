@@ -1,6 +1,6 @@
 package com.webcheckers.ui;
 
-public class space {
+public class Space {
     private int cellIdx;
     private boolean isValid;
     private Piece piece;
