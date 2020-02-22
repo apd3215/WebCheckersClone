@@ -46,9 +46,12 @@ public class PlayerLobby {
                 return -1;
             }
             Users.put(username, password);
+            Player player = new Player(username);
+            Players.put(username, player);
             return 1;
         } else{
             if(Users.get(username).equals(password)){
+                Players.get(username).login();
                 return 2;
             }
         }

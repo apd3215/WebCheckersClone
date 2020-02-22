@@ -2,11 +2,19 @@ package com.webcheckers.util;
 
 public class Player {
 
-    public boolean isLogged = false;
+    private boolean isLogged = true;
     public String name;
 
-    public void Player(String name){
+    public Player(String name){
         this.name = name;
+    }
+
+    public void logout(){
+        this.isLogged = false;
+    }
+
+    public void login(){
+        this.isLogged = true;
     }
 
 }
