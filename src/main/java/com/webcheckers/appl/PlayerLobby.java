@@ -13,6 +13,7 @@ public class PlayerLobby {
 
     public PlayerLobby(){
         this.Users = new Hashtable<>();
+        this.Players = new Hashtable<>();
     }
 
     private boolean check_name(String username){
