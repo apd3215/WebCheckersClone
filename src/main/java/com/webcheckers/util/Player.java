@@ -16,5 +16,4 @@ public class Player {
     public void login(){
         this.isLogged = true;
     }
-
 }
