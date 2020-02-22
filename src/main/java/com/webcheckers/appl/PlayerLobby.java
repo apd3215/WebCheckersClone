@@ -10,10 +10,12 @@ public class PlayerLobby {
 
     private Dictionary<String, String> Users;
     private Dictionary<String, Player> Players;
+    private int num_logged_in;
 
     public PlayerLobby(){
         this.Users = new Hashtable<>();
         this.Players = new Hashtable<>();
+        this.num_logged_in = 0;
     }
 
     public Dictionary<String, Player> getPlayers() {
@@ -53,14 +55,25 @@ public class PlayerLobby {
             Users.put(username, password);
             Player player = new Player(username);
             Players.put(username, player);
+            this.num_logged_in++;
             return 1;
         } else{
             if(Users.get(username).equals(password)){
                 Players.get(username).login();
+                this.num_logged_in++;
                 return 2;
             }
         }
         return 3;
+    }
+
+    public void sign_out(Player player){
+        this.num_logged_in--;
+        player.logout();
+    }
+
+    public int getNum_logged_in(){
+        return this.num_logged_in;
     }
 }
 
