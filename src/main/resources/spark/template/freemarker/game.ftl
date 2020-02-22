@@ -12,7 +12,6 @@
 <body>
   <div class="page">
     <h1>Web Checkers | Game View</h1>
-    
     <img 
     src="img/chess_board.svg" 
     alt="checker board"
