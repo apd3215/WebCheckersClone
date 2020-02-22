@@ -1,3 +1,4 @@
+
 package com.webcheckers.ui;
 
 import com.webcheckers.util.Message;
@@ -14,7 +15,7 @@ public class PostLoginRoute implements Route {
     static final String GET_LOGGED_IN = "isLoggedIn";
     static final Message NAME_ERR = Message.error("Username cannot be empty AND cannot contain special characters.");
     static final Message WRONG = Message.error("Wrong Password OR Username already exists.");
-
+    static final Message PASS = Message.error("Password Cannot be empty.");
 
     public PostLoginRoute(final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required!");
@@ -33,13 +34,14 @@ public class PostLoginRoute implements Route {
         final String passStr = request.queryParams(PASSWORD);
         int logged;
         logged = WebServer.sign_in(usernameStr, passStr);
-         // vm.put(GetLoginRoute.GET_LOGGED_IN, logged); ?????
-        System.out.println(logged);
         if (logged == 0){
             vm.put("message", NAME_ERR);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
-        } else if (logged == 1 || logged == 2){
+        } else if (logged == 1){
             // add more stuff
+            vm.put("message", PASS);
+            return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
+        } else if (logged == 2){
             return templateEngine.render(new ModelAndView(vm, "home.ftl"));
         } else {
             vm.put("message", WRONG);
