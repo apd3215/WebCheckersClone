@@ -57,7 +57,21 @@ public class GetGameRoute implements Route {
 
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
-    vm.put("currentUser", "name"); //TODO: change with actually user
+
+    input.put("exampleObject", new ValueExampleObject("Java object", "me"));
+
+    /*
+    for(int i = 0; i < 8; i++) {
+        
+
+    }
+    List<Row> systems = new ArrayList<Row>();
+    board.add(new Row());
+    systems.add(new ValueExampleObject("iOS States", "Apple"));
+    systems.add(new ValueExampleObject("Ubuntu", "Canonical"));
+    systems.add(new ValueExampleObject("Windows7", "Microsoft"));
+    input.put("systems", systems);
+    */
 
     // render the View
     return templateEngine.render(new ModelAndView(vm, "game.ftl"));
