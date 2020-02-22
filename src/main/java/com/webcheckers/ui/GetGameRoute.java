@@ -57,6 +57,7 @@ public class GetGameRoute implements Route {
 
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
+    vm.put("currentUser", "name"); //TODO: change with actually user
 
     // render the View
     return templateEngine.render(new ModelAndView(vm, "game.ftl"));
