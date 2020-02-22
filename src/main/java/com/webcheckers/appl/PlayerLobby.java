@@ -16,6 +16,10 @@ public class PlayerLobby {
         this.Players = new Hashtable<>();
     }
 
+    public Dictionary<String, Player> getPlayers() {
+        return this.Players;
+    }
+
     private boolean check_name(String username){
         boolean first = false;
         for(int i = 0; i < username.length(); i++){

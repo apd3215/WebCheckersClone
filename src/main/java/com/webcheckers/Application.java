@@ -132,7 +132,6 @@ public final class Application {
     LOG.config("WebCheckers is initializing.");
     // configure Spark and startup the Jetty web server
     webServer.initialize();
-    this.playerLobby = new PlayerLobby();
     // other applications might have additional services to configure
 
     LOG.config("WebCheckers initialization complete.");

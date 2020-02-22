@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.webcheckers.ui.WebServer.HOME_URL;
+import static spark.Spark.get;
+
 public class PostLoginRoute implements Route {
 
     private final TemplateEngine templateEngine;
@@ -42,6 +45,7 @@ public class PostLoginRoute implements Route {
             vm.put("message", PASS);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
         } else if (logged == 2 || logged == 1){
+            vm.put("currentUser", Application.playerLobby.getPlayers().get(usernameStr).name);
             return templateEngine.render(new ModelAndView(vm, "home.ftl"));
         } else {
             vm.put("message", WRONG);

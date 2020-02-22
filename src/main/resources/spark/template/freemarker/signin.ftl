@@ -6,7 +6,7 @@
             Sign in
         </h1>
         <#include "message.ftl" />
-        <form method="post">
+        <form method="post" action="/">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username"><br><br>
             <label for="password">Password:</label>
