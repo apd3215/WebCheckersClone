@@ -60,9 +60,9 @@ public class GetGameRoute implements Route {
 
     input.put("exampleObject", new ValueExampleObject("Java object", "me"));
 
-    /*
+    ArrayList<Row> board = new ArrayList<Row>();
     for(int i = 0; i < 8; i++) {
-        
+          
 
     }
     List<Row> systems = new ArrayList<Row>();
@@ -71,9 +71,19 @@ public class GetGameRoute implements Route {
     systems.add(new ValueExampleObject("Ubuntu", "Canonical"));
     systems.add(new ValueExampleObject("Windows7", "Microsoft"));
     input.put("systems", systems);
-    */
 
     // render the View
     return templateEngine.render(new ModelAndView(vm, "game.ftl"));
   }
+
+  private Row makeRow(int index) {
+    Row row = new Row();
+    ArrayList<Space> spaces = new ArrayList<Space>();
+    for(int i = 0; i < 8; i++) {
+        spaces.append(new Space());
+    }
+
+  }
+
+
 }

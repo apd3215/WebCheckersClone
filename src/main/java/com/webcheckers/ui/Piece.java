@@ -2,9 +2,9 @@ package com.webcheckers.ui;
 
 public class Piece {
 
-  public enum PieceType {NORMAL, KING}
+  public enum PieceType {SINGLE, KING}
 
-  public enum Color {BLACK, RED}
+  public enum Color {WHITE, RED}
 
   public PieceType type;
   public PieceColor color;
