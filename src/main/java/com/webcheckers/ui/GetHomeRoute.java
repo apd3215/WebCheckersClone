@@ -10,6 +10,7 @@ import spark.*;
 
 import com.webcheckers.util.Message;
 
+import static com.webcheckers.ui.WebServer.GAME_URL;
 import static com.webcheckers.ui.WebServer.HOME_URL;
 import static spark.Spark.halt;
 
@@ -63,7 +64,7 @@ public class GetHomeRoute implements Route {
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
     }
     else{
-      //response.redirect();
+      response.redirect(GAME_URL);
       halt();
       return null;
     }
