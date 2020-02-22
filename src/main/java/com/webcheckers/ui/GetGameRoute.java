@@ -55,15 +55,12 @@ public class GetGameRoute implements Route {
     //
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Game page!");
-
     vm.put("message", WELCOME_MSG);
 
-    ArrayList<Row> board = new ArrayList<Row>();
-    for(int i = 0; i < 8; i++) {
-        Row row = new Row(i);
-        board.add(row);
-    }
+
+    BoardView board = new BoardView();
     vm.put("board", board);
+
 
     // render the View
     return templateEngine.render(new ModelAndView(vm, "game.ftl"));
