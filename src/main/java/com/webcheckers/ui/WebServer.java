@@ -148,20 +148,34 @@ public class WebServer {
   //Returns true if logged in or new account created
   //Returns false if wrong password
 
-
-  public static boolean sign_in(String username, String password){
-    if (username.equals("") || username.equals(" ")){
-      return false;
+  private static boolean check_name(String username){
+    boolean first = false;
+    for(int i = 0; i < username.length(); i++){
+      if (Character.isLetterOrDigit(username.charAt(i))){
+        first = true;
+      } else if (username.charAt(i) == ' '){
+        continue;
+      } else {
+        return false;
+      }
     }
-    if (Application.login.Users.get(username) != null){
+    return first;
+  }
+
+
+  public static int sign_in(String username, String password){
+    if (!check_name(username)){
+      return 0;
+    }
+    if (Application.login.Users.get(username) == null){
       Application.login.Users.put(username, password);
-      return true;
+      return 1;
     }
     else{
       if (Application.login.Users.get(username).equals(password)){
-        return true;
+        return 2;
       }
     }
-    return false;
+    return 3;
   }
 }
