@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -53,36 +54,24 @@ public class GetGameRoute implements Route {
     LOG.finer("GetGameRoute is invoked.");
     //
     Map<String, Object> vm = new HashMap<>();
-    vm.put("title", "Welcome!");
+    vm.put("title", "Game page!");
 
-    // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
-
-    input.put("exampleObject", new ValueExampleObject("Java object", "me"));
 
     ArrayList<Row> board = new ArrayList<Row>();
     for(int i = 0; i < 8; i++) {
-          
-
+        Row row = new Row(i);
+        board.add(row);
     }
-    List<Row> systems = new ArrayList<Row>();
-    board.add(new Row());
-    systems.add(new ValueExampleObject("iOS States", "Apple"));
-    systems.add(new ValueExampleObject("Ubuntu", "Canonical"));
-    systems.add(new ValueExampleObject("Windows7", "Microsoft"));
-    input.put("systems", systems);
+    vm.put("board", board);
 
     // render the View
     return templateEngine.render(new ModelAndView(vm, "game.ftl"));
   }
 
   private Row makeRow(int index) {
-    Row row = new Row();
-    ArrayList<Space> spaces = new ArrayList<Space>();
-    for(int i = 0; i < 8; i++) {
-        spaces.append(new Space());
-    }
-
+    Row row = new Row(index);
+    return row;  
   }
 
 

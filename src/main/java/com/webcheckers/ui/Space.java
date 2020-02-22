@@ -9,7 +9,7 @@ public class Space {
     }
 
     public boolean isValid() {
-        return cellIdx >= 0 && cellInd <= 7;
+        return cellIdx >= 0 && cellIdx <= 7;
     }
 
     public void setPiece(Piece piece) {

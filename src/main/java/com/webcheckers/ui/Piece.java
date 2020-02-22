@@ -4,7 +4,7 @@ public class Piece {
 
   public enum PieceType {SINGLE, KING}
 
-  public enum Color {WHITE, RED}
+  public enum PieceColor {WHITE, RED}
 
   public PieceType type;
   public PieceColor color;
@@ -18,7 +18,7 @@ public class Piece {
     return this.type;
   }
 
-  public PieceType getColor() {
+  public PieceColor getColor() {
     return this.color;
   }
 
