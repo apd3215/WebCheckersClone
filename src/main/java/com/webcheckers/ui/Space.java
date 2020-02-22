@@ -4,13 +4,8 @@ public class Space {
     private int cellIdx;
     private Piece piece;
 
-    Public Space space(int cellIdx){
+    public Space(int cellIdx) {
         this.cellIdx = cellIdx;
-    }
-
-    Public Space space(int cellIdx, Piece piece){
-        this.cellIdx = cellIdx;
-        this.piece   = piece;
     }
 
     public boolean isValid() {
