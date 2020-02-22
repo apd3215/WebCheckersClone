@@ -21,6 +21,12 @@
   <div class="page">
     <h1>Web Checkers | Game View</h1>
     
+    <img 
+    src="src/main/resources/public/img/chess_board.svg" 
+    alt="checker board"
+    height="87"
+    width="100" />
+
     <#include "nav-bar.ftl" />
 
     <div class="body">

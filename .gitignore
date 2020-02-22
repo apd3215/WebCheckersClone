@@ -12,4 +12,6 @@
 ############
 .idea/
 *.iml
-
+*.swp
+src/main/resources/spark/template/freemarker/oldsignin.ftl
+src/main/resources/spark/template/freemarker/sign_up.ftl
