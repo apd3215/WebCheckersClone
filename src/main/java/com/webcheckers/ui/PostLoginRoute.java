@@ -32,6 +32,7 @@ public class PostLoginRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) {
+        final Session httpSession = request.session();
         Map<String, Object> vm = new HashMap<>();
         vm.put(TITLE_ATTR, TITLE);
         final String usernameStr = request.queryParams(USERNAME);
@@ -45,7 +46,8 @@ public class PostLoginRoute implements Route {
             vm.put("message", PASS);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
         } else if (logged == 2 || logged == 1){
-            vm.put("currentUser", Application.playerLobby.getPlayers().get(usernameStr).name);
+            httpSession.attribute("Player", Application.playerLobby.getPlayers().get(usernameStr));
+            vm.put("currentUser", Application.playerLobby.getPlayers().get(usernameStr));
             return templateEngine.render(new ModelAndView(vm, "home.ftl"));
         } else {
             vm.put("message", WRONG);

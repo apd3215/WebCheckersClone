@@ -1,8 +1,5 @@
 package com.webcheckers.appl;
 
-import com.webcheckers.Application;
-import com.webcheckers.util.Player;
-
 import java.util.Dictionary;
 import java.util.Hashtable;
 

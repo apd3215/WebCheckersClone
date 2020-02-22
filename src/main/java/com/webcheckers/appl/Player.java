@@ -1,12 +1,16 @@
-package com.webcheckers.util;
+package com.webcheckers.appl;
 
 public class Player {
 
     private boolean isLogged = true;
-    public String name;
+    private String name;
 
     public Player(String name){
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void logout(){
