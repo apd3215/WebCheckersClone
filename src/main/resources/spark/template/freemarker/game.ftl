@@ -5,8 +5,29 @@
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/game.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <#-- 
+  window.gameData = {
+    "gameID" : ${gameID!'null'},
+    "currentUser" : "${currentUser.name}", 
+    "viewMode" : "${viewMode}",
+    "modeOptions" : ${modeOptionsAsJSON!'{}'},
+    "redPlayer" : "${redPlayer.name}",
+    "whitePlayer" : "${whitePlayer.name}",
+    "activeColor" : "${activeColor}"
+  };
+  -->
+  <#-- TODO: Replace the following example gameData with actual gameData 
+  as listed above -->
   <script>
-
+  window.gameData = {
+    "gameID" : ${gameID!'null'},
+    "currentUser" : "testing",
+    "viewMode" : "SPECTATOR",
+    "modeOptions" : ${modeOptionsAsJSON!'{}'},
+    "redPlayer" : "Red Player Example Name",
+    "whitePlayer" : "White Player Example Name",
+    "activeColor" : "Active Color Example"
+  };
   </script>
 </head>
 <body>
