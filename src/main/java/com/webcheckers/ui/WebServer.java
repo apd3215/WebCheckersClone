@@ -54,9 +54,17 @@ public class WebServer {
    * The URL pattern to request the Home page.
    */
   public static final String HOME_URL = "/";
+<<<<<<< HEAD
   public static final String LOGIN_URL = "/signin";
   public static final String WELCOME_URL = "/welcome";
   public static final String GAME_URL = "/game";
+=======
+
+  public static final String LOGIN_URL = "/signin";
+  public static final String WELCOME_URL = "/welcome";
+  public static final String GAME_URL = "/game";
+
+>>>>>>> d6fa038439b2c058fdba72e1415fd8a05b3f725d
 
   //
   // Attributes
@@ -143,8 +151,8 @@ public class WebServer {
     // Shows the Checkers game Home page.
     get(HOME_URL, new GetHomeRoute(templateEngine));
     get(LOGIN_URL, new GetLoginRoute(templateEngine));
-    post(HOME_URL, new PostLoginRoute(templateEngine));
     get(GAME_URL, new GetGameRoute(templateEngine));
+    post(HOME_URL, new PostLoginRoute(templateEngine));
 
     LOG.config("WebServer is initialized.");
   }
