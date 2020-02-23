@@ -2,7 +2,6 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.Application;
-import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.util.Message;
 import spark.Route;
 import spark.*;
@@ -10,9 +9,6 @@ import spark.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
-import static com.webcheckers.ui.WebServer.HOME_URL;
-import static spark.Spark.get;
 
 public class PostLoginRoute implements Route {
 

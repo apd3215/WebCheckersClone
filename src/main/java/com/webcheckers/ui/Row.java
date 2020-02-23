@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Row implements Iterable {
+public class Row implements Iterable<Space> {
     private int index;
     private List<Space> spaces = new ArrayList<Space>();
 

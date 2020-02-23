@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class BoardView implements Iterable {
+public class BoardView implements Iterable<Row> {
     private List<Row> rows = new ArrayList<Row>();
 
     public BoardView() {

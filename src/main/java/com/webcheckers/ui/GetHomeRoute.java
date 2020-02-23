@@ -5,13 +5,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import com.webcheckers.appl.Player;
 import spark.*;
 
 import com.webcheckers.util.Message;
 
 import static com.webcheckers.ui.WebServer.GAME_URL;
-import static com.webcheckers.ui.WebServer.HOME_URL;
 import static spark.Spark.halt;
 
 /**

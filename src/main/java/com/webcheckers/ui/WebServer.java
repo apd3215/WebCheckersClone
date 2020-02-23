@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 
-import com.webcheckers.Application;
 import spark.TemplateEngine;
 
 
