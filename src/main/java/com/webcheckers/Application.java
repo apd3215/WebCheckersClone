@@ -8,9 +8,9 @@ import java.util.logging.Logger;
 import com.google.gson.Gson;
 import com.webcheckers.ui.WebServer;
 
+import com.webcheckers.appl.PlayerLobby;
 import spark.TemplateEngine;
 import spark.template.freemarker.FreeMarkerEngine;
-
 
 /**
  * The entry point for the WebCheckers web application.
@@ -19,6 +19,8 @@ import spark.template.freemarker.FreeMarkerEngine;
  */
 public final class Application {
   private static final Logger LOG = Logger.getLogger(Application.class.getName());
+
+  public static PlayerLobby playerLobby = new PlayerLobby();
 
   /**
    * Queries whether the application is being run in demo-mode.
@@ -128,13 +130,14 @@ public final class Application {
 
   private void initialize() {
     LOG.config("WebCheckers is initializing.");
-
     // configure Spark and startup the Jetty web server
     webServer.initialize();
-
     // other applications might have additional services to configure
 
     LOG.config("WebCheckers initialization complete.");
   }
 
+
 }
+
+

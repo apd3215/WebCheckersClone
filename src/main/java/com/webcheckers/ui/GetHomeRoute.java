@@ -5,13 +5,14 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.TemplateEngine;
+import com.webcheckers.appl.Player;
+import spark.*;
 
 import com.webcheckers.util.Message;
+
+import static com.webcheckers.ui.WebServer.GAME_URL;
+import static com.webcheckers.ui.WebServer.HOME_URL;
+import static spark.Spark.halt;
 
 /**
  * The UI Controller to GET the Home page.
@@ -50,15 +51,22 @@ public class GetHomeRoute implements Route {
    */
   @Override
   public Object handle(Request request, Response response) {
+    final Session httpSession = request.session();
+
     LOG.finer("GetHomeRoute is invoked.");
     //
-    Map<String, Object> vm = new HashMap<>();
-    vm.put("title", "Welcome!");
-
-    // display a user message in the Home page
-    vm.put("message", WELCOME_MSG);
-
-    // render the View
-    return templateEngine.render(new ModelAndView(vm , "home.ftl"));
+    if(httpSession.attribute("Player") == null) {
+      Map<String, Object> vm = new HashMap<>();
+      vm.put("title", "Welcome!");
+      // display a user message in the Home page
+      vm.put("message", WELCOME_MSG);
+      // render the View
+      return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+    }
+    else{
+      response.redirect(GAME_URL);
+      halt();
+      return null;
+    }
   }
 }

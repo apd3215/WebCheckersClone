@@ -12,7 +12,6 @@ a web micro-framework.
 - Joshua Yoder
 - Dhaval Shrishrimal
 
-
 ## Prerequisites
 
 - Java 8

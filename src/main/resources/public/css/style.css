@@ -45,6 +45,15 @@ input[type="submit"] {
   color: white;
 }
 
+div.signin {
+  padding: 2px 4px;
+  width: 170px;
+  position: relative;
+  left: 50%;
+  margin-left: -85px;
+  margin-top: 150px;
+}
+
 div.page {
   background: white;
   border: 1px solid #6ECCFF;
