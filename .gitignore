@@ -1,3 +1,7 @@
+# Mac OSX #
+###########
+.DS_Store
+
 # Build/Maven #
 ###############
 **/target/
