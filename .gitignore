@@ -1,7 +1,6 @@
 # Mac OSX #
 ###########
 .DS_Store
-
 # Build/Maven #
 ###############
 **/target/
@@ -21,3 +20,6 @@ src/main/resources/spark/template/freemarker/oldsignin.ftl
 src/main/resources/spark/template/freemarker/game2.ftl
 src/main/resources/spark/template/freemarker/old.ftl
 src/main/resources/spark/template/freemarker/sign_up.ftl
+# VSCode #
+##########
+.vscode/
