@@ -10,6 +10,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import spark.TemplateEngine;
+import spark.Session;
 
 import com.webcheckers.util.Message;
 
@@ -19,11 +20,15 @@ import com.webcheckers.util.Message;
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
  */
 public class GetGameRoute implements Route {
+  public enum ViewMode { PLAY, SPECTATOR, REPLAY }
+
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
   private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
 
   private final TemplateEngine templateEngine;
+
+  private ViewMode viewMode;
 
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
@@ -31,7 +36,8 @@ public class GetGameRoute implements Route {
    * @param templateEngine
    *   the HTML template rendering engine
    */
-  public GetGameRoute(final TemplateEngine templateEngine) {
+  public GetGameRoute(final TemplateEngine templateEngine, ViewMode viewMode) {
+    this.viewMode = viewMode;
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
     //
     LOG.config("GetGameRoute is initialized.");
@@ -51,15 +57,19 @@ public class GetGameRoute implements Route {
   @Override
   public Object handle(Request request, Response response) {
     LOG.finer("GetGameRoute is invoked.");
+    final Session httpSession = request.session();
     //
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Game page!");
     vm.put("message", WELCOME_MSG);
-
+    vm.put("currentUser", httpSession.attribute("Player"));
+    //vm.put("modeOptionsAsJSON", ); //TODO: implement in next sprint
+    //vm.put("redPlayer", );
+    //vm.put("whitePlayer", );
+    vm.put("viewMode", viewMode);
 
     BoardView board = new BoardView();
     vm.put("board", board);
-
 
     // render the View
     return templateEngine.render(new ModelAndView(vm, "game.ftl"));
