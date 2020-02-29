@@ -143,6 +143,7 @@ public class WebServer {
     get(HOME_URL, new GetHomeRoute(templateEngine));
     get(LOGIN_URL, new GetLoginRoute(templateEngine));
     get(GAME_URL, new GetGameRoute(templateEngine, GetGameRoute.ViewMode.PLAY));
+    get(GAME_URL, new PostGameRoute(templateEngine));
     post(HOME_URL, new PostLoginRoute(templateEngine));
     //get(WELCOME_URL, new GetHomeRoute(templateEngine));
 
