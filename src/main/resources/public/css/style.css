@@ -44,17 +44,6 @@ input[type="submit"] {
   -webkit-border-radius: 2px;
   color: white;
 }
-input[type="submitName"] {
-  background: #1057FF;
-  border: 1px solid #073BFF;
-  padding: 1px 3px;
-  font-family: 'Trebuchet MS', sans-serif;
-  font-size: 14px;
-  font-weight: bold;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  color: white;
-}
 
 div.signin {
   padding: 2px 4px;

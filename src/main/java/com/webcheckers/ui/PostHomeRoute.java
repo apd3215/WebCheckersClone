@@ -35,9 +35,10 @@ public class PostHomeRoute implements Route {
         Map<String, Object> vm = new HashMap<>();
         vm.put(TITLE_ATTR, TITLE);
         final String otherPlayer = request.queryParams("otherPlayer");
+        System.out.println(otherPlayer);
         Player whitePlayer = Application.playerLobby.getPlayers().get(otherPlayer);
         Player currentPlayer = httpSession.attribute("Player");
         Game newGame = new Game(whitePlayer, currentPlayer);
-        return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
+        return templateEngine.render(new ModelAndView(vm, "game.ftl"));
     }
 }
