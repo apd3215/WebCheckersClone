@@ -145,6 +145,8 @@ public class WebServer {
     get(GAME_URL, new GetGameRoute(templateEngine, GetGameRoute.ViewMode.PLAY));
     post(HOME_URL, new PostLoginRoute(templateEngine));
     //get(WELCOME_URL, new GetHomeRoute(templateEngine));
+    post(GAME_URL, new GetGameRoute(templateEngine, GetGameRoute.ViewMode.PLAY));
+
 
     LOG.config("WebServer is initialized.");
   }
