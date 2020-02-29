@@ -63,6 +63,7 @@ public class GetGameRoute implements Route {
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Game page!");
     vm.put("message", WELCOME_MSG);
+    vm.put("gameID", httpSession.attribute("Game"));
     vm.put("currentUser", httpSession.attribute("Player"));
     //vm.put("modeOptionsAsJSON", ); //TODO: implement in next sprint
     //vm.put("redPlayer", );
