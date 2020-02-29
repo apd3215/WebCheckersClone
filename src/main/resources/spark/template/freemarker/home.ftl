@@ -20,6 +20,10 @@
     <!-- Provide a message to the user, if supplied. -->
     <#include "message.ftl" />
 
+    <#if signed ??>
+      <a>Player Signed IN</a>
+    </#if>
+
 
     <!-- TODO: future content on the Home:
             to start games,
