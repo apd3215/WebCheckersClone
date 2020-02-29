@@ -23,10 +23,10 @@
     <#if signed ??>
       <#list signed as person>
         <#if person != currentUser.name>
-          <form method="post" action="/game">
-         <!-- <a id = "otherPlayer" href = "/game"> </a> --->
-          <input name="otherPlayer" type="submit" value=${person} >
-          <br>
+            <form method="post" action="/game">
+            <!-- <a id = "otherPlayer" href = "/game"> </a> --->
+            <input name="otherPlayer" type="submit" value=${person} >
+            <br> <br>
           </form>
         </#if>
       </#list>
