@@ -57,6 +57,7 @@ public class GetGameRoute implements Route {
   @Override
   public Object handle(Request request, Response response) {
     LOG.finer("GetGameRoute is invoked.");
+    System.out.println(request.queryParams("otherPlayer"));
     final Session httpSession = request.session();
     //
     Map<String, Object> vm = new HashMap<>();
@@ -77,7 +78,7 @@ public class GetGameRoute implements Route {
 
   private Row makeRow(int index) {
     Row row = new Row(index);
-    return row;  
+    return row;
   }
 
 
