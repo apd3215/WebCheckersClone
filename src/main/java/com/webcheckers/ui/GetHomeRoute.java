@@ -60,6 +60,7 @@ public class GetHomeRoute implements Route {
       vm.put("title", "Welcome!");
       // display a user message in the Home page
       vm.put("message", WELCOME_MSG);
+      vm.put("num", Application.playerLobby.getNum_logged_in());
       // render the View
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
     }

@@ -24,8 +24,15 @@
       <#list signed as person>
         <a>${person}</a>
         <br>
-
       </#list>
+    <#else>
+      <p>
+        <#if num == 1>
+          ${num} player signed in.
+        <#else>
+          ${num} players signed in.
+        </#if>
+      </p>
     </#if>
 
 
