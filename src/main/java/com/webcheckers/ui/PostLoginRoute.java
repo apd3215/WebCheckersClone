@@ -45,7 +45,7 @@ public class PostLoginRoute implements Route {
         } else if (logged == 2 || logged == 1){
             httpSession.attribute("Player", Application.playerLobby.getPlayers().get(usernameStr));
             vm.put("currentUser", Application.playerLobby.getPlayers().get(usernameStr));
-            vm.put("welcome", WELCOME_MSG);
+            vm.put("message", WELCOME_MSG);
             vm.put("signed", "o");
             return templateEngine.render(new ModelAndView(vm, "home.ftl"));
         } else {
