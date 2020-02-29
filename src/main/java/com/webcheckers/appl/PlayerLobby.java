@@ -1,22 +1,35 @@
 package com.webcheckers.appl;
 
-import java.lang.reflect.Array;
+import com.webcheckers.model.Game;
 import java.util.*;
 
 public class PlayerLobby {
 
     private Dictionary<String, String> Users;
     private Dictionary<String, Player> Players;
+    private Dictionary<String, Game> Games;
     private int num_logged_in;
 
     public PlayerLobby(){
         this.Users = new Hashtable<>();
         this.Players = new Hashtable<>();
+        this.Games = new Hashtable<>();
         this.num_logged_in = 0;
     }
 
     public Dictionary<String, Player> getPlayers() {
         return this.Players;
+    }
+
+    public void addGame(Game game) {
+        String redPlayer = game.getRedPlayer().getName();
+        String whitePlayer = game.getWhitePlayer().getName();
+        Games.put(redPlayer + "," + whitePlayer, game);
+    }
+
+    public Game getGame(Player redPlayer, Player whitePlayer) {
+        Game game = Games.get(redPlayer.getName() + "," + whitePlayer.getName())
+        return game;
     }
 
     private boolean check_name(String username){

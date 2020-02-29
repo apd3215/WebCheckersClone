@@ -25,7 +25,7 @@ public class PostHomeRoute implements Route {
     }
 
     static final String TITLE_ATTR = "title";
-    static final String TITLE = "Sign In";
+    static final String TITLE = "Make game";
     static final String otherPlayer = "otherPlayer";
 
     @Override
@@ -39,6 +39,14 @@ public class PostHomeRoute implements Route {
         Player whitePlayer = Application.playerLobby.getPlayers().get(otherPlayer);
         Player currentPlayer = httpSession.attribute("Player");
         Game newGame = new Game(whitePlayer, currentPlayer);
+        Application.playerLobby.addGame(newGame); 
+        httpSession.attribute("Game", newGame);
+
+        vm.put("title", "Game page!");
+        vm.put("message", WELCOME_MSG);
+        vm.put("currentUser", currentPlayer);
+        vm.put("redPlayer", currentPlayer);
+        vm.put("whitePlayer", whitePlayer);
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
     }
 }
