@@ -22,8 +22,10 @@
 
     <#if signed ??>
       <#list signed as person>
-        <a>${person}</a>
-        <br>
+        <#if person != currentUser.name>
+          <a>${person}</a>
+          <br>
+        </#if>
       </#list>
     <#else>
       <p>
