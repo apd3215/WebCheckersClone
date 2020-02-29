@@ -8,12 +8,14 @@ public class PlayerLobby {
     private Dictionary<String, String> Users;
     private Dictionary<String, Player> Players;
     private Dictionary<String, Game> Games;
+    private ArrayList<Game> GameArrayList;
     private int num_logged_in;
 
     public PlayerLobby(){
         this.Users = new Hashtable<>();
         this.Players = new Hashtable<>();
         this.Games = new Hashtable<>();
+        this.GameArrayList = new ArrayList<Game>();
         this.num_logged_in = 0;
     }
 
@@ -25,11 +27,22 @@ public class PlayerLobby {
         String redPlayer = game.getRedPlayer().getName();
         String whitePlayer = game.getWhitePlayer().getName();
         Games.put(redPlayer + "," + whitePlayer, game);
+        GameArrayList.add(game);
     }
 
     public Game getGame(Player redPlayer, Player whitePlayer) {
-        Game game = Games.get(redPlayer.getName() + "," + whitePlayer.getName())
+        Game game = Games.get(redPlayer.getName() + "," + whitePlayer.getName());
         return game;
+    }
+
+
+    public Game getGameByPlayer(Player player) {
+        for (Game game : GameArrayList) {
+            if (game.isPlayerInGame(player)){
+                return game;
+            }
+        }
+        return null;
     }
 
     private boolean check_name(String username){
