@@ -21,7 +21,11 @@
     <#include "message.ftl" />
 
     <#if signed ??>
-      <a>Player Signed IN</a>
+      <#list signed as person>
+        <a>${person}</a>
+        <br>
+
+      </#list>
     </#if>
 
 

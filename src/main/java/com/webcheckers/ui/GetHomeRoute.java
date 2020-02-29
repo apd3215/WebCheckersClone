@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import com.webcheckers.Application;
 import spark.*;
 
 import com.webcheckers.util.Message;
@@ -67,7 +68,7 @@ public class GetHomeRoute implements Route {
       vm.put("title", "Welcome");
       vm.put("message", WELCOME_MSG);
       vm.put("currentUser", httpSession.attribute("Player"));
-      vm.put("signed", "");
+      vm.put("signed", Application.playerLobby.get_logged_names());
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
       //response.redirect(WELCOME_URL);
 

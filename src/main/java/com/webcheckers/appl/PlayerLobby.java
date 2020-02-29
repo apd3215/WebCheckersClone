@@ -1,7 +1,7 @@
 package com.webcheckers.appl;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class PlayerLobby {
 
@@ -72,5 +72,10 @@ public class PlayerLobby {
     public int getNum_logged_in(){
         return this.num_logged_in;
     }
-}
 
+
+    public ArrayList<String> get_logged_names(){
+        ArrayList<String> keys = Collections.list(Users.keys());
+        return keys;
+    }
+}
