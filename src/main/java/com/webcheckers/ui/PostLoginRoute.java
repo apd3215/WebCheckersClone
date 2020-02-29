@@ -16,6 +16,7 @@ public class PostLoginRoute implements Route {
     static final Message NAME_ERR = Message.error("Username cannot be empty AND cannot contain special characters.");
     static final Message WRONG = Message.error("Wrong Password OR Username already exists.");
     static final Message PASS = Message.error("Password Cannot be empty.");
+    private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
 
     public PostLoginRoute(final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required!");
@@ -44,6 +45,8 @@ public class PostLoginRoute implements Route {
         } else if (logged == 2 || logged == 1){
             httpSession.attribute("Player", Application.playerLobby.getPlayers().get(usernameStr));
             vm.put("currentUser", Application.playerLobby.getPlayers().get(usernameStr));
+            vm.put("welcome", WELCOME_MSG);
+            vm.put("signed", "o");
             return templateEngine.render(new ModelAndView(vm, "home.ftl"));
         } else {
             vm.put("message", WRONG);

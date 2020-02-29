@@ -9,7 +9,7 @@ import spark.*;
 
 import com.webcheckers.util.Message;
 
-import static com.webcheckers.ui.WebServer.GAME_URL;
+import static com.webcheckers.ui.WebServer.*;
 import static spark.Spark.halt;
 
 /**
@@ -23,6 +23,7 @@ public class GetHomeRoute implements Route {
   private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
 
   private final TemplateEngine templateEngine;
+
 
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
@@ -62,9 +63,14 @@ public class GetHomeRoute implements Route {
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
     }
     else{
-      response.redirect(GAME_URL);
-      halt();
-      return null;
+      Map<String, Object> vm = new HashMap<>();
+      vm.put("title", "Welcome");
+      vm.put("message", WELCOME_MSG);
+      vm.put("currentUser", httpSession.attribute("Player"));
+      vm.put("signed", "");
+      return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+      //response.redirect(WELCOME_URL);
+
     }
   }
 }
