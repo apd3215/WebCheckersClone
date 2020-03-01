@@ -21,18 +21,24 @@ import java.util.Objects;
 public class PostHomeRoute implements Route {
 
     private final TemplateEngine templateEngine;
-    static final Message NAME_ERR = Message.error("Username cannot be empty AND cannot contain special characters.");
-    static final Message WRONG = Message.error("Wrong Password OR Username already exists.");
-    static final Message PASS = Message.error("Password Cannot be empty.");
+    private static final String ERR = "%s already in game. Select Other Player.";
     private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
 
     public PostHomeRoute(final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required!");
     }
 
-    static final String TITLE_ATTR = "title";
-    static final String TITLE = "Make game";
-    static final String otherPlayer = "otherPlayer";
+    private static final String TITLE_ATTR = "title";
+    private static final String TITLE = "Make game";
+    private static final String OTHER = "otherPlayer";
+    private static final String MSG = "message";
+    private static final String CURR = "currentUser";
+    private static final String RED = "redPlayer";
+    private static final String WHITE = "whitePlayer";
+    private static final String VIEW = "viewMode";
+    private static final String BOARD = "board";
+    private static final String COLOR = "activeColor";
+    private static final String SIGNED = "signed";
 
     @Override
     public Object handle(Request request, Response response) {
@@ -40,23 +46,30 @@ public class PostHomeRoute implements Route {
         final Session httpSession = request.session();
         Map<String, Object> vm = new HashMap<>();
         vm.put(TITLE_ATTR, TITLE);
-        final String otherPlayer = request.queryParams("otherPlayer");
-        System.out.println(otherPlayer);
+        final String otherPlayer = request.queryParams(OTHER);
         Player whitePlayer = Application.playerLobby.getPlayers().get(otherPlayer);
+        Game game = Application.playerLobby.getGameByPlayer(whitePlayer);
+        if (game != null){
+            vm.put(TITLE_ATTR, "Welcome");
+            vm.put(MSG, Message.error(String.format(ERR, otherPlayer)));
+            vm.put(CURR, httpSession.attribute("Player"));
+            vm.put(SIGNED, Application.playerLobby.get_logged_names());
+            return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+        }
         Player currentPlayer = httpSession.attribute("Player");
         Game newGame = new Game(whitePlayer, currentPlayer);
         Application.playerLobby.addGame(newGame); 
         httpSession.attribute("Game", newGame);
 
-        vm.put("title", "Game page!");
-        vm.put("message", WELCOME_MSG);
-        vm.put("currentUser", currentPlayer);
-        vm.put("redPlayer", currentPlayer);
-        vm.put("whitePlayer", whitePlayer);
-        vm.put("viewMode", Game.ViewMode.PLAY);
+        vm.put(TITLE_ATTR, "Game page!");
+        vm.put(MSG, WELCOME_MSG);
+        vm.put(CURR, currentPlayer);
+        vm.put(RED, currentPlayer);
+        vm.put(WHITE, whitePlayer);
+        vm.put(VIEW, Game.ViewMode.PLAY);
         BoardView board = new BoardView();
-        vm.put("board", board);
-        vm.put("activeColor", newGame.getActiveColor());
+        vm.put(BOARD, board);
+        vm.put(COLOR, newGame.getActiveColor());
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
     }
 }

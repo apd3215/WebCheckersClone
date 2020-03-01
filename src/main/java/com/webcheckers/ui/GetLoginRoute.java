@@ -23,9 +23,7 @@ public class GetLoginRoute implements Route {
 
     static final String TITLE_ATTR = "title";
     static final String TITLE = "Sign In";
-    static final String USERNAME = "username";
-    static final String PASSWORD = "password";
-    
+
     @Override
     public Object handle(Request request, Response response) {
         Map<String, Object> vm = new HashMap<>();

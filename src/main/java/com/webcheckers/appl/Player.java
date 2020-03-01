@@ -3,6 +3,7 @@ package com.webcheckers.appl;
 public class Player {
 
     private boolean isLogged = true;
+
     private String name;
 
     public Player(String name){
