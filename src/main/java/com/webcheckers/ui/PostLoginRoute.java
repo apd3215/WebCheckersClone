@@ -18,20 +18,21 @@ import java.util.Objects;
 public class PostLoginRoute implements Route {
 
     private final TemplateEngine templateEngine;
-    static final Message NAME_ERR = Message.error("Username cannot be empty AND cannot contain special characters.");
-    static final Message WRONG = Message.error("Wrong Password OR Username already exists.");
-    static final Message PASS = Message.error("Password Cannot be empty.");
-    static final Message ALREADY = Message.error("Player already signed in.");
+    private static final Message NAME_ERR = Message.error("Username cannot be empty AND cannot contain special characters.");
+    private static final Message WRONG = Message.error("Wrong Password OR Username already exists.");
+    private static final Message PASS = Message.error("Password Cannot be empty.");
+    private static final Message ALREADY = Message.error("Player already signed in.");
     private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
 
     public PostLoginRoute(final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required!");
     }
 
-    static final String TITLE_ATTR = "title";
-    static final String TITLE = "Sign In";
-    static final String USERNAME = "username";
-    static final String PASSWORD = "password";
+    private static final String TITLE_ATTR = "title";
+    private static final String TITLE = "Sign In";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
+    private static final String MSG = "message";
 
     @Override
     public Object handle(Request request, Response response) {
@@ -43,22 +44,22 @@ public class PostLoginRoute implements Route {
         int logged;
         logged = Application.playerLobby.sign_in(usernameStr, passStr);
         if (logged == 0){
-            vm.put("message", NAME_ERR);
+            vm.put(MSG, NAME_ERR);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
         } else if (logged == -2){
-            vm.put("message", ALREADY);
+            vm.put(MSG, ALREADY);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
         } else if (logged == -1){
-            vm.put("message", PASS);
+            vm.put(MSG, PASS);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
         } else if (logged == 2 || logged == 1){
             httpSession.attribute("Player", Application.playerLobby.getPlayers().get(usernameStr));
             vm.put("currentUser", Application.playerLobby.getPlayers().get(usernameStr));
-            vm.put("message", WELCOME_MSG);
+            vm.put(MSG, WELCOME_MSG);
             vm.put("signed", Application.playerLobby.get_logged_names());
             return templateEngine.render(new ModelAndView(vm, "home.ftl"));
         } else {
-            vm.put("message", WRONG);
+            vm.put(MSG, WRONG);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
         }
     }

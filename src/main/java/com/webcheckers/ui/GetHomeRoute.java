@@ -18,7 +18,7 @@ import spark.ModelAndView;
 import com.webcheckers.util.Message;
 
 import static com.webcheckers.ui.WebServer.GAME_URL;
-import static spark.Spark.halt;
+
 
 /**
  * The UI Controller to GET the Home page.
