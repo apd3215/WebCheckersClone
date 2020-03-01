@@ -17,6 +17,7 @@ public class Game {
         this.whitePlayer = whitePlayer;
         this.activeColor = PieceColor.RED;
         this.boardView = new BoardView();
+        boardView.setBoard();
     }
 
     public Player getRedPlayer() {
