@@ -1,5 +1,8 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.model.BoardView;
+import com.webcheckers.model.Row;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

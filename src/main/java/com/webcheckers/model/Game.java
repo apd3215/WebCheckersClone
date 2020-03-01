@@ -1,7 +1,7 @@
 package com.webcheckers.model;
 
 import com.webcheckers.appl.Player;
-import com.webcheckers.ui.Piece.PieceColor;
+import com.webcheckers.model.Piece.PieceColor;
 
 public class Game {
 

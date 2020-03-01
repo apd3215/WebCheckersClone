@@ -5,6 +5,7 @@ import com.webcheckers.Application;
 import com.webcheckers.util.Message;
 import com.webcheckers.model.Game;
 import com.webcheckers.appl.Player;
+import com.webcheckers.model.BoardView;
 
 import spark.Route;
 import spark.TemplateEngine;

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import com.webcheckers.Application;
 import com.webcheckers.model.Game;
+import com.webcheckers.model.BoardView;
 
 import spark.Request;
 import spark.Response;

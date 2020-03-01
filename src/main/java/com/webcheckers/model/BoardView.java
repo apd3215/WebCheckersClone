@@ -1,4 +1,4 @@
-package com.webcheckers.ui;
+package com.webcheckers.model;
 
 import java.lang.Iterable;
 import java.util.ArrayList;
