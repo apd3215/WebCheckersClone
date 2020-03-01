@@ -21,4 +21,8 @@ public class Player {
     public void login(){
         this.isLogged = true;
     }
+
+    public boolean isLogged(){
+        return this.isLogged;
+    }
 }

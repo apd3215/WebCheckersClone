@@ -85,6 +85,9 @@ public class PlayerLobby {
             return 1;
         } else{
             if(Users.get(username).equals(password)){
+                if (Players.get(username).isLogged()) {
+                    return -2;
+                }
                 Players.get(username).login();
                 this.num_logged_in++;
                 return 2;
