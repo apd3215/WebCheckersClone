@@ -1,8 +1,10 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.Application;
+import com.webcheckers.appl.Player;
 import com.webcheckers.model.BoardView;
 import com.webcheckers.model.Game;
+import com.webcheckers.model.Piece;
 import com.webcheckers.model.Row;
 
 import java.util.HashMap;
@@ -66,10 +68,15 @@ public class GetGameRoute implements Route {
     final Session httpSession = request.session();
     //
     Map<String, Object> vm = new HashMap<>();
+    Player player = httpSession.attribute("Player");
     Game game = Application.playerLobby.getGameByPlayer(httpSession.attribute("Player"));
     vm.put("title", "Game page!");
     vm.put("message", WELCOME_MSG);
-    vm.put("currentUser", game.getWhitePlayer());
+    if (game.getActiveColor() == Piece.PieceColor.WHITE) {
+        vm.put("currentUser", game.getWhitePlayer());
+    } else if (game.getActiveColor() == Piece.PieceColor.RED){
+        vm.put("currentUser", game.getRedPlayer());
+    }
     vm.put("redPlayer", game.getRedPlayer());
     vm.put("whitePlayer", game.getWhitePlayer());
     vm.put("viewMode", Game.ViewMode.PLAY);
