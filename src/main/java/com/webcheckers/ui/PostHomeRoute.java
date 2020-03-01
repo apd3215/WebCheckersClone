@@ -67,8 +67,7 @@ public class PostHomeRoute implements Route {
         vm.put(RED, currentPlayer);
         vm.put(WHITE, whitePlayer);
         vm.put(VIEW, Game.ViewMode.PLAY);
-        BoardView board = new BoardView();
-        vm.put(BOARD, board);
+        vm.put(BOARD, newGame.getBoardView());
         vm.put(COLOR, newGame.getActiveColor());
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
     }

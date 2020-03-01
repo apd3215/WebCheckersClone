@@ -1,6 +1,8 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.Application;
 import com.webcheckers.model.BoardView;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Row;
 
 import java.util.HashMap;
@@ -62,22 +64,33 @@ public class GetGameRoute implements Route {
     LOG.finer("GetGameRoute is invoked.");
     //System.out.println(request.queryParams("otherPlayer"));
     final Session httpSession = request.session();
-    //
     Map<String, Object> vm = new HashMap<>();
+    Game game = Application.playerLobby.getGameByPlayer(httpSession.attribute("Player"));
     vm.put("title", "Game page!");
     vm.put("message", WELCOME_MSG);
-    vm.put("gameID", httpSession.attribute("Game"));
-    vm.put("currentUser", httpSession.attribute("Player"));
-    //vm.put("modeOptionsAsJSON", ); //TODO: implement in next sprint
-    //vm.put("redPlayer", );
-    //vm.put("whitePlayer", );
-    vm.put("viewMode", viewMode);
-
-    BoardView board = new BoardView();
-    vm.put("board", board);
-
-    // render the View
+    vm.put("currentUser", game.getWhitePlayer());
+    vm.put("redPlayer", game.getRedPlayer());
+    vm.put("whitePlayer", game.getWhitePlayer());
+    vm.put("viewMode", Game.ViewMode.PLAY);
+    vm.put("board", game.getBoardView());
+    vm.put("activeColor", game.getActiveColor());
     return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+//    } else {
+//        vm.put("title", "Game page!");
+//        vm.put("message", WELCOME_MSG);
+//        vm.put("gameID", httpSession.attribute("Game"));
+//        vm.put("currentUser", httpSession.attribute("Player"));
+//        //vm.put("modeOptionsAsJSON", ); //TODO: implement in next sprint
+//        //vm.put("redPlayer", );
+//        //vm.put("whitePlayer", );
+//        vm.put("viewMode", viewMode);
+//
+//        BoardView board = new BoardView();
+//        vm.put("board", board);
+//
+//    // render the View
+//        return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+//    }
   }
 
   private Row makeRow(int index) {
