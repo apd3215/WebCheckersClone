@@ -21,9 +21,9 @@ public class BoardView implements Iterable<Row> {
     public void setBoard() {
         for(int i = 0; i < 8; i++) {
             if(i <= 2) {
-                rows.get(i).fillRow(PieceColor.RED);
-            } else if (i >= 5) {
                 rows.get(i).fillRow(PieceColor.WHITE);
+            } else if (i >= 5) {
+                rows.get(i).fillRow(PieceColor.RED);
             }
         }
     }
