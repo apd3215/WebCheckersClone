@@ -36,6 +36,14 @@ public class Row implements Iterable<Space> {
         }
     }
 
+    public Iterator<Space> reverseIterator() {
+        List<Space> inv = new ArrayList<Space>();
+        for (int i = 0; i < 8; i++){
+            inv.add(this.spaces.get(7-i));
+        }
+        return inv.iterator();
+    }
+
     @Override
     public Iterator<Space> iterator() {
         return this.spaces.iterator();

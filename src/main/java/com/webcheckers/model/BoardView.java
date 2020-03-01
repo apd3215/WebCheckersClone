@@ -28,6 +28,14 @@ public class BoardView implements Iterable<Row> {
         }
     }
 
+    public Iterator<Row> reverseIterator() {
+        List<Row> inv = new ArrayList<Row>();
+        for (int i = 0; i < 8; i++){
+            inv.add(this.rows.get(7-i));
+        }
+        return inv.iterator();
+    }
+
     @Override
     public Iterator<Row> iterator() {
         return this.rows.iterator();
