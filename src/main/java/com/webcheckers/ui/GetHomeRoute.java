@@ -81,12 +81,11 @@ public class GetHomeRoute implements Route {
         vm.put("activeColor", game.getActiveColor());
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
       } else {
-        vm.put("title", "Welcome");
-        vm.put("message", WELCOME_MSG);
-        vm.put("currentUser", httpSession.attribute("Player"));
-        vm.put("signed", Application.playerLobby.get_logged_names());
-        return templateEngine.render(new ModelAndView(vm, "home.ftl"));
-        //response.redirect(WELCOME_URL);
+      vm.put("title", "Welcome");
+      vm.put("message", WELCOME_MSG);
+      vm.put("currentUser", httpSession.attribute("Player"));
+      vm.put("signed", Application.playerLobby.get_logged_names());
+      return templateEngine.render(new ModelAndView(vm, "home.ftl"));
       }
     }
   }

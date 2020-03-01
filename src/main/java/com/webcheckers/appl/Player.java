@@ -3,6 +3,7 @@ package com.webcheckers.appl;
 public class Player {
 
     private boolean isLogged = true;
+
     private String name;
 
     public Player(String name){
@@ -19,5 +20,9 @@ public class Player {
 
     public void login(){
         this.isLogged = true;
+    }
+
+    public boolean isLogged(){
+        return this.isLogged;
     }
 }
