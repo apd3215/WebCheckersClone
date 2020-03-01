@@ -64,6 +64,7 @@ public class GetGameRoute implements Route {
     LOG.finer("GetGameRoute is invoked.");
     //System.out.println(request.queryParams("otherPlayer"));
     final Session httpSession = request.session();
+    //
     Map<String, Object> vm = new HashMap<>();
     Game game = Application.playerLobby.getGameByPlayer(httpSession.attribute("Player"));
     vm.put("title", "Game page!");

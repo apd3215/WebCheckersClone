@@ -15,6 +15,7 @@ public class BoardView implements Iterable<Row> {
             Row row = new Row(i);
             rows.add(row);
         }
+        this.setBoard();
     }
 
     public void setBoard() {
