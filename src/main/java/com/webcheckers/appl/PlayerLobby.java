@@ -28,7 +28,7 @@ public class PlayerLobby {
     }
 
     public Game getGame(Player redPlayer, Player whitePlayer) {
-        Game game = Games.get(redPlayer.getName() + "," + whitePlayer.getName())
+        Game game = Games.get(redPlayer.getName() + "," + whitePlayer.getName());
         return game;
     }
 

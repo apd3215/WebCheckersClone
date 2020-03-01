@@ -72,7 +72,6 @@ public class GetHomeRoute implements Route {
       vm.put("signed", Application.playerLobby.get_logged_names());
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
       //response.redirect(WELCOME_URL);
-
     }
   }
 }
