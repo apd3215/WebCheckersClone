@@ -38,15 +38,14 @@ public class PostHomeRoute implements Route {
 
         final Session httpSession = request.session();
         Map<String, Object> vm = new HashMap<>();
-        vm.put(TITLE_ATTR, TITLE);
         final String otherPlayer = request.queryParams("otherPlayer");
-        System.out.println(otherPlayer);
         Player whitePlayer = Application.playerLobby.getPlayers().get(otherPlayer);
         Player currentPlayer = httpSession.attribute("Player");
         Game newGame = new Game(whitePlayer, currentPlayer);
         Application.playerLobby.addGame(newGame); 
         httpSession.attribute("Game", newGame);
 
+        vm.put(TITLE_ATTR, TITLE);
         vm.put("title", "Game page!");
         vm.put("message", WELCOME_MSG);
         vm.put("currentUser", currentPlayer);

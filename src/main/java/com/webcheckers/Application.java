@@ -19,8 +19,9 @@ import spark.template.freemarker.FreeMarkerEngine;
  */
 public final class Application {
   private static final Logger LOG = Logger.getLogger(Application.class.getName());
-
   public static PlayerLobby playerLobby = new PlayerLobby();
+  private static final String DEMO_MODE_PROPERTY = "demoMode";
+  private static Boolean inDemoMode = null;
 
   /**
    * Queries whether the application is being run in demo-mode.
@@ -40,8 +41,6 @@ public final class Application {
     }
     return inDemoMode;
   }
-  private static final String DEMO_MODE_PROPERTY = "demoMode";
-  private static Boolean inDemoMode = null;
 
   /**
    * The explicit, private property lookup method.

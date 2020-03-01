@@ -1,7 +1,6 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.model.BoardView;
-import com.webcheckers.model.Row;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,17 +72,10 @@ public class GetGameRoute implements Route {
     //vm.put("whitePlayer", );
     vm.put("viewMode", viewMode);
 
-    BoardView board = new BoardView();
-    vm.put("board", board);
+    //BoardView board = new BoardView();
+    //vm.put("board", board);
 
     // render the View
     return templateEngine.render(new ModelAndView(vm, "game.ftl"));
   }
-
-  private Row makeRow(int index) {
-    Row row = new Row(index);
-    return row;
-  }
-
-
 }
