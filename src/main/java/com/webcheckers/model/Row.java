@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.webcheckers.model.Piece.PieceColor;
+import com.webcheckers.model.Piece.PieceType;
+
 public class Row implements Iterable<Space> {
     private int index;
     private List<Space> spaces = new ArrayList<Space>();
@@ -14,6 +17,22 @@ public class Row implements Iterable<Space> {
         for(int i = 0; i < 8; i++) {
             Space space = new Space(i);
             spaces.add(space);
+        }
+    }
+
+    public void fillRow(PieceColor pieceColor) {
+        for(int i = 0; i < 8; i++) {
+            if(index%2 == 0) {
+                if(i%2 != 0) {
+                    Piece piece = new Piece(PieceType.SINGLE, pieceColor);
+                    spaces.get(i).setPiece(piece);
+                }
+            } else {
+                if(i%2 == 0) {
+                    Piece piece = new Piece(PieceType.SINGLE, pieceColor);
+                    spaces.get(i).setPiece(piece);
+                }
+            }
         }
     }
 

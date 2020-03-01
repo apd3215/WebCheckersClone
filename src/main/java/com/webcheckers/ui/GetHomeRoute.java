@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 import com.webcheckers.Application;
 import com.webcheckers.model.Game;
-import com.webcheckers.model.BoardView;
 
 import spark.Request;
 import spark.Response;
@@ -78,8 +77,7 @@ public class GetHomeRoute implements Route {
         vm.put("redPlayer", game.getRedPlayer());
         vm.put("whitePlayer", game.getWhitePlayer());
         vm.put("viewMode", Game.ViewMode.PLAY);
-        BoardView board = new BoardView();
-        vm.put("board", board);
+        vm.put("board", game.getBoardView());
         vm.put("activeColor", game.getActiveColor());
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
       } else {
