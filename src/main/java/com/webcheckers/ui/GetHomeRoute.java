@@ -75,23 +75,13 @@ public class GetHomeRoute implements Route {
       Game game = Application.playerLobby.getGameByPlayer(httpSession.attribute("Player"));
       if (game != null) {
         response.redirect(GAME_URL);
-        halt();
         return null;
-//        vm.put("title", "Game page!");
-//        vm.put("message", WELCOME_MSG);
-//        vm.put("currentUser", game.getWhitePlayer());
-//        vm.put("redPlayer", game.getRedPlayer());
-//        vm.put("whitePlayer", game.getWhitePlayer());
-//        vm.put("viewMode", Game.ViewMode.PLAY);
-//        vm.put("board", game.getBoardView());
-//        vm.put("activeColor", game.getActiveColor());
-//        return templateEngine.render(new ModelAndView(vm, "game.ftl"));
       } else {
-      vm.put("title", "Welcome");
-      vm.put("message", WELCOME_MSG);
-      vm.put("currentUser", httpSession.attribute("Player"));
-      vm.put("signed", Application.playerLobby.get_logged_names());
-      return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+        vm.put("title", "Welcome");
+        vm.put("message", WELCOME_MSG);
+        vm.put("currentUser", httpSession.attribute("Player"));
+        vm.put("signed", Application.playerLobby.get_logged_names());
+        return templateEngine.render(new ModelAndView(vm, "home.ftl"));
       }
     }
   }

@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.webcheckers.ui.WebServer.GAME_URL;
+import static spark.Spark.halt;
+
 public class PostHomeRoute implements Route {
 
     private final TemplateEngine templateEngine;
@@ -56,7 +59,7 @@ public class PostHomeRoute implements Route {
             return templateEngine.render(new ModelAndView(vm, "home.ftl"));
         }
         Player currentPlayer = httpSession.attribute("Player");
-        Game newGame = new Game(whitePlayer, currentPlayer);
+        Game newGame = new Game(currentPlayer, whitePlayer);
         Application.playerLobby.addGame(newGame); 
         httpSession.attribute("Game", newGame);
 
@@ -68,6 +71,7 @@ public class PostHomeRoute implements Route {
         vm.put(VIEW, Game.ViewMode.PLAY);
         vm.put(BOARD, newGame.getBoardView());
         vm.put(COLOR, newGame.getActiveColor());
-        return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+        response.redirect(GAME_URL);
+        return null;
     }
 }

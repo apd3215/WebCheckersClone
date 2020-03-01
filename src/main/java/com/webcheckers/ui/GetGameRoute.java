@@ -72,39 +72,13 @@ public class GetGameRoute implements Route {
     Game game = Application.playerLobby.getGameByPlayer(httpSession.attribute("Player"));
     vm.put("title", "Game page!");
     vm.put("message", WELCOME_MSG);
-    if (game.getActiveColor() == Piece.PieceColor.WHITE) {
-        vm.put("currentUser", game.getWhitePlayer());
-    } else if (game.getActiveColor() == Piece.PieceColor.RED){
-        vm.put("currentUser", game.getRedPlayer());
-    }
+    vm.put("currentUser", player);
     vm.put("redPlayer", game.getRedPlayer());
     vm.put("whitePlayer", game.getWhitePlayer());
     vm.put("viewMode", Game.ViewMode.PLAY);
     vm.put("board", game.getBoardView());
     vm.put("activeColor", game.getActiveColor());
     return templateEngine.render(new ModelAndView(vm, "game.ftl"));
-//    } else {
-//        vm.put("title", "Game page!");
-//        vm.put("message", WELCOME_MSG);
-//        vm.put("gameID", httpSession.attribute("Game"));
-//        vm.put("currentUser", httpSession.attribute("Player"));
-//        //vm.put("modeOptionsAsJSON", ); //TODO: implement in next sprint
-//        //vm.put("redPlayer", );
-//        //vm.put("whitePlayer", );
-//        vm.put("viewMode", viewMode);
-//
-//        BoardView board = new BoardView();
-//        vm.put("board", board);
-//
-//    // render the View
-//        return templateEngine.render(new ModelAndView(vm, "game.ftl"));
-//    }
   }
-
-  private Row makeRow(int index) {
-    Row row = new Row(index);
-    return row;
-  }
-
 
 }
