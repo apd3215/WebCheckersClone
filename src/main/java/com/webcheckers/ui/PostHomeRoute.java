@@ -5,8 +5,13 @@ import com.webcheckers.Application;
 import com.webcheckers.util.Message;
 import com.webcheckers.model.Game;
 import com.webcheckers.appl.Player;
+
 import spark.Route;
-import spark.*;
+import spark.TemplateEngine;
+import spark.Request;
+import spark.Response;
+import spark.Session;
+import spark.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;

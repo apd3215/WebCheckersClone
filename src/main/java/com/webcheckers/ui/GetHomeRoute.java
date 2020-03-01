@@ -8,12 +8,14 @@ import java.util.logging.Logger;
 import com.webcheckers.Application;
 import com.webcheckers.model.Game;
 
-import spark.*;
+import spark.Request;
+import spark.Response;
+import spark.Route;
+import spark.TemplateEngine;
+import spark.Session;
+import spark.ModelAndView;
 
 import com.webcheckers.util.Message;
-
-import static com.webcheckers.ui.WebServer.*;
-import static spark.Spark.halt;
 
 /**
  * The UI Controller to GET the Home page.
@@ -65,8 +67,7 @@ public class GetHomeRoute implements Route {
       vm.put("num", Application.playerLobby.getNum_logged_in());
       // render the View
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
-    }
-    else{
+    } else {
       Map<String, Object> vm = new HashMap<>();
       Game game = Application.playerLobby.getGameByPlayer(httpSession.attribute("Player"));
       if (game != null) {
@@ -80,18 +81,14 @@ public class GetHomeRoute implements Route {
         vm.put("board", board);
         vm.put("activeColor", game.getActiveColor());
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
-      }
-      else {
+      } else {
       vm.put("title", "Welcome");
       vm.put("message", WELCOME_MSG);
       vm.put("currentUser", httpSession.attribute("Player"));
       vm.put("signed", Application.playerLobby.get_logged_names());
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
       //response.redirect(WELCOME_URL);
-<<<<<<< HEAD
-=======
       }
->>>>>>> f24b92e7a9509feade223271dea95e45728b65fe
     }
   }
 }

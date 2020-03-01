@@ -1,6 +1,10 @@
 package com.webcheckers.ui;
 
-import spark.*;
+import spark.Route;
+import spark.TemplateEngine;
+import spark.Request;
+import spark.Response;
+import spark.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;

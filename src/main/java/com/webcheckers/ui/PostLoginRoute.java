@@ -3,8 +3,13 @@ package com.webcheckers.ui;
 
 import com.webcheckers.Application;
 import com.webcheckers.util.Message;
+
 import spark.Route;
-import spark.*;
+import spark.TemplateEngine;
+import spark.ModelAndView;
+import spark.Request;
+import spark.Response;
+import spark.Session;
 
 import java.util.HashMap;
 import java.util.Map;
