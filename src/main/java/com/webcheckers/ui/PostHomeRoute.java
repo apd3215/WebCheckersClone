@@ -5,7 +5,6 @@ import com.webcheckers.Application;
 import com.webcheckers.util.Message;
 import com.webcheckers.model.Game;
 import com.webcheckers.appl.Player;
-import com.webcheckers.model.BoardView;
 
 import spark.Route;
 import spark.TemplateEngine;
@@ -54,8 +53,7 @@ public class PostHomeRoute implements Route {
         vm.put("redPlayer", currentPlayer);
         vm.put("whitePlayer", whitePlayer);
         vm.put("viewMode", Game.ViewMode.PLAY);
-        BoardView board = new BoardView();
-        vm.put("board", board);
+        vm.put("board", newGame.getBoardView());
         vm.put("activeColor", newGame.getActiveColor());
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
     }
