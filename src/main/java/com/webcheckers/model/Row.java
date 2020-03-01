@@ -16,6 +16,22 @@ public class Row implements Iterable<Space> {
         this.index = index;
         for(int i = 0; i < 8; i++) {
             Space space = new Space(i);
+            if (index % 2 == 0){
+                if (i % 2 == 0){
+                    space.setColor(Space.Color.LIGHT);
+                }
+                else{
+                    space.setColor(Space.Color.DARK);
+                }
+            }
+            else{
+                if (i % 2 == 0) {
+                    space.setColor(Space.Color.DARK);
+                }
+                else{
+                    space.setColor(Space.Color.LIGHT);
+                }
+            }
             spaces.add(space);
         }
     }
