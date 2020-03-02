@@ -80,6 +80,7 @@ public class GetHomeRoute implements Route {
         vm.put("title", "Welcome");
         if (httpSession.attribute("error_attr") != null){
           vm.put("message", httpSession.attribute("error_attr"));
+          httpSession.attribute("error_attr", null);
         } else {
           vm.put("message", WELCOME_MSG);
         }
