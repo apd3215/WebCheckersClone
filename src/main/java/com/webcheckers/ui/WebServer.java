@@ -145,6 +145,7 @@ public class WebServer {
     get(GAME_URL, new GetGameRoute(templateEngine)); //Get game (game board)
     post(GAME_URL, new PostHomeRoute(templateEngine)); //Post home (from home to game)
     post(HOME_URL, new PostLoginRoute(templateEngine)); //Post login (from login to home)
+    post("/signout", new PostSignOutRoute(templateEngine));
 
     LOG.config("WebServer is initialized.");
   }
