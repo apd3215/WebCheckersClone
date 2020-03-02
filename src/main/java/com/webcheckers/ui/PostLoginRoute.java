@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The UI controller to the POST login route.
+ */
 public class PostLoginRoute implements Route {
 
     private final TemplateEngine templateEngine;
@@ -24,25 +27,40 @@ public class PostLoginRoute implements Route {
     private static final Message ALREADY = Message.error("Player already signed in.");
     private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
 
-    public PostLoginRoute(final TemplateEngine templateEngine) {
-        this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required!");
-    }
-
     private static final String TITLE_ATTR = "title";
     private static final String TITLE = "Sign In";
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
     private static final String MSG = "message";
 
+    public PostLoginRoute(final TemplateEngine templateEngine) {
+        this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required!");
+    }
+    
+    /**
+    * WebCheckers post login route
+    *
+    * @param request
+    *   the HTTP request
+    * @param response
+    *   the HTTP response
+    *
+    * @return
+    *   the rendered HTML for PostLoginRoute
+    */
     @Override
     public Object handle(Request request, Response response) {
         final Session httpSession = request.session();
         Map<String, Object> vm = new HashMap<>();
         vm.put(TITLE_ATTR, TITLE);
+
         final String usernameStr = request.queryParams(USERNAME);
         final String passStr = request.queryParams(PASSWORD);
-        int logged;
-        logged = Application.playerLobby.sign_in(usernameStr, passStr);
+
+        int logged = Application.playerLobby.sign_in(usernameStr, passStr);
+
+        //Following if statement checks for password / username validation and redirects
+        //the use if necessary.
         if (logged == 0){
             vm.put(MSG, NAME_ERR);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));

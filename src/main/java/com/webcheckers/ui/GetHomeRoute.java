@@ -22,16 +22,11 @@ import static com.webcheckers.ui.WebServer.GAME_URL;
 
 /**
  * The UI Controller to GET the Home page.
- *
- * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
  */
 public class GetHomeRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
-
   private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
-
   private final TemplateEngine templateEngine;
-
 
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.

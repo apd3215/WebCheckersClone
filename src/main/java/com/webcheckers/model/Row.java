@@ -8,10 +8,22 @@ import java.util.List;
 import com.webcheckers.model.Piece.PieceColor;
 import com.webcheckers.model.Piece.PieceType;
 
+/**
+ * Represents a Row on the game board.
+ * Iterable over each space.
+ * @author Joe Netti
+ * @author Joshua Yoder
+ */
 public class Row implements Iterable<Space> {
     private int index;
     private List<Space> spaces = new ArrayList<Space>();
 
+    /**
+     * Constructor
+     * Create a row of spaces, alternating between light and dark
+     * colors depending on the space position on the board.
+     * @param index the index of the row
+     */
     public Row(int index) {
         this.index = index;
         for(int i = 0; i < 8; i++) {
@@ -36,6 +48,10 @@ public class Row implements Iterable<Space> {
         }
     }
 
+    /**
+     * Fills a row with a given piece color (only on the black squares)
+     * @param pieceColor the piece color to fill the row with
+     */
     public void fillRow(PieceColor pieceColor) {
         for(int i = 0; i < 8; i++) {
             if(index%2 == 0) {
@@ -52,6 +68,11 @@ public class Row implements Iterable<Space> {
         }
     }
 
+    /**
+     * Returns an iterator that is the reverse of the row iterator.
+     * Useful for generating the view for the white player.
+     * @return reverse row iterator (by reverse spaces)
+     */
     public Iterator<Space> reverseIterator() {
         List<Space> inv = new ArrayList<Space>();
         for (int i = 0; i < 8; i++){
@@ -60,11 +81,19 @@ public class Row implements Iterable<Space> {
         return inv.iterator();
     }
 
+    /**
+     * Return an iterator over the row (spaces).
+     * @return board iterator (by spaces)
+     */
     @Override
     public Iterator<Space> iterator() {
         return this.spaces.iterator();
     }
 
+    /**
+     * Gets the index of a specific row.
+     * @return the index of a row
+     */
     public int getIndex() {
         return index;
     }
