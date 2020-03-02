@@ -54,7 +54,7 @@ public class WebServer {
    */
   public static final String HOME_URL = "/";
   public static final String LOGIN_URL = "/signin";
-  public static final String WELCOME_URL = "/welcome";
+  public static final String OUT_URL = "/signout";
   public static final String GAME_URL = "/game";
 
   //
@@ -145,7 +145,7 @@ public class WebServer {
     get(GAME_URL, new GetGameRoute(templateEngine)); //Get game (game board)
     post(GAME_URL, new PostHomeRoute(templateEngine)); //Post home (from home to game)
     post(HOME_URL, new PostLoginRoute(templateEngine)); //Post login (from login to home)
-    post("/signout", new PostSignOutRoute(templateEngine));
+    post(OUT_URL, new PostSignOutRoute(templateEngine));
 
     LOG.config("WebServer is initialized.");
   }

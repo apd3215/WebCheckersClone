@@ -1,5 +1,7 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.Application;
+import com.webcheckers.appl.Player;
 import spark.*;
 
 import java.util.HashMap;
@@ -9,17 +11,14 @@ import java.util.Objects;
 import static com.webcheckers.ui.WebServer.HOME_URL;
 
 /**
- * The UI Controller to GET the login page
+ * The UI Controller to GET the home page after sign out.
  */
 public class PostSignOutRoute implements Route {
 
     private final TemplateEngine templateEngine;
-    static final String GET_LOGGED_IN = "isLoggedIn";
-    static final String TITLE_ATTR = "title";
-    static final String TITLE = "Sign In";
 
     /**
-     * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
+     * Create the Spark Route (UI controller) to handle all {@code POST /} HTTP requests.
      * @param templateEngine the HTML template rendering engine
      */
     public PostSignOutRoute(final TemplateEngine templateEngine) {
@@ -39,12 +38,11 @@ public class PostSignOutRoute implements Route {
      */
     @Override
     public Object handle(Request request, Response response) {
-        Map<String, Object> vm = new HashMap<>();
         Session httpSession = request.session();
+        Player curr = httpSession.attribute("Player");
+        Application.playerLobby.sign_out(curr);
         httpSession.attribute("Player", null);
-        //vm.put(TITLE_ATTR, TITLE);
         response.redirect(HOME_URL);
-        //return templateEngine.render(new ModelAndView(vm, "home.ftl"));
         return null;
     }
 }
