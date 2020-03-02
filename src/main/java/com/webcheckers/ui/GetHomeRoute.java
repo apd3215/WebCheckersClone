@@ -78,7 +78,11 @@ public class GetHomeRoute implements Route {
         return null;
       } else {
         vm.put("title", "Welcome");
-        vm.put("message", WELCOME_MSG);
+        if (httpSession.attribute("error_attr") != null){
+          vm.put("message", httpSession.attribute("error_attr"));
+        } else {
+          vm.put("message", WELCOME_MSG);
+        }
         vm.put("currentUser", httpSession.attribute("Player"));
         vm.put("signed", Application.playerLobby.get_logged_names());
         return templateEngine.render(new ModelAndView(vm, "home.ftl"));

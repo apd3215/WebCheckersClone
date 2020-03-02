@@ -19,12 +19,13 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.webcheckers.ui.WebServer.GAME_URL;
+import static com.webcheckers.ui.WebServer.HOME_URL;
 import static spark.Spark.halt;
 
 public class PostHomeRoute implements Route {
 
     private final TemplateEngine templateEngine;
-    private static final String ERR = "%s already in game. Select Other Player.";
+    private static final String ERR = "%s is already in game. Select Other Player.";
     private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
 
     public PostHomeRoute(final TemplateEngine templateEngine) {
@@ -53,10 +54,11 @@ public class PostHomeRoute implements Route {
         Game game = Application.playerLobby.getGameByPlayer(whitePlayer);
         if (game != null){
             vm.put(TITLE_ATTR, "Welcome");
-            vm.put(MSG, Message.error(String.format(ERR, otherPlayer)));
             vm.put(CURR, httpSession.attribute("Player"));
             vm.put(SIGNED, Application.playerLobby.get_logged_names());
-            return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+            httpSession.attribute("error_attr", Message.error(String.format(ERR, otherPlayer)));
+            response.redirect(HOME_URL);
+            return null;
         }
         Player currentPlayer = httpSession.attribute("Player");
         Game newGame = new Game(currentPlayer, whitePlayer);
