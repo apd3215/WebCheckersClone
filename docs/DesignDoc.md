@@ -71,7 +71,7 @@ of difficulty.
 ## Application Domain  
 This section describes the application domain.
 
-![The WebCheckers Domain Model](DomainAnalysisGroup.png)
+![The WebCheckers Domain Model](DomainAnalysisGroup.svg)
 
 > _Provide a high-level overview of the domain for this application. You
 > can discuss the more important domain entities and their relationship
