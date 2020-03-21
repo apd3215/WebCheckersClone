@@ -1,19 +1,18 @@
-
----  
+--- 
 geometry: margin=1in
----  
+---
 
 # WebCheckers Design Documentation  
 
 ## Team Information  
 
-* Team name: VibeCheckers
-* Team members
-  * Jonathan Baxley
-  * Dhaval Shrishrimal
-  * Joshua Yoder
-  * Joseph Netti
-  * Andre Decosta
+- Team name: VibeCheckers
+- Team members
+  - Jonathan Baxley
+  - Dhaval Shrishrimal
+  - Joshua Yoder
+  - Joseph Netti
+  - Andre Decosta
 
 ## Executive Summary
 This project is WebCheckers, it will provide an online tool for people to play
@@ -21,47 +20,53 @@ checkers with their friends, provide statistics, play against AI, and spectate
 games.
 
 ### Purpose
-> _The goal of this project is to learn more about java spark web framework. The user group is anyone who wants to play checkers online. Our goal for users is that they have a positive experience playing WebCheckers online either against a real person or our AI._
-> _Provide a very brief statement about the project and the most.
-> important user group and user goals._
+The goal of this project is to learn more about java spark web framework. The
+user group is anyone who wants to play checkers online. Our goal for users is
+that they have a positive experience playing WebCheckers online either against
+a real person or our AI.
 
 ### Glossary and Acronyms  
-> _Provide a table of terms and acronyms._
 
 | Term | Definition     |
-|------+----------------|
+|------|----------------|
 | UI   | User Interface |
 
 ## Requirements  
 This section describes the features of the application.
-  >_Sign-in: Feature allows users to sign-in and create accounts from with to play checkers on. Also allows users to sign-out_
-  >_Game Creation: Allows signed-in users to create a game with other signed-in users. Doesn't allow users to play with players in other games._
-  >_Play Checkers: Checkers needs to be playable according to American Checkers Rules. This includes a couple epics including move making, resignation, and win conditions._
-  >_Player must be able to play against an AI._
-  >_User must be able to spectate other users games._
-> _In this section you do not need to be exhaustive and list every
-> story.  Focus on top-level features from the Vision document and
-> maybe Epics and critical Stories._
+
+- *Sign-in*: Feature allows users to sign-in and create accounts from with to
+  play checkers on. Also allows users to sign-out.
+- *Game Creation*: Allows signed-in users to create a game with other
+  signed-in users. Doesn't allow users to play with players in other games.
+- *Play Checkers*: Checkers needs to be playable according to American
+  Checkers Rules. This includes a couple epics including move making,
+  resignation, and win conditions.
+- *AI Gameplay*: Player must be able to play against an AI.
+- *Spectator*: User must be able to spectate other users games.
 
 ### Definition of MVP  
-> _The minimum viable product is a website that has a functioning sign-in page, a home page that allows user to pick who to play against, a working checkers game that properly follows American Checkers rules, allows players to quit, has a proper win condition. In addition to this minimum viable product, it must also have enhancements of spectating games and playing against an AI of varying levels of difficulty._
-> _Provide a simple description of the Minimum Viable Product._
+The minimum viable product is a website that has a functioning sign-in page, a
+home page that allows user to pick who to play against, a working checkers game
+that properly follows American Checkers rules, allows players to quit, has a
+proper win condition. In addition to this minimum viable product, it must also
+have enhancements of spectating games and playing against an AI of varying levels
+of difficulty.
 
 ### MVP Features
-> _Sign_in_
-> _Game Creation_
-> _Game resignation_
-> _Move making_
-> _King Crowning_
-> _King Movement_
-> _Win condition_
-> _Provide a list of top-level Epics and/or Stories of the MVP._
+
+- Sign-In
+- Game Creation
+- Game Resignation
+- Move Making
+- King Crowning
+- King Movement
+- Win Condition
 
 ### Roadmap of Enhancements  
->_Play against AI_
->_AI difficulty selection_
->_Spectate game_
-> _Provide a list of top-level features in the order you plan to consider them._
+
+- Play against AI
+- AI difficulty selection
+- Spectate game
 
 ## Application Domain  
 This section describes the application domain.
