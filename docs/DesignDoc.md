@@ -73,9 +73,15 @@ This section describes the application domain.
 
 ![The WebCheckers Domain Model](DomainAnalysisGroup.svg)
 
-> _Provide a high-level overview of the domain for this application. You
-> can discuss the more important domain entities and their relationship
-> to each other._
+- A *checker piece* can either be a regular piece or a king piece, and has a color
+  attribute. A single checker piece lies on a *square*.
+- A *player* can either be a human or an AI player, and has a color attribute.
+  Human players can log into the application via the *Log-In Screen*. A single player
+  takes a turn with a single checker piece. Two players play a single checkers game.
+- Many *spectators* can spectate a given checkers game.
+- A *checkers game* is played on a single *checkerboard*, with 0 to 24 *checker pieces*.
+- A *checkerboard* has 64 *squares*.
+- A *square* has location and color attributes.
 
 ## Architecture and Design  
 This section describes the application architecture.
