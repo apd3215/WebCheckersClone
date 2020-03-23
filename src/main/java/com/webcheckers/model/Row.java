@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.webcheckers.model.Piece.Piece;
 import com.webcheckers.model.Piece.Piece.PieceColor;
+import com.webcheckers.model.Piece.Piece.PieceType;
 import com.webcheckers.model.Piece.Single_Piece;
 
 /**

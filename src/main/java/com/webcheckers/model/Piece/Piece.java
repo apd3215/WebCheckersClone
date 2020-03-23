@@ -14,8 +14,10 @@ public abstract class Piece {
    * Enum, either a white or red piece.
    */
   public enum PieceColor {WHITE, RED}
-
+  public enum PieceType {SINGLE, KING}
   public PieceColor color;
+  public PieceType type;
+
 
   /**
    * Constructor for a piece object.
@@ -23,6 +25,7 @@ public abstract class Piece {
    */
   public Piece(PieceColor color) {
     this.color = color;
+    this.type = PieceType.SINGLE;
   }
 
 
@@ -33,5 +36,7 @@ public abstract class Piece {
   public PieceColor getColor() {
     return this.color;
   }
+
+  public PieceType getType(){return this.type;}
 
 }
