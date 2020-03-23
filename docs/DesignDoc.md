@@ -11,7 +11,7 @@ geometry: margin=1in
   - Jonathan Baxley
   - Dhaval Shrishrimal
   - Joshua Yoder
-  - Joseph Netti
+  - Joe Netti
   - Andre Decosta
 
 ## Executive Summary
@@ -137,14 +137,22 @@ interacts with the WebCheckers application.
 > you describe the design of the three tiers._
 
 ### Application Tier  
-> _Provide a summary of the Application tier of your architecture. This
-> section will follow the same instructions that are given for the UI
-> Tier above._
+
+All Players that have an account are stored in the PlayerLobby. All games of players in the lobby are stored in the PlayerLobby, but in future releases a GameCenter will be taken over this functionality.
+
+The Player and PlayerLobby classes has the following structure:
+
+![Player](player.png)
+
+The PlayerLobby class sign's players in and out, checks username's and passwords of players, and stores games of players. 
+
 
 ### Model Tier  
-> _Provide a summary of the Application tier of your architecture. This
-> section will follow the same instructions that are given for the UI
-> Tier above._
+
+![Model UML](board_uml.png)
+
+The above UML contains classes that are in the model. The classes in model specify the structure of the components of a checkers game--from pieces, to board, to game. Specifically: each game has a board, each board has 8 rows of spaces, each space may have a piece, and pieces have a type and color. This very *clean* design provided by the beloved product owner has minimal coupling and high cohesion. Board "talks" to Row, Row "talks" to Space, Space "talks" to Piece. We added a game class to store the board of a game and players of the game. Game is the high-level class that is called to make moves in a game.
+
 
 ### Design Improvements  
 > _Discuss design improvements that you would make if the project were
