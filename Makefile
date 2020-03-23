@@ -46,7 +46,7 @@ test-model:
 	# running tests on MODEL tier
 	mvn clean test-compile surefire:test@model jacoco:report@model
 	@echo TEST REPORT LINK:
-	@echo MODEL: `pwd`/target/site/jacoco/appl/index.html
+	@echo MODEL: `pwd`/target/site/jacoco/model/index.html
 
 docs:
 	# generates design documentation PDF
