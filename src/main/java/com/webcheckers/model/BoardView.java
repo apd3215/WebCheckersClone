@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.webcheckers.model.Piece.PieceColor;
+import com.webcheckers.model.Piece.Piece.PieceColor;
 
 /**
  * BoardView represents a board of a single game.
