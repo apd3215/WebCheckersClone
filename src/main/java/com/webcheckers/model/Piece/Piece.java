@@ -1,7 +1,7 @@
 package com.webcheckers.model.Piece;
 
 /**
- * Represents a piece that lies in a space in the webcheckers game.
+ * Abstract class that represents a piece that lies in a space in the webcheckers game.
  * @author Joe Netti
  * @author Joshua Yoder
  */
