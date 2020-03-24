@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import spark.TemplateEngine;
+import spark.HaltException;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -95,5 +97,38 @@ public class GetGameRouteTest {
         testHelper.assertViewModelAttribute("viewMode", Game.ViewMode.PLAY);
         testHelper.assertViewModelAttribute("board", game.getBoardView());
         testHelper.assertViewModelAttribute("activeColor", game.getActiveColor());
+    }
+
+    /**
+     * Test for attempt to join nonexistant game.
+     */
+    @Test
+    public void nonexistant_game() {
+        when(session.attribute("Player")).thenReturn(player);
+        when(playerLobby.getGameByPlayer(player)).thenReturn(null);
+
+        try {
+            CuT.handle(request, response);
+            fail("Game is not nonexistant!");
+        } catch (NullPointerException e) {
+            //expected
+        }
+    }
+
+    /**
+     * Test for nonexistant player
+     */
+    @Test
+    public void nonexistant_player() {
+        final Game game = new Game(player, otherPlayer);
+        when(session.attribute("Player")).thenReturn(null);
+        when(playerLobby.getGameByPlayer(player)).thenReturn(game);
+
+        try {
+            CuT.handle(request, response);
+            fail("Player is not nonexistant!");
+        } catch (NullPointerException e) {
+            //expected
+        }
     }
 }
