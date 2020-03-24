@@ -23,8 +23,9 @@ import com.webcheckers.util.Message;
  */
 public class GetGameRoute implements Route {
 
+  public static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
-  private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
   private final TemplateEngine templateEngine;
 
   /**
@@ -59,6 +60,7 @@ public class GetGameRoute implements Route {
     Player player = httpSession.attribute("Player");
     Game game = Application.playerLobby.getGameByPlayer(httpSession.attribute("Player"));
 
+    //TODO: Replace these magic strings with constants!
     vm.put("title", "Game page!");
     vm.put("message", WELCOME_MSG);
     vm.put("currentUser", player);
