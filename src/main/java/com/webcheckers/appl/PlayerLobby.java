@@ -38,6 +38,10 @@ public class PlayerLobby {
         return this.Players;
     }
 
+    public Dictionary<String, String> getUsers() {
+        return this.Users;
+    }
+
     /**
      * Adds a new game to the games list.
      */
