@@ -11,7 +11,7 @@ import static com.webcheckers.ui.WebServer.HOME_URL;
 /**
  * The UI Controller to GET the home page after sign out.
  */
-public class PostSignOutRoute implements Route {
+public class PostValidateMove implements Route {
 
     private final TemplateEngine templateEngine;
 
@@ -19,7 +19,7 @@ public class PostSignOutRoute implements Route {
      * Create the Spark Route (UI controller) to handle all {@code POST /} HTTP requests.
      * @param templateEngine the HTML template rendering engine
      */
-    public PostSignOutRoute(final TemplateEngine templateEngine) {
+    public PostValidateMove(final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required!");
     }
 

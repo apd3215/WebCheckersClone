@@ -14,11 +14,11 @@ public class Position {
         this.cell = cell;
     }
 
-    public getRow() {
+    public int getRow() {
         return this.row;
     }
 
-    public getCell() {
+    public int getCell() {
         return this.cell;
     }
 }
