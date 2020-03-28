@@ -4,7 +4,6 @@ package com.webcheckers.appl;
  * Player class, represents a player in webcheckers.
  */
 public class Player {
-
     private boolean isLogged = true;
     private String name;
 

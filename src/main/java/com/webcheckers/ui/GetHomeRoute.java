@@ -67,7 +67,7 @@ public class GetHomeRoute implements Route {
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
     } else {
       Map<String, Object> vm = new HashMap<>();
-      Game game = Application.playerLobby.getGameByPlayer(httpSession.attribute("Player"));
+      Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute("Player"));
       if (game != null) {
         response.redirect(GAME_URL);
         return null;

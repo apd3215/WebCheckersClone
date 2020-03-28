@@ -57,7 +57,7 @@ public class GetGameRoute implements Route {
 
     Map<String, Object> vm = new HashMap<>();
     Player player = httpSession.attribute("Player");
-    Game game = Application.playerLobby.getGameByPlayer(httpSession.attribute("Player"));
+    Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute("Player"));
 
     vm.put("title", "Game page!");
     vm.put("message", WELCOME_MSG);

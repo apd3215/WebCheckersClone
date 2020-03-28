@@ -66,7 +66,7 @@ public class PostHomeRoute implements Route {
         Map<String, Object> vm = new HashMap<>();
         final String otherPlayer = request.queryParams(OTHER);
         Player whitePlayer = Application.playerLobby.getPlayers().get(otherPlayer);
-        Game game = Application.playerLobby.getGameByPlayer(whitePlayer);
+        Game game = Application.gameCenter.getGameByPlayer(whitePlayer);
 
         //If we have a null game, we redirect to home
         if (game != null){
@@ -82,7 +82,7 @@ public class PostHomeRoute implements Route {
 
         Player currentPlayer = httpSession.attribute("Player");
         Game newGame = new Game(currentPlayer, whitePlayer);
-        Application.playerLobby.addGame(newGame); 
+        Application.gameCenter.addGame(newGame);
         httpSession.attribute("Game", newGame);
 
         vm.put(TITLE_ATTR, TITLE);
