@@ -68,7 +68,6 @@ public class PlayerLobby {
             }
         }
         return false;
-
     }
 
     /**
@@ -130,6 +129,24 @@ public class PlayerLobby {
      */
     public ArrayList<String> get_logged_names(){
         ArrayList<String> keys = Collections.list(Users.keys());
-        return keys;
+        ArrayList<String> logged = new ArrayList<>();
+        for(String name: keys){
+            if (Players.get(name).isLogged() && !Players.get(name).isPlaying()){
+                logged.add(name);
+            }
+        }
+        return logged;
     }
+
+    public ArrayList<String> get_playing(){
+        ArrayList<String> keys = Collections.list(Users.keys());
+        ArrayList<String> playing = new ArrayList<>();
+        for(String name: keys){
+            if (Players.get(name).isLogged() && Players.get(name).isPlaying()){
+                playing.add(name);
+            }
+        }
+        return playing;
+    }
+
 }

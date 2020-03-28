@@ -7,6 +7,7 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 
 public class GameCenter {
+
     private Dictionary<String, Game> Games;
     private ArrayList<Game> GameArrayList;
 
