@@ -30,7 +30,7 @@ This is a summary of the project.
 | Term | Definition |
 |------|------------|
 | VO | Value Object |
-test
+
 
 ## Requirements
 
