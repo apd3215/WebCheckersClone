@@ -21,6 +21,8 @@
     <#include "message.ftl" />
 
     <#if signed ??>
+        <h2>Available Players</h2>
+        <br>
       <#list signed as person>
         <#if person != currentUser.name>
             <form method="post" action="/game">
@@ -28,6 +30,16 @@
             <input name="otherPlayer" type="submit" value=${person} >
             <br> <br>
           </form>
+        </#if>
+      </#list>
+      <h2>Players in Game</h2>
+      <#list playing as person>
+        <#if person != currentUser.name>
+            <form method="post" action="/game">
+                <!-- <a id = "inGame" href = "/game"> </a> --->
+                <input name="inGame" type="submit" value=${person} >
+                <br> <br>
+            </form>
         </#if>
       </#list>
     <#else>

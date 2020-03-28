@@ -75,6 +75,7 @@ public class PostLoginRoute implements Route {
             vm.put("currentUser", Application.playerLobby.getPlayers().get(usernameStr));
             vm.put(MSG, WELCOME_MSG);
             vm.put("signed", Application.playerLobby.get_logged_names());
+            vm.put("playing", Application.playerLobby.get_playing());
             return templateEngine.render(new ModelAndView(vm, "home.ftl"));
         } else {
             vm.put(MSG, WRONG);
