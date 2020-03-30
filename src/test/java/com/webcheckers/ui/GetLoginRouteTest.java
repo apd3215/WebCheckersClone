@@ -50,6 +50,7 @@ public class GetLoginRouteTest {
         CuT = new GetLoginRoute(engine);
     }
 
+    @Test
     public void testLogIn(){
         //Template engine tester
         final TemplateEngineTester testHelper = new TemplateEngineTester();

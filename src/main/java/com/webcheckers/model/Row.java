@@ -97,4 +97,6 @@ public class Row implements Iterable<Space> {
     public int getIndex() {
         return index;
     }
+
+    public List<Space> getSpaces(){ return spaces;}
 }
