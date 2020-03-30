@@ -38,6 +38,10 @@ public class PlayerLobby {
         return this.Players;
     }
 
+    public Player getPlayer(String name) {
+        return this.Players.get(name);
+    }
+
     public Dictionary<String, String> getUsers() {
         return this.Users;
     }
