@@ -1,5 +1,7 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
+import com.webcheckers.util.Message;
 import com.webcheckers.Application;
 import com.webcheckers.appl.Player;
 import spark.*;
@@ -38,10 +40,15 @@ public class PostValidateMoveRoute implements Route {
     public Object handle(Request request, Response response) {
         Session httpSession = request.session();
         String jsonMove = request.body();
-        Player curr = httpSession.attribute("Player");
-        Application.playerLobby.sign_out(curr);
-        httpSession.attribute("Player", null);
-        response.redirect(HOME_URL);
+        Gson gson = new Gson();
+        Message message = gson.fromJson(jsonMove, Message.class);
+        System.out.println(jsonMove);
+        System.out.println(message);
+
+//        Player curr = httpSession.attribute("Player");
+//        Application.playerLobby.sign_out(curr);
+//        httpSession.attribute("Player", null);
+//        response.redirect(HOME_URL);
         return null;
     }
 }

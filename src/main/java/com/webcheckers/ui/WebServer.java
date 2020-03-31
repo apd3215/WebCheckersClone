@@ -60,7 +60,7 @@ public class WebServer {
   public static final String SUBMIT_URL = "/submitTurn";
   public static final String BACKUP_URL = "/backupMove";
   public static final String RESIGN_URL = "/resignGame";
-  
+
 
   //
   // Attributes
@@ -151,10 +151,9 @@ public class WebServer {
     post(GAME_URL, new PostHomeRoute(templateEngine)); //Post home (from home to game)
     post(HOME_URL, new PostLoginRoute(templateEngine)); //Post login (from login to home)
     post(OUT_URL, new PostSignOutRoute(templateEngine));
-    post(VALIDATE_URL, new PostSignOutRoute(templateEngine));
-    post(SUBMIT_URL, new PostSignOutRoute(templateEngine));
-    post(BACKUP_URL, new PostSignOutRoute(templateEngine));
-    post(RESIGN_URL, new PostSignOutRoute(templateEngine));
+    post(VALIDATE_URL, new PostValidateMoveRoute(templateEngine));
+//    post(SUBMIT_URL, new PostSubmitTurnRoute(templateEngine));
+//    post(BACKUP_URL, new PostBackUpMoveRoute(templateEngine));
 
 
 
