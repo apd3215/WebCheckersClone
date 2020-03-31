@@ -110,7 +110,7 @@ Details of the components within these tiers are supplied below.
 This section describes the web interface flow; this is how the user views and
 interacts with the WebCheckers application.
 
-![The WebCheckers Web Interface Statechart](web-interface-placeholder.png)
+![The WebCheckers Web Interface Statechart](./StateChart.png)
 
 
 ### UI Tier
@@ -127,6 +127,7 @@ account, he can enter a unique username and password to create an account
 or sign-in with an existing account by entering the correct username and
 password. While creating a new account there a few restrictions on the 
 validity of the username and password.
+
 - Username should at least contain one alpha-numeric character and cannot
 contain any special characters except for spaces.
 - Password cannot be a empty string.
@@ -200,4 +201,4 @@ development but will be implemented later. Our goals for code coverage are at le
 on 80 percent because some of our functions are difficult to test due to high coupling between the classes. Piece is an
 example of a difficult to test class because of its abstract nature. 80 percent is a good goal because while its not
 perfect it accounts for the majority of the code. As of now only our model meets this but we plan on fixing it to have
-three tiers meet the 80 percent threshold._
+three tiers meet the 80 percent threshold.
