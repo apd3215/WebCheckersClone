@@ -132,11 +132,11 @@ contain any special characters except for spaces.
 - Password cannot be a empty string.
 
 After the user enters the username and password a `POST /` request is sent
-and the Application verifies the username and password. If the username and
-password is correct the home page is loaded and a attribute is stored in 
-the session with the ID `Player`. If the username or password is incorrect
+and the Application verifies the username and password. If the username or password is incorrect
 the user is displayed with an appropriate error message and the user has 
-the option to enter the username and password again.
+the option to enter the username and password again. If the username and
+password is correct the home page is loaded and a attribute is stored in 
+the session with the ID `Player`.
 
 The home page displays the username and a sign-out button on the navigation-
 bar. Also, the names of all the available players are displayed.
