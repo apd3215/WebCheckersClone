@@ -73,7 +73,7 @@ of difficulty.
 ## Application Domain
 This section describes the application domain.
 
-![The WebCheckers Domain Model](DomainAnalysisGroup.svg)
+![The WebCheckers Domain Model](DomainAnalysisGroup.png)
 
 >- A *checker piece* can either be a regular piece or a king piece, and has a color
   attribute. A single checker piece lies on a *square*.
