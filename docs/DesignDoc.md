@@ -36,15 +36,15 @@ a real person or our AI.
 ## Requirements
 This section describes the features of the application.
 
->- *Sign-in*: Feature allows users to sign-in and create accounts from with to
+- *Sign-in*: Feature allows users to sign-in and create accounts from with to
   play checkers on. Also allows users to sign-out.
->- *Game Creation*: Allows signed-in users to create a game with other
+- *Game Creation*: Allows signed-in users to create a game with other
   signed-in users. Doesn't allow users to play with players in other games.
->- *Play Checkers*: Checkers needs to be playable according to American
+- *Play Checkers*: Checkers needs to be playable according to American
   Checkers Rules. This includes a couple epics including move making,
   resignation, and win conditions.
->- *AI Gameplay*: Player must be able to play against an AI.
->- *Spectator*: User must be able to spectate other users games.
+- *AI Gameplay*: Player must be able to play against an AI.
+- *Spectator*: User must be able to spectate other users games.
 
 ### Definition of MVP
 The minimum viable product is a website that has a functioning sign-in page, a
@@ -56,34 +56,34 @@ of difficulty.
 
 ### MVP Features
 
->- Sign-In
->- Game Creation
->- Game Resignation
->- Move Making
->- King Crowning
->- King Movement
->- Win Condition
+- Sign-In
+- Game Creation
+- Game Resignation
+- Move Making
+- King Crowning
+- King Movement
+- Win Condition
 
 ### Roadmap of Enhancements
 
->- Play against AI
->- AI difficulty selection
->- Spectate game
+- Play against AI
+- AI difficulty selection
+- Spectate game
 
 ## Application Domain
 This section describes the application domain.
 
 ![The WebCheckers Domain Model](DomainAnalysisGroup.png)
 
->- A *checker piece* can either be a regular piece or a king piece, and has a color
-  attribute. A single checker piece lies on a *square*.
->- A *player* can either be a human or an AI player, and has a color attribute.
-  Human players can log into the application via the *Log-In Screen*. A single player
-  takes a turn with a single checker piece. Two players play a single checkers game.
->- Many *spectators* can spectate a given checkers game.
->- A *checkers game* is played on a single *checkerboard*, with 0 to 24 *checker pieces*.
->- A *checkerboard* has 64 *squares*.
->- A *square* has location and color attributes.
+- A *checker piece* can either be a regular piece or a king piece, and has a color
+ attribute. A single checker piece lies on a *square*.
+- A *player* can either be a human or an AI player, and has a color attribute.
+ Human players can log into the application via the *Log-In Screen*. A single player
+ takes a turn with a single checker piece. Two players play a single checkers game.
+- Many *spectators* can spectate a given checkers game.
+- A *checkers game* is played on a single *checkerboard*, with 0 to 24 *checker pieces*.
+- A *checkerboard* has 64 *squares*.
+- A *square* has location and color attributes.
 
 ## Architecture and Design
 This section describes the application architecture.
@@ -94,15 +94,15 @@ architecture.
 
 ![The Tiers & Layers of the Architecture](architecture-tiers-and-layers.png)
 
->_As a web application, the user interacts with the system using a
+*As a web application, the user interacts with the system using a
 browser.  The client-side of the UI is composed of HTML pages with
 some minimal CSS for styling the page.  There is also some JavaScript
-that has been provided to the team by the architect._
+that has been provided to the team by the architect.*
 
->_The server-side tiers include the UI Tier that is composed of UI Controllers
+*The server-side tiers include the UI Tier that is composed of UI Controllers
 and Views. Controllers are built using the Spark framework and View are built
 using the FreeMarker framework. The Application and Model tiers are built
-using plain-old Java objects (POJOs)._
+using plain-old Java objects (POJOs).*
 
 Details of the components within these tiers are supplied below.
 
@@ -138,37 +138,37 @@ interacts with the WebCheckers application.
 
 ### Application Tier
 
->_All Players that have an account are stored in the PlayerLobby. All games of players in the lobby are stored in the PlayerLobby, but in future releases a GameCenter will be taken over this functionality._
+All Players that have an account are stored in the PlayerLobby. All games of players in the lobby are stored in the PlayerLobby, but in future releases a GameCenter will be taken over this functionality.
 
->_The Player and PlayerLobby classes has the following structure:_
+The Player and PlayerLobby classes has the following structure:
 
 ![Player](player.png)
 
->_The PlayerLobby class sign's players in and out, checks username's and passwords of players, and stores games of players._
+The PlayerLobby class sign's players in and out, checks username's and passwords of players, and stores games of players.
 
 
 ### Model Tier
 
 ![Model UML](board_uml.png)
 
->_The above UML contains classes that are in the model. The classes in model specify the structure of the components of a checkers game--from pieces, to board, to game. Specifically: each game has a board, each board has 8 rows of spaces, each space may have a piece, and pieces have a type and color. This very *clean* design provided by the beloved product owner has minimal coupling and high cohesion. Board "talks" to Row, Row "talks" to Space, Space "talks" to Piece. We added a game class to store the board of a game and players of the game. Game is the high-level class that is called to make moves in a game._
+The above UML contains classes that are in the model. The classes in model specify the structure of the components of a checkers game--from pieces, to board, to game. Specifically: each game has a board, each board has 8 rows of spaces, each space may have a piece, and pieces have a type and color. This very *clean* design provided by the beloved product owner has minimal coupling and high cohesion. Board "talks" to Row, Row "talks" to Space, Space "talks" to Piece. We added a game class to store the board of a game and players of the game. Game is the high-level class that is called to make moves in a game.
 
 
 ### Design Improvements
-> _We would like to make our project adhere to the object oriented principles more strictly than they currently. We plan on making improvements to liskov substitution, polymorphism, cohesion, coupling, and other principles. There are also other places the project code could with more work, run more efficiently and crisper. One place that these improvements are being made is with piece and gamecenter. Piece is being rewritten to an abstract Class with subclasses of king and single. GameCenter is being created to handle multiple games at a time to help with the implementation of spectating._
+We would like to make our project adhere to the object oriented principles more strictly than they currently. We plan on making improvements to liskov substitution, polymorphism, cohesion, coupling, and other principles. There are also other places the project code could with more work, run more efficiently and crisper. One place that these improvements are being made is with piece and gamecenter. Piece is being rewritten to an abstract Class with subclasses of king and single. GameCenter is being created to handle multiple games at a time to help with the implementation of spectating.
 
 ## Testing
-> _The testing for individual acceptance criteria and the completion of user stories went as followed. First, a blanket test of the acceptance criteria to fit the minimum requirements of what was stated. This test would check to see if it can handle the bare minimum without crashing. Then, we would check the bare minimum for bugs that don't crash the program but give incorrect information. Finally, if the user story had held up so far, we would test all fringe cases and do everything in our power to try to break the program/make it crash. If it passes all of these tests then the user story or epic would meet the definition of done. An example of this was in testing password functionality. First, it would go to sign in and putting in a password, then it should reroute to home. It passed this at minimum. Next, we checked for bugs, and saw there were none. Finally, we checked all fringe cases. Some examples of these fringe cases were, what happens if we reload the page, what happens if no password is put in, what happens if no username is in, what happens if the username already exists, et cetera. We did this process for all user stories in sprint 1 and some of sprint 2 so far. All passed with no issues._
+The testing for individual acceptance criteria and the completion of user stories went as followed. First, a blanket test of the acceptance criteria to fit the minimum requirements of what was stated. This test would check to see if it can handle the bare minimum without crashing. Then, we would check the bare minimum for bugs that don't crash the program but give incorrect information. Finally, if the user story had held up so far, we would test all fringe cases and do everything in our power to try to break the program/make it crash. If it passes all of these tests then the user story or epic would meet the definition of done. An example of this was in testing password functionality. First, it would go to sign in and putting in a password, then it should reroute to home. It passed this at minimum. Next, we checked for bugs, and saw there were none. Finally, we checked all fringe cases. Some examples of these fringe cases were, what happens if we reload the page, what happens if no password is put in, what happens if no username is in, what happens if the username already exists, et cetera. We did this process for all user stories in sprint 1 and some of sprint 2 so far. All passed with no issues.
 
 
 ### Acceptance Testing
->_So far 16 user stories have passed all acceptance criteria._
->_So far 0 user stories have failed any acceptance criteria._
->_The remainder of user stories for sprint 2 and sprint 3 have not yet had any testing._
+- So far 16 user stories have passed all acceptance criteria.
+- So far 0 user stories have failed any acceptance criteria.
+- The remainder of user stories for sprint 2 and sprint 3 have not yet had any testing.
 
 
 ### Unit Testing and Code Coverage
->_Our unit testing strategy was to identify everything single method for the class that was used
+Our unit testing strategy was to identify everything single method for the class that was used
 and to make a test for each method. The goal of this was to ensure that all code was tested and have 100 percent
 code coverage. Our webcheckers UI has 68 percent code covered at this time. This is much lower because only the bare
 minimum tests have been made. Currently there are no tests for Webserver or PostsignoutRoute which significantly lowers
