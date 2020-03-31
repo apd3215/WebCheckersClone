@@ -114,27 +114,48 @@ interacts with the WebCheckers application.
 
 
 ### UI Tier
-> _Provide a summary of the Server-side UI tier of your architecture.
-> Describe the types of components in the tier and describe their
-> responsibilities.  This should be a narrative description, i.e. it has
-> a flow or "story line" that the reader can follow._
+The UI tier is responsible for maintaining the communication between the
+users and the Application. The WebServer class is the center of UI tier, 
+which receives all the `GET` and `POST` requests. When the User first 
+enters the website, a `GET /` request is received, and the home page is
+rendered by the template engine. The User has the option to sign-in on 
+the navigation-bar.
+ 
+If the user clicks the sign-in button, a `GET /signin` is received by the 
+WebServer and the sign-in page is loaded. If the User does not have an 
+account, he can enter a unique username and password to create an account
+or sign-in with an existing account by entering the correct username and
+password. While creating a new account there a few restrictions on the 
+validity of the username and password.
+- Username should at least contain one alpha-numeric character and cannot
+contain any special characters except for spaces.
+- Password cannot be a empty string.
 
-> _At appropriate places as part of this narrative provide one or more
-> static models (UML class structure or object diagrams) with some
-> details such as critical attributes and methods._
+After the user enters the username and password a `POST /` request is sent
+and the Application verifies the username and password. If the username and
+password is correct the home page is loaded and a attribute is stored in 
+the session with the ID `Player`. If the username or password is incorrect
+the user is displayed with an appropriate error message and the user has 
+the option to enter the username and password again.
 
-> _You must also provide any dynamic models, such as statechart and
-> sequence diagrams, as is relevant to a particular aspect of the design
-> that you are describing.  For example, in WebCheckers you might create
-> a sequence diagram of the `POST /validateMove` HTTP request processing
-> or you might show a statechart diagram if the Game component uses a
-> state machine to manage the game._
+The home page displays the username and a sign-out button on the navigation-
+bar. Also, the names of all the available players are displayed.
+Each name is a button, which when clicked sends a `POST /game` to the 
+WebServer which then loads up the game page for the user. When the home page
+of the player clicked by the user refreshes, he is redirected to the game
+page and a `GET /game` is received by the WebServer. If the Player clicked
+by the user is already in a game, the user is displayed an error notifying 
+the user that the selected Player is already in a game.
+If the user clicks on the sign-out button a `POST /signout` request is sent
+to the WebServer which then removes the session attribute ID `PLAYER` and 
+the user is redirected to the home page and `GET /` is recieved by the 
+WebSever.
 
-> _If a dynamic model, such as a statechart describes a feature that is
-> not mostly in this tier and cuts across multiple tiers, you can
-> consider placing the narrative description of that feature in a
-> separate section for describing significant features. Place this after
-> you describe the design of the three tiers._
+The User starting the game is the red player and goes first. The Game Page
+has a message box notifying that either it is your turn and the instructions to move
+a piece OR its your opponents turn. When its your turn you have the option to
+back-up one move, play a valid move, resign, or submit your turn, else you only
+have the option to resign.
 
 ### Application Tier
 
