@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import com.webcheckers.model.Piece.Piece;
+
 /**
  * Represents a single space in the game of webcheckers.
  * @author Joe Netti
