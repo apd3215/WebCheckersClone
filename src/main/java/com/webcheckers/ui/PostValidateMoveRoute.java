@@ -37,6 +37,7 @@ public class PostValidateMoveRoute implements Route {
     @Override
     public Object handle(Request request, Response response) {
         Session httpSession = request.session();
+        String jsonMove = request.body();
         Player curr = httpSession.attribute("Player");
         Application.playerLobby.sign_out(curr);
         httpSession.attribute("Player", null);
