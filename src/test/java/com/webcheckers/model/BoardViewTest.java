@@ -2,13 +2,8 @@ package com.webcheckers.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.webcheckers.model.Piece;
-import com.webcheckers.model.Row;
-import com.webcheckers.model.Space;
-import org.junit.jupiter.api.Tag;
+import com.webcheckers.model.Piece.Piece;
 import org.junit.jupiter.api.Test;
-
-import com.webcheckers.model.BoardView;
 
 import java.util.Iterator;
 

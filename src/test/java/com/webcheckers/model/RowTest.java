@@ -8,6 +8,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
+import com.webcheckers.model.Piece.Piece;
 
 /**
  * Test class for space object

@@ -6,9 +6,8 @@ import static org.mockito.Mockito.mock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.webcheckers.model.Game;
 import com.webcheckers.appl.Player;
-import com.webcheckers.model.Piece.PieceColor;
+import com.webcheckers.model.Piece.Piece.PieceColor;
 
 /**
  * GameTest is a testing suite for the Game class.
