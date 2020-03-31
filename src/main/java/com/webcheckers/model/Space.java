@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import com.webcheckers.model.Piece.Piece;
+
 /**
  * Represents a single space in the game of webcheckers.
  * @author Joe Netti
@@ -45,6 +47,14 @@ public class Space {
      */
     public Piece getPiece() {
         return this.piece;
+    }
+
+    /**
+     * Gets a piece color.
+     * @return the piece that is in the space
+     */
+    public Color getColor() {
+        return this.color;
     }
 
     /**
