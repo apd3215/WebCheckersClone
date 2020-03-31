@@ -168,8 +168,15 @@ interacts with the WebCheckers application.
 
 
 ### Unit Testing and Code Coverage
-> _Discuss your unit testing strategy. Report on the code coverage
-> achieved from unit testing of the code base. Discuss the team's
-> coverage targets, why you selected those values, and how well your
-> code coverage met your targets. If there are any anomalies, discuss
-> those._
+>_Our unit testing strategy was to identify everything single method for the class that was used
+and to make a test for each method. The goal of this was to ensure that all code was tested and have 100 percent
+code coverage. Our webcheckers UI has 68 percent code covered at this time. This is much lower because only the bare
+minimum tests have been made. Currently there are no tests for Webserver or PostsignoutRoute which significantly lowers
+our code coverage for UI. We plan on implementing tests for these in sprint 2 or sprint 3. Our webcheckers Model has 88%
+code coverage with only the piece function missing a test. This will be implemented later. Our webcheckers Application
+has 46 percent code coverage. PlayerLobby and GameCenter currently are not tested because they are still in progress for
+development but will be implemented later. Our goals for code coverage are at least 80 percent for each tier. We decided
+on 80 percent because some of our functions are difficult to test due to high coupling between the classes. Piece is an
+example of a difficult to test class because of its abstract nature. 80 percent is a good goal because while its not
+perfect it accounts for the majority of the code. As of now only our model meets this but we plan on fixing it to have
+three tiers meet the 80 percent threshold._
