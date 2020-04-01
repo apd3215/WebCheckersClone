@@ -4,6 +4,7 @@ package com.webcheckers.appl;
  * Player class, represents a player in webcheckers.
  */
 public class Player {
+    private boolean isPlaying = false;
     private boolean isLogged = true;
     private String name;
 
@@ -21,6 +22,19 @@ public class Player {
      */
     public String getName() {
         return name;
+    }
+
+    public boolean isPlaying(){
+        return this.isPlaying;
+    }
+
+    public void startGamePlayer(){
+        this.isPlaying = true;
+    }
+
+    // TODO NEEDS TO BE CALLED IN POSTGAMEROUTE
+    public void endGamePlayer(){
+        this.isPlaying = false;
     }
 
     /**

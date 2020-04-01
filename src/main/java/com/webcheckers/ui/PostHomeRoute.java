@@ -1,4 +1,3 @@
-
 package com.webcheckers.ui;
 
 import com.webcheckers.Application;
@@ -6,7 +5,11 @@ import com.webcheckers.util.Message;
 import com.webcheckers.model.Game;
 import com.webcheckers.appl.Player;
 
-import spark.*;
+import spark.Route;
+import spark.TemplateEngine;
+import spark.Request;
+import spark.Response;
+import spark.Session;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,21 +24,21 @@ import static com.webcheckers.ui.WebServer.HOME_URL;
 public class PostHomeRoute implements Route {
 
     private final TemplateEngine templateEngine;
-    public static final String ERR = "%s is already in game. Select Other Player.";
-    public static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+    private static final String ERR = "%s is already in game. Select Other Player.";
+    private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
 
-    public static final String TITLE_ATTR = "title";
-    public static final String TITLE = "Make game";
-    public static final String OTHER = "otherPlayer";
-    public static final String MSG = "message";
-    public static final String CURR = "currentUser";
-    public static final String RED = "redPlayer";
-    public static final String WHITE = "whitePlayer";
-    public static final String VIEW = "viewMode";
-    public static final String BOARD = "board";
-    public static final String COLOR = "activeColor";
-    public static final String SIGNED = "signed";
-    
+    private static final String TITLE_ATTR = "title";
+    private static final String TITLE = "Make game";
+    private static final String OTHER = "otherPlayer";
+    private static final String MSG = "message";
+    private static final String CURR = "currentUser";
+    private static final String RED = "redPlayer";
+    private static final String WHITE = "whitePlayer";
+    private static final String VIEW = "viewMode";
+    private static final String BOARD = "board";
+    private static final String COLOR = "activeColor";
+    private static final String SIGNED = "signed";
+
     /**
      * Create the Spark Route (UI controller) to handle all {@code POST /} HTTP requests.
      * @param templateEngine the HTML template rendering engine
@@ -45,27 +48,26 @@ public class PostHomeRoute implements Route {
     }
 
     /**
-    * WebCheckers post home route (game creation / redirection)
-    *
-    * @param request
-    *   the HTTP request
-    * @param response
-    *   the HTTP response
-    *
-    * @return
-    *   the rendered HTML for PostHomeRoute (nothing)
-    */
+     * WebCheckers post home route (game creation / redirection)
+     *
+     * @param request
+     *   the HTTP request
+     * @param response
+     *   the HTTP response
+     *
+     * @return
+     *   the rendered HTML for PostHomeRoute (nothing)
+     */
     @Override
     public Object handle(Request request, Response response) {
-
 
         final Session httpSession = request.session();
         Map<String, Object> vm = new HashMap<>();
         final String otherPlayer = request.queryParams(OTHER);
-        Player whitePlayer = Application.playerLobby.getPlayer(otherPlayer);
-        Game game = Application.playerLobby.getGameByPlayer(whitePlayer);
+        Player whitePlayer = Application.playerLobby.getPlayers().get(otherPlayer);
+        Game game = Application.gameCenter.getGameByPlayer(whitePlayer);
 
-        //If we have a game, we redirect to home
+        //If we have a null game, we redirect to home
         if (game != null){
             vm.put(TITLE_ATTR, "Welcome");
             vm.put(CURR, httpSession.attribute("Player"));
@@ -94,6 +96,6 @@ public class PostHomeRoute implements Route {
         //Redirect to the game url
         response.redirect(GAME_URL);
 
-        return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+        return null;
     }
 }

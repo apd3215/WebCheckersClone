@@ -17,4 +17,9 @@ public class Move {
         return end;
     }
 
+    @Override
+    public String toString() {
+        return "Start: " + this.start.toString() + " End: " + this.end.toString();
+    }
+
 }
