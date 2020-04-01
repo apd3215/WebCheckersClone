@@ -1,7 +1,7 @@
 package com.webcheckers.model;
 
 import com.webcheckers.appl.Player;
-import com.webcheckers.model.Piece.PieceColor;
+import com.webcheckers.model.Piece.Piece.PieceColor;
 
 import java.util.logging.Logger;
 

@@ -21,11 +21,11 @@ import java.util.Objects;
 public class PostLoginRoute implements Route {
 
     private final TemplateEngine templateEngine;
-    private static final Message NAME_ERR = Message.error("Username cannot be empty AND cannot contain special characters.");
-    private static final Message WRONG = Message.error("Wrong Password OR Username already exists.");
-    private static final Message PASS = Message.error("Password Cannot be empty.");
-    private static final Message ALREADY = Message.error("Player already signed in.");
-    private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+    public static final Message NAME_ERR = Message.error("Username cannot be empty AND cannot contain special characters.");
+    public static final Message WRONG = Message.error("Wrong Password OR Username already exists.");
+    public static final Message PASS = Message.error("Password Cannot be empty.");
+    public static final Message ALREADY = Message.error("Player already signed in.");
+    public static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
 
     private static final String TITLE_ATTR = "title";
     private static final String TITLE = "Sign In";
