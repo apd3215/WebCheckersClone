@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import com.google.gson.Gson;
 import com.webcheckers.util.Message;
+import com.webcheckers.model.Move;
 import com.webcheckers.Application;
 import com.webcheckers.appl.Player;
 import spark.*;
@@ -39,11 +40,10 @@ public class PostValidateMoveRoute implements Route {
     @Override
     public Object handle(Request request, Response response) {
         Session httpSession = request.session();
-        String jsonMove = request.body();
-        Gson gson = new Gson();
-        Message message = gson.fromJson(jsonMove, Message.class);
+        String jsonMove = request.queryParams("actionData");
+        
+
         System.out.println(jsonMove);
-        System.out.println(message);
 
 //        Player curr = httpSession.attribute("Player");
 //        Application.playerLobby.sign_out(curr);

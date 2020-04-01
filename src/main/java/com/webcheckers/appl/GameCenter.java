@@ -15,7 +15,6 @@ public class GameCenter {
         this.GameArrayList = new ArrayList<Game>();
     }
 
-
     /**
      * Adds a new game to the games list.
      */
