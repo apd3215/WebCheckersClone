@@ -63,4 +63,9 @@ public class BoardView implements Iterable<Row> {
         return this.rows.iterator();
     }
 
+
+    public Space getSpace(int row, int col) {
+        return this.rows.get(row).getSpace(col);
+    }
+
 }

@@ -1,12 +1,15 @@
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
+import com.webcheckers.model.Game;
 import com.webcheckers.util.Message;
 import com.webcheckers.model.Move;
 import com.webcheckers.Application;
 import com.webcheckers.appl.Player;
 import spark.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static com.webcheckers.ui.WebServer.HOME_URL;
@@ -39,16 +42,27 @@ public class PostValidateMoveRoute implements Route {
      */
     @Override
     public Object handle(Request request, Response response) {
-        Session httpSession = request.session();
+        final Session httpSession = request.session();
         String jsonMove = request.queryParams("actionData");
         Gson gson = new Gson();
         Move move = gson.fromJson(jsonMove, Move.class);
-        System.out.println(move);
+        Player player = httpSession.attribute("Player");
+        Game game = Application.gameCenter.getGameByPlayer(player);
+        boolean isValid;
+        try {
+            isValid = game.isMoveValid(move);
+            Message message = Message.info("Valid move");
+            String jsonMessage = gson.toJson(message);
+//            response.body(jsonMessage);
+            return jsonMessage;
+        }
+        catch (Exception e ) {
+            String failMessage = e.getMessage();
+            Message message = Message.error(failMessage);
+            String jsonMessage = gson.toJson(message);
+//            response.body(jsonMessage);
+            return jsonMessage;
+        }
 
-//        Player curr = httpSession.attribute("Player");
-//        Application.playerLobby.sign_out(curr);
-//        httpSession.attribute("Player", null);
-//        response.redirect(HOME_URL);
-        return null;
     }
 }

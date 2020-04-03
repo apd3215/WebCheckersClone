@@ -1,6 +1,7 @@
 package com.webcheckers.model;
 
 import com.webcheckers.appl.Player;
+import com.webcheckers.model.Piece.Piece;
 import com.webcheckers.model.Piece.Piece.PieceColor;
 
 import java.util.logging.Logger;
@@ -69,11 +70,48 @@ public class Game {
         return this.boardView;
     }
 
+
+
     /**
      * Returns weather a player object is in the game.
      * @return weather the player object is in this game.
      */
     public Boolean isPlayerInGame(Player player) {
         return redPlayer == player || whitePlayer == player;
+    }
+
+
+    public Boolean isMoveValid(Move move) throws Exception {
+        Position start = move.getStart();
+        Position end = move.getEnd();
+        Space startSpace = boardView.getSpace(start.getRow(), start.getCell());
+        Space endSpace = boardView.getSpace(end.getRow(), end.getCell());
+        Piece beginPiece = startSpace.getPiece();
+        Piece endPiece = endSpace.getPiece();
+
+        // beginning and end must be on black square
+        if (startSpace.getColor() == Space.Color.LIGHT || endSpace.getColor() == Space.Color.LIGHT) {
+            throw new Exception("Pieces only on black squares");
+        }
+        else if (beginPiece == null) {
+            throw new Exception("No piece on start square");
+        }
+        else if (endPiece != null) {
+            throw new Exception("Already a piece present on end square");
+        }
+
+        PieceColor pieceColor = beginPiece.color;
+        // only 1 forward or jump
+        if (pieceColor == PieceColor.RED) {
+            System.out.println(start.getRow() - end.getRow());
+            if (start.getRow() - end.getRow() > 1) {
+                throw new Exception("cannot move more than 1 row unless jumping");
+            }
+        }
+
+        // single piece must move forward
+        // cannot jump own pieces
+        return true;
+
     }
 }

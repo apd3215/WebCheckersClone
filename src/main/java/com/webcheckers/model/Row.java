@@ -101,4 +101,9 @@ public class Row implements Iterable<Space> {
     }
 
     public List<Space> getSpaces(){ return spaces;}
+
+    public Space getSpace(int i) {
+        return this.spaces.get(i);
+    }
+
 }
