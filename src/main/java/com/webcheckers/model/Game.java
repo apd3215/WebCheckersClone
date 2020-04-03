@@ -82,7 +82,7 @@ public class Game {
     }
 
 
-    public Boolean isValidNormalMoveSingle(Move move) throws Exception {
+    private Boolean isValidNormalMoveSingle(Move move) throws Exception {
         Position start = move.getStart();
         Position end = move.getEnd();
         Space startSpace = boardView.getSpace(start.getRow(), start.getCell());
@@ -116,7 +116,7 @@ public class Game {
 
     }
 
-    public Boolean isValidJumpMoveSingle(Move move) {
+    private Boolean isValidJumpMoveSingle(Move move) {
         Position start = move.getStart();
         Position end = move.getEnd();
         Space startSpace = boardView.getSpace(start.getRow(), start.getCell());
@@ -124,23 +124,56 @@ public class Game {
         PieceColor pieceColor = startPiece.color;
         PieceColor myColor;
         PieceColor otherColor;
+        int modifier;
         if (pieceColor == PieceColor.RED) {
+            modifier = -1;
             myColor = PieceColor.RED;
             otherColor = PieceColor.WHITE;
         }
         else {
+            modifier = 1;
             myColor = PieceColor.WHITE;
             otherColor = PieceColor.RED;
         }
         ArrayList<Position> movesToExplore = new ArrayList<>();
-        ArrayList<Position> validJumpMoves = new ArrayList<>();
-        int currRow = start.getRow();
-        int currCol = start.getCell();
-        while (true) {
-//            Space jumpSpace1 =
-            Space space = boardView.getSpace(currRow, currCol);
-
+        movesToExplore.add(start);
+        while (movesToExplore.size() != 0) {
+            Position curr = movesToExplore.remove(0);
+            int currRow = curr.getRow();
+            int currCol = curr.getCell();
+            if (end.getRow() == currRow && end.getCell() == currCol){
+                return true;
+            }
+            Space jumpPos1 = boardView.getSpace(currRow + modifier, currCol + 1);
+            Space jumpPos2 = boardView.getSpace(currRow + modifier, currCol + 1);
+            boolean isJumpPiece1, isJumpPiece2;
+            Piece jumpPiece1, jumpPiece2;
+            Piece landingPiece1, landingPiece2;
+            // there are 2 possible jump directions. -2 and +2 cell change. 2 or -2 row change depending on color
+            if (jumpPos1 != null) {
+                jumpPiece1 = jumpPos1.getPiece();
+                isJumpPiece1 = jumpPiece1.getColor() == otherColor;   //check if there exists a piece to jump
+                if (isJumpPiece1) {
+                    Space landingPos1 = boardView.getSpace(currRow + (2*modifier), currCol + 2);
+                    landingPiece1 = landingPos1.getPiece();
+                    if (landingPiece1 == null) {
+                        movesToExplore.add(new Position(currRow + (2*modifier), currCol + 2));
+                    }
+                }
+            }
+            if (jumpPos2 != null) {
+                jumpPiece2 = jumpPos2.getPiece();
+                isJumpPiece2 = jumpPiece2.getColor() == otherColor;
+                if (isJumpPiece2) {
+                    Space landingPos2 = boardView.getSpace(currRow + (2*modifier), currCol - 2);
+                    landingPiece2 = landingPos2.getPiece();
+                    if (landingPiece2 == null) {
+                        movesToExplore.add(new Position(currRow + (2*modifier), currCol - 2));
+                    }
+                }
+            }
         }
+        return false;
     }
 
     public Boolean isMoveValid(Move move) throws Exception {
