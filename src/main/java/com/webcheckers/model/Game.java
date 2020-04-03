@@ -4,6 +4,7 @@ import com.webcheckers.appl.Player;
 import com.webcheckers.model.Piece.Piece;
 import com.webcheckers.model.Piece.Piece.PieceColor;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 /**
@@ -81,6 +82,49 @@ public class Game {
     }
 
 
+    public Boolean isValidNormalMoveSingle(Move move) {
+        Position start = move.getStart();
+        Position end = move.getEnd();
+        Space startSpace = boardView.getSpace(start.getRow(), start.getCell());
+        Piece beginPiece = startSpace.getPiece();
+        PieceColor pieceColor = beginPiece.color;
+        if (pieceColor == PieceColor.RED) {
+            Boolean validRow = start.getRow() - end.getRow() == 1;
+            Boolean validCell = start.getCell() - end.getCell() == -1 || start.getCell() - end.getCell() == 1;
+            return validRow && validCell;
+        }
+        else {
+            Boolean validRow = end.getRow() - start.getRow() == 1;
+            Boolean validCell = start.getCell() - end.getCell() == -1 || start.getCell() - end.getCell() == 1;
+            return validRow && validCell;
+        }
+    }
+
+    public Boolean isValidSingleMoveJump(Move move) {
+        Position start = move.getStart();
+        Position end = move.getEnd();
+        Space startSpace = boardView.getSpace(start.getRow(), start.getCell());
+        Piece beginPiece = startSpace.getPiece();
+        PieceColor pieceColor = beginPiece.color;
+        PieceColor myColor;
+        PieceColor otherColor;
+        if (pieceColor == PieceColor.RED) {
+            myColor = PieceColor.RED;
+            otherColor = PieceColor.WHITE;
+        }
+        else {
+            myColor = PieceColor.WHITE;
+            otherColor = PieceColor.RED;
+        }
+        ArrayList<Position> movesToExplore = new ArrayList<>();
+        int currRow = start.getRow();
+        int currCol = start.getCell();
+        while (true) {
+            Space space = boardView.getSpace(currRow, currCol);
+
+        }
+    }
+
     public Boolean isMoveValid(Move move) throws Exception {
         Position start = move.getStart();
         Position end = move.getEnd();
@@ -100,14 +144,14 @@ public class Game {
             throw new Exception("Already a piece present on end square");
         }
 
-        PieceColor pieceColor = beginPiece.color;
         // only 1 forward or jump
-        if (pieceColor == PieceColor.RED) {
-            System.out.println(start.getRow() - end.getRow());
-            if (start.getRow() - end.getRow() > 1) {
-                throw new Exception("cannot move more than 1 row unless jumping");
-            }
+//        boolean jumpMove = isValidJumpMove(move);
+        boolean normalMove = isValidNormalMoveSingle(move);
+        if (!normalMove) {
+            throw new Exception("cannot move more than 1 row forward unless jumping");
         }
+
+
 
         // single piece must move forward
         // cannot jump own pieces
