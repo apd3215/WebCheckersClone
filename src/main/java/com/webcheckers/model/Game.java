@@ -82,30 +82,46 @@ public class Game {
     }
 
 
-    public Boolean isValidNormalMoveSingle(Move move) {
+    public Boolean isValidNormalMoveSingle(Move move) throws Exception {
         Position start = move.getStart();
         Position end = move.getEnd();
         Space startSpace = boardView.getSpace(start.getRow(), start.getCell());
-        Piece beginPiece = startSpace.getPiece();
-        PieceColor pieceColor = beginPiece.color;
+        Piece startPiece = startSpace.getPiece();
+        PieceColor pieceColor = startPiece.color;
+        Space endSpace = boardView.getSpace(end.getRow(), end.getCell());
+        Piece endPiece = endSpace.getPiece();
+        if (endPiece != null) {
+            throw new Exception("Piece already present at endPiece");
+        }
+        boolean validRow;
+        boolean validCell;
         if (pieceColor == PieceColor.RED) {
-            Boolean validRow = start.getRow() - end.getRow() == 1;
-            Boolean validCell = start.getCell() - end.getCell() == -1 || start.getCell() - end.getCell() == 1;
-            return validRow && validCell;
+            validRow = start.getRow() - end.getRow() == 1;
+            validCell = start.getCell() - end.getCell() == -1 || start.getCell() - end.getCell() == 1;
         }
         else {
-            Boolean validRow = end.getRow() - start.getRow() == 1;
-            Boolean validCell = start.getCell() - end.getCell() == -1 || start.getCell() - end.getCell() == 1;
-            return validRow && validCell;
+            validRow = end.getRow() - start.getRow() == 1;
+            validCell = start.getCell() - end.getCell() == -1 || start.getCell() - end.getCell() == 1;
         }
+
+        if (!validRow) {
+            throw new Exception("Non-jump must be a difference of 1 row");
+        }
+        else if (!validCell){
+            throw new Exception("Non-jump must be a difference of 1 col");
+        }
+        else {
+            return true;
+        }
+
     }
 
-    public Boolean isValidSingleMoveJump(Move move) {
+    public Boolean isValidJumpMoveSingle(Move move) {
         Position start = move.getStart();
         Position end = move.getEnd();
         Space startSpace = boardView.getSpace(start.getRow(), start.getCell());
-        Piece beginPiece = startSpace.getPiece();
-        PieceColor pieceColor = beginPiece.color;
+        Piece startPiece = startSpace.getPiece();
+        PieceColor pieceColor = startPiece.color;
         PieceColor myColor;
         PieceColor otherColor;
         if (pieceColor == PieceColor.RED) {
@@ -117,9 +133,11 @@ public class Game {
             otherColor = PieceColor.RED;
         }
         ArrayList<Position> movesToExplore = new ArrayList<>();
+        ArrayList<Position> validJumpMoves = new ArrayList<>();
         int currRow = start.getRow();
         int currCol = start.getCell();
         while (true) {
+//            Space jumpSpace1 =
             Space space = boardView.getSpace(currRow, currCol);
 
         }
@@ -130,14 +148,14 @@ public class Game {
         Position end = move.getEnd();
         Space startSpace = boardView.getSpace(start.getRow(), start.getCell());
         Space endSpace = boardView.getSpace(end.getRow(), end.getCell());
-        Piece beginPiece = startSpace.getPiece();
+        Piece startPiece = startSpace.getPiece();
         Piece endPiece = endSpace.getPiece();
 
         // beginning and end must be on black square
         if (startSpace.getColor() == Space.Color.LIGHT || endSpace.getColor() == Space.Color.LIGHT) {
             throw new Exception("Pieces only on black squares");
         }
-        else if (beginPiece == null) {
+        else if (startPiece == null) {
             throw new Exception("No piece on start square");
         }
         else if (endPiece != null) {
@@ -146,16 +164,21 @@ public class Game {
 
         // only 1 forward or jump
 //        boolean jumpMove = isValidJumpMove(move);
-        boolean normalMove = isValidNormalMoveSingle(move);
-        if (!normalMove) {
-            throw new Exception("cannot move more than 1 row forward unless jumping");
+        if (startPiece.getType() == Piece.PieceType.SINGLE) {
+            if (Math.abs(start.getRow() - end.getRow()) == 1) {
+                return isValidNormalMoveSingle(move);
+            }
+            else {
+                return isValidJumpMoveSingle(move);
+            }
+        }
+        else {
+            //TODO KING PIECE
+            throw new Exception("King move not implemented yet");
+
         }
 
 
-
-        // single piece must move forward
-        // cannot jump own pieces
-        return true;
 
     }
 }
