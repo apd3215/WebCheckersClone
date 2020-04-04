@@ -96,6 +96,11 @@ public class Game {
         Piece moved = curr.getPiece();
         curr.setPiece(null);
         end_space.setPiece(moved);
+        if (this.activeColor == PieceColor.RED){
+            this.activeColor = PieceColor.WHITE;
+        } else {
+            this.activeColor = PieceColor.RED;
+        }
     }
 
     private Boolean isValidNormalMoveSingle(Move move) throws Exception {
