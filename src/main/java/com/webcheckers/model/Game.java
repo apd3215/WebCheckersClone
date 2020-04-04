@@ -3,7 +3,9 @@ package com.webcheckers.model;
 import com.webcheckers.appl.Player;
 import com.webcheckers.model.Piece.Piece;
 import com.webcheckers.model.Piece.Piece.PieceColor;
+import com.webcheckers.ui.PostLoginRoute;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -81,6 +83,20 @@ public class Game {
         return redPlayer == player || whitePlayer == player;
     }
 
+
+    public void makeMove(Move move){
+        Position start = move.getStart();
+        Position end = move.getEnd();
+        int currRow = start.getRow();
+        int currCell = start.getCell();
+        int endRow = end.getRow();
+        int endCell = end.getCell();
+        Space curr = this.boardView.getSpace(currRow, currCell);
+        Space end_space = this.boardView.getSpace(endRow, endCell);
+        Piece moved = curr.getPiece();
+        curr.setPiece(null);
+        end_space.setPiece(moved);
+    }
 
     private Boolean isValidNormalMoveSingle(Move move) throws Exception {
         Position start = move.getStart();
