@@ -58,6 +58,7 @@ public class GetGameRoute implements Route {
 
     Map<String, Object> vm = new HashMap<>();
     Player player = httpSession.attribute("Player");
+    httpSession.attribute("resign", "false");
     Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute("Player"));
 
     //TODO: Replace these magic strings with constants!
