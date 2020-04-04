@@ -2,9 +2,9 @@ package com.webcheckers.ui;
 
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
+import com.webcheckers.appl.GameCenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,6 +42,7 @@ public class GetGameRouteTest {
     private Player player;
     private Player otherPlayer;
     private PlayerLobby playerLobby;
+    private GameCenter gameCenter;
 
     /**
      * Setup new mock objects for each test.
@@ -56,9 +57,11 @@ public class GetGameRouteTest {
         player = mock(Player.class);
         otherPlayer = mock(Player.class);
         playerLobby = mock(PlayerLobby.class);
+        gameCenter = mock(GameCenter.class);
 
         //Put mock playerLobby in our application
         Application.playerLobby = playerLobby;
+        Application.gameCenter = gameCenter;
 
         // create a unique CuT for each test
         CuT = new GetGameRoute(engine);
@@ -74,7 +77,7 @@ public class GetGameRouteTest {
 
         //Mock call to playerLobby
         when(session.attribute("Player")).thenReturn(player);
-        when(playerLobby.getGameByPlayer(player)).thenReturn(game);
+        when(gameCenter.getGameByPlayer(player)).thenReturn(game);
 
         //Template engine tester
         final TemplateEngineTester testHelper = new TemplateEngineTester();
@@ -105,7 +108,7 @@ public class GetGameRouteTest {
     @Test
     public void nonexistant_game() {
         when(session.attribute("Player")).thenReturn(player);
-        when(playerLobby.getGameByPlayer(player)).thenReturn(null);
+        when(gameCenter.getGameByPlayer(player)).thenReturn(null);
 
         try {
             CuT.handle(request, response);
@@ -122,7 +125,7 @@ public class GetGameRouteTest {
     public void nonexistant_player() {
         final Game game = new Game(player, otherPlayer);
         when(session.attribute("Player")).thenReturn(null);
-        when(playerLobby.getGameByPlayer(player)).thenReturn(game);
+        when(gameCenter.getGameByPlayer(player)).thenReturn(game);
 
         try {
             CuT.handle(request, response);

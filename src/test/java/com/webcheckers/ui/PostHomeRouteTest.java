@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.webcheckers.appl.GameCenter;
 import com.webcheckers.model.Piece.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,7 @@ public class PostHomeRouteTest {
     private Player player;
     private Player otherPlayer;
     private PlayerLobby playerLobby;
+    private GameCenter gameCenter;
 
     /**
 
@@ -55,9 +57,11 @@ public class PostHomeRouteTest {
         player = mock(Player.class);
         otherPlayer = mock(Player.class);
         playerLobby = mock(PlayerLobby.class);
+        gameCenter = mock(GameCenter.class);
 
         //Put mock playerLobby in our application
         Application.playerLobby = playerLobby;
+        Application.gameCenter = gameCenter;
 
         // create a unique CuT for each test
         CuT = new PostHomeRoute(engine);
@@ -68,11 +72,8 @@ public class PostHomeRouteTest {
      */
     @Test
     public void non_existent_game() {
-
-
         //Mock call to playerLobby
-        when(playerLobby.getGameByPlayer(player)).thenReturn(null);
-        when(playerLobby.getPlayer(null)).thenReturn(otherPlayer);
+        when(Application.gameCenter.getGameByPlayer(player)).thenReturn(null);
         when(session.attribute("Player")).thenReturn(player);
 
         //Template engine tester

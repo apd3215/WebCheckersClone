@@ -25,10 +25,10 @@ public class PostHomeRoute implements Route {
 
     private final TemplateEngine templateEngine;
     private static final String ERR = "%s is already in game. Select Other Player.";
-    private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+    public static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
 
     private static final String TITLE_ATTR = "title";
-    private static final String TITLE = "Make game";
+    public static final String TITLE = "Make game";
     private static final String OTHER = "otherPlayer";
     private static final String MSG = "message";
     private static final String CURR = "currentUser";
