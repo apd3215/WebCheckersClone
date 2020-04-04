@@ -74,7 +74,6 @@ public class Game {
     }
 
 
-
     /**
      * Returns weather a player object is in the game.
      * @return weather the player object is in this game.
@@ -226,8 +225,5 @@ public class Game {
             throw new Exception("King move not implemented yet");
 
         }
-
-
-
     }
 }

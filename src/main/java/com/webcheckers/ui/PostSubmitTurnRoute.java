@@ -22,6 +22,6 @@ public class PostSubmitTurnRoute implements Route {
         httpSession.attribute("last_move", null);
         Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute("Player"));
         game.makeMove(move);
-
+        return null;
     }
 }

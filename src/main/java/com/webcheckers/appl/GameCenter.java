@@ -50,4 +50,9 @@ public class GameCenter {
         return null;
     }
 
+    public void endGame(Game game){
+        GameArrayList.remove(game);
+        return;
+    }
+
 }
