@@ -1,6 +1,8 @@
 package com.webcheckers.appl;
 
 import com.webcheckers.model.Game;
+import com.webcheckers.appl.LoginStatus;
+
 import java.util.Dictionary;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -13,7 +15,6 @@ import java.util.Collections;
 public class PlayerLobby {
     private Dictionary<String, String> Users;
     private Dictionary<String, Player> Players;
-
     private int num_logged_in;
 
     /**
@@ -23,7 +24,6 @@ public class PlayerLobby {
     public PlayerLobby(){
         this.Users = new Hashtable<>();
         this.Players = new Hashtable<>();
-
         this.num_logged_in = 0;
     }
 
@@ -41,12 +41,12 @@ public class PlayerLobby {
      * @param username potential username of a user
      * @return weather the username follows security parameters
      */
-    private boolean check_name(String username) {
+    private boolean check_name(String username){
         boolean first = false;
-        for(int i = 0; i < username.length(); i++) {
-            if (Character.isLetterOrDigit(username.charAt(i))) {
+        for(int i = 0; i < username.length(); i++){
+            if (Character.isLetterOrDigit(username.charAt(i))){
                 first = true;
-            } else if (username.charAt(i) == ' ') {
+            } else if (username.charAt(i) == ' '){
                 continue;
             } else {
                 return false;
@@ -67,6 +67,7 @@ public class PlayerLobby {
             }
         }
         return false;
+
     }
 
     /**
@@ -77,8 +78,8 @@ public class PlayerLobby {
      * @return INVALID_PASS_FORMAT if the password is invalid
      * @return NEW_USER_LOGIN if the user/pass combination is valid and it is a new user
      * @return USER_ALREADY_LOGIN if the user/pass combination is already logged in
-     * @return EXISTING_USER_LOGIN if the user/pass combination is not logged in
-     * @return WRONG_PASS if wrong password or user already exists
+     * @return EXISTING_USER_LOGIN if the user/pass combination is not logged in 
+     * @return WRONG_PASS_OR_USER_EXISTS if wrong password or user already exists
      */
     public LoginStatus sign_in(String username, String password){
         if (!check_name(username)){
@@ -128,19 +129,9 @@ public class PlayerLobby {
      */
     public ArrayList<String> get_logged_names(){
         ArrayList<String> keys = Collections.list(Users.keys());
-        ArrayList<String> logged = new ArrayList<>();
-        for(String name: keys){
-            if (Players.get(name).isLogged() && !Players.get(name).isPlaying()){
-                logged.add(name);
-            }
-        }
-        return logged;
+        return keys;
     }
 
-    /**
-     * Gets an array list of playing users
-     * @return ArrayList of playing users
-     */
     public ArrayList<String> get_playing(){
         ArrayList<String> keys = Collections.list(Users.keys());
         ArrayList<String> playing = new ArrayList<>();
@@ -151,5 +142,4 @@ public class PlayerLobby {
         }
         return playing;
     }
-
 }

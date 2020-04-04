@@ -103,14 +103,14 @@ public class PlayerLobbyTest {
       @Test
       public void test_sign_in_example() {
         //valid and new user
-        assertEquals(LoginStatus.NEW_USER_LOGIN, CuT.sign_in("username", "password"));
+        assertEquals(LoginStatus.NEW_USER_LOGIN, CuT.sign_in("user", "pass"));
         //already logged in
-        assertEquals(LoginStatus.USER_ALREADY_LOGIN, CuT.sign_in("username", "password"));
+        assertEquals(LoginStatus.USER_ALREADY_LOGIN, CuT.sign_in("user", "pass"));
         //sign out a user
-        CuT.sign_out(CuT.getPlayers().get("username"));
+        CuT.sign_out(CuT.getPlayers().get("user"));
         //wrong password or user already exists
-        assertEquals(LoginStatus.WRONG_PASS_OR_USER_EXISTS, CuT.sign_in("username", "anotherpass"));
+        assertEquals(LoginStatus.WRONG_PASS_OR_USER_EXISTS, CuT.sign_in("user", "apass"));
         //existing user login
-        assertEquals(LoginStatus.EXISTING_USER_LOGIN, CuT.sign_in("username", "password"));
+        assertEquals(LoginStatus.EXISTING_USER_LOGIN, CuT.sign_in("user", "pass"));
       }
 }
