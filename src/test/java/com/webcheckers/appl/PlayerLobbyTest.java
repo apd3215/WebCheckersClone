@@ -21,8 +21,9 @@ public class PlayerLobbyTest {
        */
       @Test
       public void test_check_username() {
-        assertTrue(CuT.check_username("test"));
-        assertFalse(CuT.check_username(""));
+        assertTrue(CuT.check_username("normalguy97"));
+        assertFalse(CuT.check_username("s p a c e"));
+        assertFalse(CuT.check_username("ca$hmon3y"))
       }
 
       /**
