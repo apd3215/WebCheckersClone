@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 
 import com.webcheckers.Application;
 import com.webcheckers.util.Message;
+import com.webcheckers.LoginStatus;
 
 import spark.Route;
 import spark.TemplateEngine;
@@ -61,16 +62,16 @@ public class PostLoginRoute implements Route {
 
         //Following if statement checks for password / username validation and redirects
         //the use if necessary.
-        if (logged == 0){
+        if (logged == INVALID_USER_FORMAT){
             vm.put(MSG, NAME_ERR);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
-        } else if (logged == -2){
+        } else if (logged == USER_ALREADY_LOGIN){
             vm.put(MSG, ALREADY);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
-        } else if (logged == -1){
+        } else if (logged == INVALID_PASS_FORMAT){
             vm.put(MSG, PASS);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
-        } else if (logged == 2 || logged == 1){
+        } else if (logged == EXISTING_USER_LOGIN || logged == NEW_USER_LOGIN){
             httpSession.attribute("Player", Application.playerLobby.getPlayers().get(usernameStr));
             vm.put("currentUser", Application.playerLobby.getPlayers().get(usernameStr));
             vm.put(MSG, WELCOME_MSG);

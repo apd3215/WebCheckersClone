@@ -36,7 +36,6 @@ public class PlayerLobby {
         return this.Players;
     }
 
-
     /**
      * Checks if a given username follows security/input sanitation parameters.
      * @param username potential username of a user
@@ -74,36 +73,36 @@ public class PlayerLobby {
      * Signs in a given user with username and password. Checks if username
      * and password are both valid and then adds them to the user table. Signs in
      * user if they have previously signed in, or creates a new account.
-     * @return 0 if the username is invalid
-     * @return -1 if the password is invalid
-     * @return 1 if the user/pass combination is valid and it is a new user
-     * @return -2 if the user/pass combination is already logged in
-     * @return 2 if the user/pass combination is not logged in
-     * @return 3 if wrong password or user already exists
+     * @return INVALID_USER_FORMAT if the username is invalid
+     * @return INVALID_PASS_FORMAT if the password is invalid
+     * @return NEW_USER_LOGIN if the user/pass combination is valid and it is a new user
+     * @return USER_ALREADY_LOGIN if the user/pass combination is already logged in
+     * @return EXISTING_USER_LOGIN if the user/pass combination is not logged in
+     * @return WRONG_PASS if wrong password or user already exists
      */
-    public int sign_in(String username, String password){
+    public LoginStatus sign_in(String username, String password){
         if (!check_name(username)){
-            return 0;
+            return INVALID_USER_FORMAT;
         } if (Users.get(username) == null){
             if (!check_pass(password)){
-                return -1;
+                return INVALID_PASS_FORMAT;
             }
             Users.put(username, password);
             Player player = new Player(username);
             Players.put(username, player);
             this.num_logged_in++;
-            return 1;
+            return NEW_USER_LOGIN;
         } else{
             if(Users.get(username).equals(password)){
                 if (Players.get(username).isLogged()) {
-                    return -2;
+                    return USER_ALREADY_LOGIN;
                 }
                 Players.get(username).login();
                 this.num_logged_in++;
-                return 2;
+                return EXISTING_USER_LOGIN;
             }
         }
-        return 3;
+        return WRONG_PASS;
     }
 
     /**

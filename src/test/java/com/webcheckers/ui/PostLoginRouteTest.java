@@ -16,6 +16,7 @@ import spark.Session;
 
 import com.webcheckers.Application;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.appl.LoginStatus;
 
 import java.util.Hashtable;
 
@@ -111,7 +112,7 @@ public class PostLoginRouteTest {
 
         when(request.queryParams(eq(USERNAME))).thenReturn(USERW);
         when(request.queryParams(eq(PASSWORD))).thenReturn(PASSW);
-        when(playerLobby.sign_in(USERW, PASSW)).thenReturn(-2);
+        when(playerLobby.sign_in(USERW, PASSW)).thenReturn(USER_ALREADY_LOGIN);
 
         // Template engine tester
         final TemplateEngineTester testHelper = new TemplateEngineTester();
@@ -141,7 +142,7 @@ public class PostLoginRouteTest {
 
         when(request.queryParams(eq(USERNAME))).thenReturn(USERW);
         when(request.queryParams(eq(PASSWORD))).thenReturn(empty);
-        when(playerLobby.sign_in(USERW, empty)).thenReturn(-1);
+        when(playerLobby.sign_in(USERW, empty)).thenReturn(INVALID_PASS_FORMAT);
 
         // Template engine tester
         final TemplateEngineTester testHelper = new TemplateEngineTester();
@@ -171,7 +172,7 @@ public class PostLoginRouteTest {
 
         when(request.queryParams(eq(USERNAME))).thenReturn(USERW);
         when(request.queryParams(eq(PASSWORD))).thenReturn(PASSWORD);
-        when(playerLobby.sign_in(USERW, PASSWORD)).thenReturn(3);
+        when(playerLobby.sign_in(USERW, PASSWORD)).thenReturn(WRONG_PASS);
 
         // Template engine tester
         final TemplateEngineTester testHelper = new TemplateEngineTester();
@@ -201,7 +202,7 @@ public class PostLoginRouteTest {
 
         when(request.queryParams(eq(USERNAME))).thenReturn(USERW);
         when(request.queryParams(eq(PASSWORD))).thenReturn(PASSW);
-        when(playerLobby.sign_in(USERW, PASSW)).thenReturn(1);
+        when(playerLobby.sign_in(USERW, PASSW)).thenReturn(NEW_USER_LOGIN);
         Hashtable<String, Player> Players = new Hashtable<>();
         Players.put(USERW, player);
         when(playerLobby.getPlayers()).thenReturn(Players);
