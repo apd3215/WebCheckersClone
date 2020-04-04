@@ -18,8 +18,8 @@ public class Move {
     }
 
     @Override
-public String toString() {
-    return "Start: " + this.start.toString() + " End: " + this.end.toString();
-}
+    public String toString() {
+        return "Start: " + this.start.toString() + " End: " + this.end.toString();
+    }
 
 }
