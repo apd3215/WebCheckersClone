@@ -1,3 +1,4 @@
+package com.webcheckers.appl;
 
 /**
  * Represents login statuses.
@@ -11,5 +12,5 @@ public enum LoginStatus {
     NEW_USER_LOGIN, //1
     EXISTING_USER_LOGIN, //2
     USER_ALREADY_LOGIN, //-2
-    WRONG_PASS //3
+    WRONG_PASS_OR_USER_EXISTS //3
 }

@@ -4,7 +4,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-import com.webcheckers.appl.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +13,7 @@ import spark.Request;
 import spark.Response;
 import spark.Session;
 
+import com.webcheckers.appl.Player;
 import com.webcheckers.Application;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.LoginStatus;
@@ -112,7 +112,7 @@ public class PostLoginRouteTest {
 
         when(request.queryParams(eq(USERNAME))).thenReturn(USERW);
         when(request.queryParams(eq(PASSWORD))).thenReturn(PASSW);
-        when(playerLobby.sign_in(USERW, PASSW)).thenReturn(USER_ALREADY_LOGIN);
+        when(playerLobby.sign_in(USERW, PASSW)).thenReturn(LoginStatus.USER_ALREADY_LOGIN);
 
         // Template engine tester
         final TemplateEngineTester testHelper = new TemplateEngineTester();
@@ -142,7 +142,7 @@ public class PostLoginRouteTest {
 
         when(request.queryParams(eq(USERNAME))).thenReturn(USERW);
         when(request.queryParams(eq(PASSWORD))).thenReturn(empty);
-        when(playerLobby.sign_in(USERW, empty)).thenReturn(INVALID_PASS_FORMAT);
+        when(playerLobby.sign_in(USERW, empty)).thenReturn(LoginStatus.INVALID_PASS_FORMAT);
 
         // Template engine tester
         final TemplateEngineTester testHelper = new TemplateEngineTester();
@@ -172,7 +172,7 @@ public class PostLoginRouteTest {
 
         when(request.queryParams(eq(USERNAME))).thenReturn(USERW);
         when(request.queryParams(eq(PASSWORD))).thenReturn(PASSWORD);
-        when(playerLobby.sign_in(USERW, PASSWORD)).thenReturn(WRONG_PASS);
+        when(playerLobby.sign_in(USERW, PASSWORD)).thenReturn(LoginStatus.WRONG_PASS_OR_USER_EXISTS);
 
         // Template engine tester
         final TemplateEngineTester testHelper = new TemplateEngineTester();
@@ -202,7 +202,7 @@ public class PostLoginRouteTest {
 
         when(request.queryParams(eq(USERNAME))).thenReturn(USERW);
         when(request.queryParams(eq(PASSWORD))).thenReturn(PASSW);
-        when(playerLobby.sign_in(USERW, PASSW)).thenReturn(NEW_USER_LOGIN);
+        when(playerLobby.sign_in(USERW, PASSW)).thenReturn(LoginStatus.NEW_USER_LOGIN);
         Hashtable<String, Player> Players = new Hashtable<>();
         Players.put(USERW, player);
         when(playerLobby.getPlayers()).thenReturn(Players);

@@ -41,12 +41,12 @@ public class PlayerLobby {
      * @param username potential username of a user
      * @return weather the username follows security parameters
      */
-    private boolean check_name(String username){
+    private boolean check_name(String username) {
         boolean first = false;
-        for(int i = 0; i < username.length(); i++){
-            if (Character.isLetterOrDigit(username.charAt(i))){
+        for(int i = 0; i < username.length(); i++) {
+            if (Character.isLetterOrDigit(username.charAt(i))) {
                 first = true;
-            } else if (username.charAt(i) == ' '){
+            } else if (username.charAt(i) == ' ') {
                 continue;
             } else {
                 return false;
@@ -82,27 +82,27 @@ public class PlayerLobby {
      */
     public LoginStatus sign_in(String username, String password){
         if (!check_name(username)){
-            return INVALID_USER_FORMAT;
+            return LoginStatus.INVALID_USER_FORMAT;
         } if (Users.get(username) == null){
             if (!check_pass(password)){
-                return INVALID_PASS_FORMAT;
+                return LoginStatus.INVALID_PASS_FORMAT;
             }
             Users.put(username, password);
             Player player = new Player(username);
             Players.put(username, player);
             this.num_logged_in++;
-            return NEW_USER_LOGIN;
+            return LoginStatus.NEW_USER_LOGIN;
         } else{
             if(Users.get(username).equals(password)){
                 if (Players.get(username).isLogged()) {
-                    return USER_ALREADY_LOGIN;
+                    return LoginStatus.USER_ALREADY_LOGIN;
                 }
                 Players.get(username).login();
                 this.num_logged_in++;
-                return EXISTING_USER_LOGIN;
+                return LoginStatus.EXISTING_USER_LOGIN;
             }
         }
-        return WRONG_PASS;
+        return LoginStatus.WRONG_PASS_OR_USER_EXISTS;
     }
 
     /**

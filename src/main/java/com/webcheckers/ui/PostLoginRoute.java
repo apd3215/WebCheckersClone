@@ -3,7 +3,7 @@ package com.webcheckers.ui;
 
 import com.webcheckers.Application;
 import com.webcheckers.util.Message;
-import com.webcheckers.LoginStatus;
+import com.webcheckers.appl.LoginStatus;
 
 import spark.Route;
 import spark.TemplateEngine;
@@ -58,20 +58,20 @@ public class PostLoginRoute implements Route {
         final String usernameStr = request.queryParams(USERNAME);
         final String passStr = request.queryParams(PASSWORD);
 
-        int logged = Application.playerLobby.sign_in(usernameStr, passStr);
+        LoginStatus logged = Application.playerLobby.sign_in(usernameStr, passStr);
 
         //Following if statement checks for password / username validation and redirects
         //the use if necessary.
-        if (logged == INVALID_USER_FORMAT){
+        if (logged == LoginStatus.INVALID_USER_FORMAT){
             vm.put(MSG, NAME_ERR);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
-        } else if (logged == USER_ALREADY_LOGIN){
+        } else if (logged == LoginStatus.USER_ALREADY_LOGIN){
             vm.put(MSG, ALREADY);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
-        } else if (logged == INVALID_PASS_FORMAT){
+        } else if (logged == LoginStatus.INVALID_PASS_FORMAT){
             vm.put(MSG, PASS);
             return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
-        } else if (logged == EXISTING_USER_LOGIN || logged == NEW_USER_LOGIN){
+        } else if (logged == LoginStatus.EXISTING_USER_LOGIN || logged == LoginStatus.NEW_USER_LOGIN){
             httpSession.attribute("Player", Application.playerLobby.getPlayers().get(usernameStr));
             vm.put("currentUser", Application.playerLobby.getPlayers().get(usernameStr));
             vm.put(MSG, WELCOME_MSG);

@@ -1,5 +1,16 @@
 package com.webcheckers.appl;
 
+import com.webcheckers.appl.LoginStatus;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.Dictionary;
+import java.util.ArrayList;
+import java.util.Collections;
+
 /**
  * PlayerLobbyTest is a testing suite for PlayerLobby
  * @author Joshua Yoder
@@ -8,36 +19,41 @@ public class PlayerLobbyTest {
     /**
      * The component under test (CuT).
      */
-    private PlayerLobby CuT;
+    private PlayerLobby CuT; 
 
     /**
-     * Mock classes
+     * Setup by logging in example users.
      */
-     
-
-    assertTrue(CuT.check_username("normalguy97"));
-    assertFalse(CuT.check_username("s p a c e"));
-    assertFalse(CuT.check_username("ca$hmon3y"));
+     @BeforeEach
+     public void setup() {
+        CuT = new PlayerLobby();
+        CuT.sign_in("user1", "pass1");
+        CuT.sign_in("user2", "pass2");
+     }
 
       /**
-       * Check various sign-in combinations.
+       * Check sign-in user/pass combinations.
+       * Focuses on invalid username and password formating.
        */
       @Test
-      public void test_sign_in() {
+      public void test_sign_in_format() {
         //invalid username examples
+        assertEquals(LoginStatus.INVALID_USER_FORMAT, CuT.sign_in("u$ern@me", "password"));
         //invalid password examples
-        //valid and new user
-        //already logged in
-        //existing user login
-        //wrong password and user already exists
+        assertEquals(LoginStatus.INVALID_PASS_FORMAT, CuT.sign_in("username", ""));
+        assertEquals(LoginStatus.INVALID_PASS_FORMAT, CuT.sign_in("username", " "));
       }
     
       /**
       * Check if dictionary is valid and contains players.
       */
       @Test
-      public void get_players() {
-
+      public void test_get_players() {
+        Dictionary<String, Player> playerDict = CuT.getPlayers();
+        assertNotNull(playerDict);
+        assertEquals(2, playerDict.size());
+        assertNotNull(playerDict.get("user1"));
+        assertNotNull(playerDict.get("user2"));
       }
 
       /**
@@ -45,7 +61,7 @@ public class PlayerLobbyTest {
        */
       @Test
       public void test_getnum() {
-
+        assertEquals(2, CuT.getNum_logged_in());
       }
 
       /**
@@ -53,7 +69,11 @@ public class PlayerLobbyTest {
        */
       @Test
       public void test_get_logged() {
-
+        ArrayList<String> loggedNames = CuT.get_logged_names();
+        assertNotNull(loggedNames);
+        assertEquals(2, loggedNames.size());
+        assertTrue(loggedNames.contains("user1"));
+        assertTrue(loggedNames.contains("user2"));
       }
 
       /**
@@ -61,15 +81,36 @@ public class PlayerLobbyTest {
        */
       @Test
       public void test_get_playing() {
-
+        ArrayList<String> playing = CuT.get_playing();
+        assertNotNull(playing);
+        assertEquals(0, playing.size());
+        assertFalse(playing.contains("user1"));
+        assertFalse(playing.contains("user2"));
       }
 
       /**
-       * Test successful sign out of players
+       * Sign out players
        */
       @Test
       public void test_sign_out() {
-
+        CuT.sign_out(CuT.getPlayers().get("user1"));
+        CuT.sign_out(CuT.getPlayers().get("user2"));
       }
 
+      /**
+       * Tests an example sign in/out/back in scenario.
+       */
+      @Test
+      public void test_sign_in_example() {
+        //valid and new user
+        assertEquals(LoginStatus.NEW_USER_LOGIN, CuT.sign_in("username", "password"));
+        //already logged in
+        assertEquals(LoginStatus.USER_ALREADY_LOGIN, CuT.sign_in("username", "password"));
+        //sign out a user
+        CuT.sign_out(CuT.getPlayers().get("username"));
+        //wrong password or user already exists
+        assertEquals(LoginStatus.WRONG_PASS_OR_USER_EXISTS, CuT.sign_in("username", "anotherpass"));
+        //existing user login
+        assertEquals(LoginStatus.EXISTING_USER_LOGIN, CuT.sign_in("username", "password"));
+      }
 }
