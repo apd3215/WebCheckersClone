@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
 
 import com.webcheckers.appl.GameCenter;
 import com.webcheckers.model.Piece.Piece;
@@ -19,6 +20,10 @@ import com.webcheckers.Application;
 import com.webcheckers.appl.Player;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Game;
+
+import java.util.Dictionary;
+import java.util.Hashtable;
+import java.util.Collections;
 
 /**
  * PostHomeRouteTest is a testing suite for the GetGameRoute class.
@@ -59,6 +64,13 @@ public class PostHomeRouteTest {
         playerLobby = mock(PlayerLobby.class);
         gameCenter = mock(GameCenter.class);
 
+        //Create ArrayList of players
+        Dictionary<String, Player> players = new Hashtable();
+        players.put("player", player);
+        players.put("otherPlayer", otherPlayer);
+        when(playerLobby.getPlayers()).thenReturn(players);
+        when(playerLobby.get_logged_names()).thenReturn(Collections.list(players.keys()));
+
         //Put mock playerLobby in our application
         Application.playerLobby = playerLobby;
         Application.gameCenter = gameCenter;
@@ -73,7 +85,8 @@ public class PostHomeRouteTest {
     @Test
     public void non_existent_game() {
         //Mock call to playerLobby
-        when(Application.gameCenter.getGameByPlayer(player)).thenReturn(null);
+        when(request.queryParams("otherPlayer")).thenReturn("otherPlayer");
+        when(gameCenter.getGameByPlayer(player)).thenReturn(null);
         when(session.attribute("Player")).thenReturn(player);
 
         //Template engine tester
@@ -83,19 +96,6 @@ public class PostHomeRouteTest {
         //Call handle on the CuT
         CuT.handle(request, response);
 
-        //Test viewmodel
-        testHelper.assertViewModelExists();
-        testHelper.assertViewModelIsaMap();
-
-        //Test
-        final Session httpSession = request.session();
-        testHelper.assertViewModelAttribute("title", PostHomeRoute.TITLE);
-        testHelper.assertViewModelAttribute("message", PostHomeRoute.WELCOME_MSG);
-        testHelper.assertViewModelAttribute("currentUser", player);
-        testHelper.assertViewModelAttribute("redPlayer", player);
-        testHelper.assertViewModelAttribute("whitePlayer", otherPlayer);
-        testHelper.assertViewModelAttribute("viewMode", Game.ViewMode.PLAY);
-        testHelper.assertViewModelAttribute("activeColor", Piece.PieceColor.RED);
+        verify(response).redirect("/game");
     }
-
 }

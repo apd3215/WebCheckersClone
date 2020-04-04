@@ -7,10 +7,6 @@ package com.webcheckers.model.Piece;
  */
 public abstract class Piece {
   /**
-   * Enum, either a single piece or a king piece.
-   */
-
-  /**
    * Enum, either a white or red piece.
    */
   public enum PieceColor {WHITE, RED}

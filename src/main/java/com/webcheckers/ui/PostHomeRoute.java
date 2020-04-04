@@ -77,7 +77,7 @@ public class PostHomeRoute implements Route {
             return null;
         }
 
-        //The following occurs (new game is creates)
+        //The following occurs (new game is created)
 
         Player currentPlayer = httpSession.attribute("Player");
         Game newGame = new Game(currentPlayer, whitePlayer);

@@ -67,7 +67,6 @@ public class PostLoginRouteTest {
         playerLobby.sign_in(USERW, PASSW);
         player = mock(Player.class);
 
-
         //Put mock playerLobby in our application
         Application.playerLobby = playerLobby;
 
@@ -83,6 +82,7 @@ public class PostLoginRouteTest {
 
         when(request.queryParams(eq(USERNAME))).thenReturn(empty);
         when(request.queryParams(eq(PASSWORD))).thenReturn(empty);
+        when(playerLobby.sign_in(empty, empty)).thenReturn(LoginStatus.INVALID_USER_FORMAT);
 
         // Template engine tester
         final TemplateEngineTester testHelper = new TemplateEngineTester();
@@ -150,7 +150,7 @@ public class PostLoginRouteTest {
 
         //call handle on the CuT
         CuT.handle(request, response);
-        System.out.println(Application.playerLobby.sign_in(USERW, empty));
+        Application.playerLobby.sign_in(USERW, empty);
 
         //Test viewmodel
         testHelper.assertViewModelExists();
