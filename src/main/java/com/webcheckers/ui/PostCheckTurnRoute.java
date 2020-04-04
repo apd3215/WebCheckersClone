@@ -30,6 +30,17 @@ public class PostCheckTurnRoute implements Route {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required!");
     }
 
+    /**
+     * Checks to see if the opponent has submitted their turn.
+     *
+     * @param request
+     *   the HTTP request
+     * @param response
+     *   the HTTP response
+     *
+     * @return
+     *   the rendered HTML for the home page
+     */
     @Override
     public Object handle(Request request, Response response){
         final Session httpSession = request.session();

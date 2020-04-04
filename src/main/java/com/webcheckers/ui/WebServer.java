@@ -59,6 +59,7 @@ public class WebServer {
   public static final String VALIDATE_URL = "/validateMove";
   public static final String SUBMIT_URL = "/submitTurn";
   public static final String BACKUP_URL = "/backupMove";
+  public static final String CHECKTURN_URL = "/checkTurn";
   public static final String RESIGN_URL = "/resignGame";
 
 
@@ -153,6 +154,7 @@ public class WebServer {
     post(OUT_URL, new PostSignOutRoute(templateEngine));
     post(VALIDATE_URL, new PostValidateMoveRoute(templateEngine));
     post(SUBMIT_URL, new PostSubmitTurnRoute(templateEngine));
+    post(CHECKTURN_URL, new PostCheckTurnRoute(templateEngine));
 //    post(BACKUP_URL, new PostBackUpMoveRoute(templateEngine));
 
 
