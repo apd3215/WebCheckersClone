@@ -53,14 +53,14 @@ public class PostValidateMoveRoute implements Route {
             isValid = game.isMoveValid(move);
             Message message = Message.info("Valid move");
             String jsonMessage = gson.toJson(message);
-//            response.body(jsonMessage);
+            response.body(jsonMessage);
             return jsonMessage;
         }
         catch (Exception e ) {
             String failMessage = e.getMessage();
             Message message = Message.error(failMessage);
             String jsonMessage = gson.toJson(message);
-//            response.body(jsonMessage);
+            response.body(jsonMessage);
             return jsonMessage;
         }
 

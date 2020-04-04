@@ -152,7 +152,7 @@ public class WebServer {
     post(HOME_URL, new PostLoginRoute(templateEngine)); //Post login (from login to home)
     post(OUT_URL, new PostSignOutRoute(templateEngine));
     post(VALIDATE_URL, new PostValidateMoveRoute(templateEngine));
-//    post(SUBMIT_URL, new PostSubmitTurnRoute(templateEngine));
+    post(SUBMIT_URL, new PostSubmitTurnRoute(templateEngine));
 //    post(BACKUP_URL, new PostBackUpMoveRoute(templateEngine));
 
 
