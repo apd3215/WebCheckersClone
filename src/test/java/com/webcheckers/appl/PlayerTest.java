@@ -1,6 +1,5 @@
 package com.webcheckers.appl;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

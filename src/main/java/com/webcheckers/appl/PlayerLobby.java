@@ -138,6 +138,10 @@ public class PlayerLobby {
         return logged;
     }
 
+    /**
+     * Gets an array list of playing users
+     * @return ArrayList of playing users
+     */
     public ArrayList<String> get_playing(){
         ArrayList<String> keys = Collections.list(Users.keys());
         ArrayList<String> playing = new ArrayList<>();

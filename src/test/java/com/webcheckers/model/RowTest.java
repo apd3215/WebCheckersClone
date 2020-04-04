@@ -12,7 +12,7 @@ import com.webcheckers.model.Piece.Piece;
 
 /**
  * Test class for space object
- * author: Andre Da Costa
+ * @author Andre Da Costa
  */
 public class RowTest {
     /**

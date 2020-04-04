@@ -7,9 +7,15 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
 
-
+/**
+ * BoardViewTest is a test class for BoardView
+ * @author Joe Netti
+ */
 public class BoardViewTest {
 
+    /**
+     * Test to ensure light spaces are empty.
+     */
     @Test
     public void light_spaces_empty() {
         final BoardView CuT = new BoardView();
@@ -29,7 +35,9 @@ public class BoardViewTest {
         }
     }
 
-
+    /**
+     * Test to ensure white pieces are initialized properly.
+     */
     @Test
     public void white_pieces_init() {
         final BoardView CuT = new BoardView();
@@ -58,7 +66,9 @@ public class BoardViewTest {
         }
     }
 
-
+    /**
+     * Test to ensure red pieces are initialized properly.
+     */
     @Test
     public void red_pieces_init() {
         final BoardView CuT = new BoardView();

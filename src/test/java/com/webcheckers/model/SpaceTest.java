@@ -10,7 +10,7 @@ import com.webcheckers.model.Piece.Piece;
 
 /**
  * Test class for space object
- * author: Dhaval Shrishrimal
+ * @author Dhaval Shrishrimal
  */
 public class SpaceTest {
     /**
