@@ -7,6 +7,8 @@ import com.webcheckers.model.Move;
 import com.webcheckers.util.Message;
 import spark.*;
 
+import static spark.Spark.post;
+
 public class PostSubmitTurnRoute implements Route {
 
     private final TemplateEngine templateEngine;
@@ -22,11 +24,20 @@ public class PostSubmitTurnRoute implements Route {
         Move move = httpSession.attribute(SessionAttributes.LAST_MOVE);
         httpSession.attribute(SessionAttributes.LAST_MOVE, null);
         Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute(SessionAttributes.PLAYER));
-        game.makeMove(move);
         Gson gson = new Gson();
-        Message message = Message.info("true");
-        String move_json = gson.toJson(message);
-        response.body(move_json);
-        return move_json;
+        Message message;
+        if (game.makeMove(move)) {
+            message = Message.info("true");
+            String move_json = gson.toJson(message);
+            response.body(move_json);
+            return move_json;
+        } else {
+            message = Message.error("Jump moves possible.");
+            String move_json = gson.toJson(message);
+            response.body(move_json);
+            post("/backup", new PostBackUpMoveRoute(templateEngine));
+            return move_json;
+        }
+
     }
 }
