@@ -251,11 +251,13 @@ public class Game {
                     if ( (endCell - currCell) == 2){ // coming from left to right
                         int capturedCell = endCell -1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
+                        this.turn.add_capture(captured.getPiece());
                         captured.setPiece(null);
                     }
                     else if ((endCell - currCell) == -2){ // coming from right to left
                         int capturedCell = endCell +1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
+                        this.turn.add_capture(captured.getPiece());
                         captured.setPiece(null);
                     }
             } else { // if White player makes the jump move
@@ -263,11 +265,13 @@ public class Game {
                     if ((endCell - currCell) == 2){ //coming from left to right but from white's perspective
                         int capturedCell = endCell - 1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
+                        this.turn.add_capture(captured.getPiece());
                         captured.setPiece(null);
                     }
                     else if ((endCell - currCell) == -2){
                         int capturedCell = endCell + 1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
+                        this.turn.add_capture(captured.getPiece());
                         captured.setPiece(null);
                     }
             }
