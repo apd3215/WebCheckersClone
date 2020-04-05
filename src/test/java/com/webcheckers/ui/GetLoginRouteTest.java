@@ -1,6 +1,5 @@
 package com.webcheckers.ui;
 
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -9,18 +8,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import spark.TemplateEngine;
-import spark.HaltException;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Session;
-
-import com.webcheckers.Application;
-import com.webcheckers.appl.Player;
-import com.webcheckers.appl.PlayerLobby;
-import com.webcheckers.model.Game;
-import com.webcheckers.ui.GetGameRoute;
-import com.webcheckers.ui.TemplateEngineTester;
 
 /**
  * GetGameRouteTest is a testing suite for the GetGameRoute class.
