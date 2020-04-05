@@ -106,28 +106,13 @@ public class GetGameRouteTest {
         when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
         when(gameCenter.getGameByPlayer(player)).thenReturn(null);
 
-        try {
-            CuT.handle(request, response);
-            fail("Game is not nonexistant!");
-        } catch (NullPointerException e) {
-            //expected
-        }
-    }
+        //Template engine tester
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
-    /**
-     * Test for nonexistant player
-     */
-    @Test
-    public void nonexistant_player() {
-        final Game game = new Game(player, otherPlayer);
-        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(null);
-        when(gameCenter.getGameByPlayer(player)).thenReturn(game);
+        //Call handle on the CuT
+        CuT.handle(request, response);
 
-        try {
-            CuT.handle(request, response);
-            fail("Player is not nonexistant!");
-        } catch (NullPointerException e) {
-            //expected
-        }
+        verify(response).redirect(WebServer.HOME_URL);
     }
 }

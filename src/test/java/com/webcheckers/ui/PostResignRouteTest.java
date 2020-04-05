@@ -68,9 +68,9 @@ public class PostResignRouteTest {
      * Test 
      */
     @Test
-    public void test_resign() {
+    public void test_resign_notnull() {
         //Mock attr
-        when(gameCenter.getGameByPlayer(player)).thenReturn(game);
+        when(gameCenter.getGameByPlayer(player)).thenReturn(game).thenReturn(null);
         when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
         when(session.attribute(SessionAttributes.LAST_MOVE)).thenReturn(lastMove);
         
@@ -83,4 +83,22 @@ public class PostResignRouteTest {
 
         assertEquals("{\"text\":\"Successful\",\"type\":\"INFO\"}", json);
     }
+
+    @Test
+    public void test_resign_null() {
+        //Mock attr
+        when(gameCenter.getGameByPlayer(player)).thenReturn(null);
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(session.attribute(SessionAttributes.LAST_MOVE)).thenReturn(lastMove);
+        
+        //Template engine tester
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+
+        //Call handle on the CuT
+        Object json = CuT.handle(request, response);
+
+        assertEquals("{\"text\":\"Successful\",\"type\":\"INFO\"}", json);
+    }
+
 }
