@@ -22,9 +22,11 @@ public class PositionTest {
 
     /**
      * Test accessors and mutators
+     * 
+     * @throws Exception
      */
     @Test
-    public void test_attr() {
+    public void test_attr() throws Exception {
         CuT = new Position(4,5);
         assertEquals(4, CuT.getRow());
         assertEquals(5, CuT.getCell());
@@ -32,9 +34,11 @@ public class PositionTest {
 
     /**
      * Smoke test for toString
+     * 
+     * @throws Exception
      */
     @Test
-    public void test_toString() {
+    public void test_toString() throws Exception {
         CuT = new Position(4,5);
         assertEquals("Row: 4 Col: 5", CuT.toString());
     }

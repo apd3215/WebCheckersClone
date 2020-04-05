@@ -284,12 +284,18 @@ public class Game {
     public Boolean isMoveValid(Move move) throws Exception {
         Position start = move.getStart();
         Position end = move.getEnd();
+
+        System.out.println(start);
+
+        if (start.getRow() > 7 || start.getCell() > 7 || start.getRow() < 0 || start.getCell() < 0) {
+            throw new Exception("Index request out of bounds");
+        } 
+
         Space startSpace = boardView.getSpace(start.getRow(), start.getCell());
         Space endSpace = boardView.getSpace(end.getRow(), end.getCell());
         Piece startPiece = startSpace.getPiece();
         Piece endPiece = endSpace.getPiece();
 
-        // beginning and end must be on black square
         if (startSpace.getColor() == Space.Color.LIGHT || endSpace.getColor() == Space.Color.LIGHT) {
             throw new Exception("Pieces only on black squares");
         }
