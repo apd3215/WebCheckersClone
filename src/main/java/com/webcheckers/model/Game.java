@@ -1,6 +1,7 @@
 package com.webcheckers.model;
 
 import com.webcheckers.appl.Player;
+import com.webcheckers.model.Piece.King_Piece;
 import com.webcheckers.model.Piece.Piece;
 import com.webcheckers.model.Piece.Piece.PieceColor;
 import com.webcheckers.ui.PostLoginRoute;
@@ -83,8 +84,80 @@ public class Game {
         return redPlayer == player || whitePlayer == player;
     }
 
+    private boolean check_UpRight(int i, int j){
+        if (i > 5 || j > 5){
+            return true;
+        } else {
+            Piece p1 = boardView.getSpace(i+1, j+1).getPiece();
+            Piece p2 = boardView.getSpace(i+2, j+2).getPiece();
+            return !(p2 == null && p1 != null && p1.getColor() != this.activeColor);
+        }
+    }
 
-    public void makeMove(Move move){
+    private boolean check_UpLeft(int i, int j){
+        if (i > 5 || j < 2){
+            return true;
+        } else {
+            Piece p1 = boardView.getSpace(i+1, j-1).getPiece();
+            Piece p2 = boardView.getSpace(i+2, j-2).getPiece();
+            return !(p2 == null && p1 != null && p1.getColor() != this.activeColor);
+        }
+    }
+
+    private boolean check_DownRight(int i, int j){
+        if (i < 2 || j > 5){
+            return true;
+        } else {
+            Piece p1 = boardView.getSpace(i-1, j+1).getPiece();
+            Piece p2 = boardView.getSpace(i-2, j+2).getPiece();
+            return !(p2 == null && p1 != null && p1.getColor() != this.activeColor);
+        }
+    }
+
+    private boolean check_DownLeft(int i, int j){
+        if (i < 2 || j < 2){
+            return true;
+        } else {
+            Piece p1 = boardView.getSpace(i-1, j-1).getPiece();
+            Piece p2 = boardView.getSpace(i-2, j-2).getPiece();
+            return !(p2 == null && p1 != null && p1.getColor() != this.activeColor);
+        }
+    }
+
+    public boolean check_board(){
+        boolean b = true;
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                if (boardView.getSpace(i,j).getPiece() == null) {
+                    continue;
+                } else if (boardView.getSpace(i, j).getPiece() instanceof King_Piece){
+                    boolean temp = check_DownLeft(i,j) && check_DownRight(i,j) && check_UpLeft(i,j)
+                            && check_UpRight(i,j);
+                    if (!temp){
+                        return false;
+                    }
+                } else if (boardView.getSpace(i,j).getPiece().getColor() == this.activeColor &&
+                                                this.activeColor == PieceColor.WHITE){
+                    boolean temp = check_UpLeft(i,j) && check_UpRight(i,j);
+                    System.out.println(check_UpLeft(i,j));
+                    System.out.println(check_UpRight(i,j));
+                    if (!temp){
+                        return false;
+                    }
+                } else if (boardView.getSpace(i,j).getPiece().getColor() == this.activeColor &&
+                                                this.activeColor == PieceColor.RED){
+                    boolean temp = check_DownLeft(i,j) && check_DownRight(i,j);
+                    if (!temp){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+
+    public boolean makeMove(Move move){
         Position start = move.getStart();
         Position end = move.getEnd();
         int currRow = start.getRow();
@@ -122,6 +195,10 @@ public class Game {
                     }
             }
 
+        } else {
+            if (!check_board()){
+                return false;
+            }
         }
         curr.setPiece(null);
         end_space.setPiece(moved);
@@ -132,6 +209,7 @@ public class Game {
         } else {
             this.activeColor = PieceColor.RED;
         }
+        return true;
     }
 
     private Boolean isValidNormalMoveSingle(Move move) throws Exception {

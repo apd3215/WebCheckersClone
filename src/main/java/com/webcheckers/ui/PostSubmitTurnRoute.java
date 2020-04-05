@@ -22,9 +22,13 @@ public class PostSubmitTurnRoute implements Route {
         Move move = httpSession.attribute("last_move");
         httpSession.attribute("last_move", null);
         Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute("Player"));
-        game.makeMove(move);
         Gson gson = new Gson();
-        Message message = Message.info("true");
+        Message message;
+        if (game.makeMove(move)) {
+            message = Message.info("true");
+        } else {
+            message = Message.error("Jump moves possible");
+        }
         String move_json = gson.toJson(message);
         response.body(move_json);
         return move_json;
