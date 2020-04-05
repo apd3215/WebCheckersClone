@@ -18,6 +18,10 @@ import spark.Session;
 
 import com.webcheckers.util.Message;
 
+import static com.webcheckers.ui.WebServer.GAME_URL;
+import static spark.Spark.get;
+import static spark.Spark.redirect;
+
 /**
  * The UI Controller to GET the game route.
  */
@@ -33,8 +37,7 @@ public class GetGameRoute implements Route {
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
    *
-   * @param templateEngine
-   *   the HTML template rendering engine
+   * @param templateEngine the HTML template rendering engine
    */
   public GetGameRoute(final TemplateEngine templateEngine) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
@@ -45,13 +48,9 @@ public class GetGameRoute implements Route {
   /**
    * Render the WebCheckers Game route.
    *
-   * @param request
-   *   the HTTP request
-   * @param response
-   *   the HTTP response
-   *
-   * @return
-   *   the rendered HTML for the Game page
+   * @param request  the HTTP request
+   * @param response the HTTP response
+   * @return the rendered HTML for the Game page
    */
   @Override
   public Object handle(Request request, Response response) {
@@ -59,20 +58,26 @@ public class GetGameRoute implements Route {
     final Session httpSession = request.session();
 
     Map<String, Object> vm = new HashMap<>();
+    
     Player player = httpSession.attribute(SessionAttributes.PLAYER);
-    httpSession.attribute(SessionAttributes.RESIGN, "false");
     Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute(SessionAttributes.PLAYER));
 
-    vm.put(VMAttributes.TITLE, GAME_TITLE);
-    vm.put(VMAttributes.MESSAGE, WELCOME_MSG);
-    vm.put(VMAttributes.CURRENT_USER, player);
-    vm.put(VMAttributes.RED_PLAYER, game.getRedPlayer());
-    vm.put(VMAttributes.WHITE_PLAYER, game.getWhitePlayer());
-    vm.put(VMAttributes.VIEW_MODE, Game.ViewMode.PLAY);
-    vm.put(VMAttributes.BOARD, game.getBoardView());
-    vm.put(VMAttributes.ACTIVE_COLOR, game.getActiveColor());
+    if (game != null) {
+      vm.put(VMAttributes.TITLE, GAME_TITLE);
+      vm.put(VMAttributes.MESSAGE, WELCOME_MSG);
+      vm.put(VMAttributes.CURRENT_USER, player);
+      vm.put(VMAttributes.RED_PLAYER, game.getRedPlayer());
+      vm.put(VMAttributes.WHITE_PLAYER, game.getWhitePlayer());
+      vm.put(VMAttributes.VIEW_MODE, Game.ViewMode.PLAY);
+      vm.put(VMAttributes.BOARD, game.getBoardView());
+      vm.put(VMAttributes.ACTIVE_COLOR, game.getActiveColor());
 
-    return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+
+      return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+    }
+    else{
+      response.redirect(WebServer.HOME_URL);
+      return null;
+    }
   }
-
 }
