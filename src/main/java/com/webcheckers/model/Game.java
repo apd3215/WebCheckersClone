@@ -25,6 +25,7 @@ public class Game {
     private BoardView boardView;
     private boolean isGameOver;
     private Player isResigned;
+    private Turn turn;
 
     /**
      * Enum representing the view mode (player, spectator, replay)
@@ -42,9 +43,14 @@ public class Game {
         this.whitePlayer = whitePlayer;
         this.activeColor = PieceColor.RED;
         this.boardView = new BoardView();
+        this.turn = new Turn();
         boardView.setBoard();
         this.isGameOver = false;
         this.isResigned = null;
+    }
+
+    public Turn getTurn(){
+        return this.turn;
     }
 
     /**
@@ -232,7 +238,7 @@ public class Game {
         Space endSpace = boardView.getSpace(end.getRow(), end.getCell());
         Piece endPiece = endSpace.getPiece();
         if (endPiece != null) {
-            throw new Exception("Piece already present at endPiece");
+            throw new Exception("Piece already present at endPiece.");
         }
         boolean validRow;
         boolean validCell;
@@ -246,10 +252,10 @@ public class Game {
         }
 
         if (!validRow) {
-            throw new Exception("Non-jump must be a difference of 1 row");
+            throw new Exception("Non-jump must be a difference of 1 row.");
         }
         else if (!validCell){
-            throw new Exception("Non-jump must be a difference of 1 col");
+            throw new Exception("Non-jump must be a difference of 1 col.");
         }
         else {
             return true;
