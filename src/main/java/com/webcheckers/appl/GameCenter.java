@@ -50,7 +50,6 @@ public class GameCenter {
         return null;
     }
 
-
     public void endGame(Game game){
         game.getRedPlayer().endGamePlayer();
         game.getWhitePlayer().endGamePlayer();
