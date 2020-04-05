@@ -58,6 +58,7 @@ public class PostCheckTurnRoute implements Route {
             else {
                 callerColor = Piece.PieceColor.WHITE;
             }
+
             while ( callerColor != game.getActiveColor() ){
                 if (httpSession.attribute("resign").equals("true")) {
                     get(HOME_URL, new GetHomeRoute(templateEngine)); //Home route (default)

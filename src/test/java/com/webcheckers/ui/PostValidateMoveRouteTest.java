@@ -100,11 +100,9 @@ public class PostValidateMoveRouteTest {
 
         //Send an example move
         String jsonMove = "{\"start\":{\"row\":9,\"cell\":9},\"end\":{\"row\":8,\"cell\":8}}";
-        when(request.queryParams("actionData"))
-          .thenReturn(jsonMove);
-        Gson gson = new Gson();
-        Move move = gson.fromJson(jsonMove, Move.class);
-        when(game.isMoveValid(move)).thenThrow(new Exception("Index request out of bounds"));
+        when(request.queryParams("actionData")).thenReturn(jsonMove);
+        //This will suffice, isMoveValid only called once (on invalid move).
+        when(game.isMoveValid(any(Move.class))).thenThrow(new Exception("Index request out of bounds"));
         
         //Template engine tester
         final TemplateEngineTester testHelper = new TemplateEngineTester();
@@ -115,6 +113,6 @@ public class PostValidateMoveRouteTest {
 
         //System.out.println(json);
 
-        assertEquals("{\"text\":\"Index request out of bounds\",\"type\":\"INFO\"}", json);
+        assertEquals("{\"text\":\"Index request out of bounds\",\"type\":\"ERROR\"}", json);
     }
 }
