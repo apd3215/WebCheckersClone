@@ -12,6 +12,7 @@ import spark.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import static com.webcheckers.ui.WebServer.HOME_URL;
 import static spark.Spark.get;
@@ -25,6 +26,7 @@ public class PostCheckTurnRoute implements Route {
 
     /**
      * Create the Spark Route (UI controller) to handle all {@code POST /} HTTP requests.
+     *
      * @param templateEngine the HTML template rendering engine
      */
     public PostCheckTurnRoute(final TemplateEngine templateEngine) {
@@ -34,55 +36,56 @@ public class PostCheckTurnRoute implements Route {
     /**
      * Checks to see if the opponent has submitted their turn.
      *
-     * @param request
-     *   the HTTP request
-     * @param response
-     *   the HTTP response
-     *
-     * @return
-     *   the rendered HTML for the home page
+     * @param request  the HTTP request
+     * @param response the HTTP response
+     * @return the rendered HTML for the home page
      */
     @Override
-    public Object handle(Request request, Response response){
+    public Object handle(Request request, Response response) throws InterruptedException{
         final Session httpSession = request.session();
         Gson gson = new Gson();
 
 
-        if(httpSession.attribute("resign") == null){
-            Player player = httpSession.attribute("Player");
-            Game game = Application.gameCenter.getGameByPlayer(player);
-            Piece.PieceColor callerColor;
+        Player player = httpSession.attribute("Player");
+        Game game = Application.gameCenter.getGameByPlayer(player);
+        Piece.PieceColor callerColor;
 
-            if (game != null) {
-                if (player == game.getRedPlayer()) {
-                    callerColor = Piece.PieceColor.RED;
-                } else {
-                    callerColor = Piece.PieceColor.WHITE;
-                }
-                while (callerColor != game.getActiveColor()) {
-                    if (game.isGameOver()){
-                        Message message = Message.info("true");
-                        String jsonMessage = gson.toJson(message);
+        if (game != null) {
+            if (player == game.getRedPlayer()) {
+                callerColor = Piece.PieceColor.RED;
+            } else {
+                callerColor = Piece.PieceColor.WHITE;
+            }
+            while (callerColor != game.getActiveColor()) {
+                if (game.isGameOver()) {
+                    String jsonMessage;
+                    if (game.getIsResigned() != null) {
+                        Message message = Message.error(game.getIsResigned().getName() + " has resigned. You win! You will now be sent home");
+                        jsonMessage = gson.toJson(message);
                         response.body(jsonMessage);
-                        Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
-                        get(HOME_URL, new GetHomeRoute(templateEngine)); //Home route (default)
-                        return jsonMessage;
+                        TimeUnit.SECONDS.sleep(10);
+                    } else {
+                        Message message = Message.info("true");
+                        jsonMessage = gson.toJson(message);
+                        response.body(jsonMessage);
                     }
-                    Message message = Message.info("false");
-                    String jsonMessage = gson.toJson(message);
-                    response.body(jsonMessage);
+
+                    Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
+                    get(HOME_URL, new GetHomeRoute(templateEngine)); //Home route (default)
+                    return jsonMessage;
                 }
-                Message message = Message.info("true");
+                Message message = Message.info("false");
                 String jsonMessage = gson.toJson(message);
                 response.body(jsonMessage);
-                return jsonMessage;
             }
+            Message message = Message.info("true");
+            String jsonMessage = gson.toJson(message);
+            response.body(jsonMessage);
+            return jsonMessage;
         }
-
         Message message = Message.info("true");
         String jsonMessage = gson.toJson(message);
         response.body(jsonMessage);
-        Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
         get(HOME_URL, new GetHomeRoute(templateEngine)); //Home route (default)
         return jsonMessage;
     }

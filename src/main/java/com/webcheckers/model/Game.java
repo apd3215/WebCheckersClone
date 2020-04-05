@@ -69,7 +69,6 @@ public class Game {
         return this.whitePlayer;
     }
 
-
     public void gameOver(){
         this.isGameOver = true;
     }
@@ -80,6 +79,10 @@ public class Game {
 
     public void setIsResigned(Player player){
         this.isResigned = player;
+    }
+
+    public Player getIsResigned(){
+        return this.isResigned;
     }
     /**
      * Gets the active PieceColor of the game (red or white)
