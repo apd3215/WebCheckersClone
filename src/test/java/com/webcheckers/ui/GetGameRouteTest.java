@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import spark.TemplateEngine;
-import spark.HaltException;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -19,8 +18,6 @@ import com.webcheckers.Application;
 import com.webcheckers.appl.Player;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Game;
-import com.webcheckers.ui.GetGameRoute;
-import com.webcheckers.ui.TemplateEngineTester;
 
 /**
  * GetGameRouteTest is a testing suite for the GetGameRoute class.

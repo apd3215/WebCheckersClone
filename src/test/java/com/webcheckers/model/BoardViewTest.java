@@ -103,6 +103,42 @@ public class BoardViewTest {
     }
 
     /**
+     * Ensure reverse iterator functions as intended.
+     * Also does a count of iterated spaces and pieces.
+     */
+    @Test
+    public void test_reverseIterator() {
+        int numSpaces = 0;
+        int numPieces = 0;
+        Iterator<Row> rowIterator = CuT.reverseIterator();
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next();
+            int rowIdx = row.getIndex();
+            Iterator<Space> spaceIterator = row.reverseIterator();
+            while (spaceIterator.hasNext()) {
+                Space space = spaceIterator.next();
+                Piece piece = space.getPiece();
+                Space.Color color = space.getColor();
+                numSpaces++;
+                if (color == Space.Color.LIGHT) {
+                    assertNull(piece);
+                } else if (piece != null) {
+                    numPieces++;
+                    if (rowIdx <= 2) {
+                        assertEquals(Piece.PieceType.SINGLE, piece.type);
+                        assertEquals(Piece.PieceColor.WHITE, piece.color);
+                    } else {
+                        assertEquals(Piece.PieceType.SINGLE, piece.type);
+                        assertEquals(Piece.PieceColor.RED, piece.color);
+                    }
+                }
+            }
+        }
+        assertEquals(24, numPieces);
+        assertEquals(64, numSpaces);
+    }
+
+    /**
      * Test to ensure getSpace works
      */
     @Test
