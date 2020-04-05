@@ -25,7 +25,7 @@ public class PostSubmitTurnRoute implements Route {
         Move move = game.getTurn().getPrevMove();
         Gson gson = new Gson();
         Message message;
-        if (game.makeMove(move)) {
+        if (game.endTurn()) {
             message = Message.info("true");
             String move_json = gson.toJson(message);
             response.body(move_json);

@@ -4,11 +4,8 @@ import com.webcheckers.appl.Player;
 import com.webcheckers.model.Piece.King_Piece;
 import com.webcheckers.model.Piece.Piece;
 import com.webcheckers.model.Piece.Piece.PieceColor;
-import com.webcheckers.ui.PostLoginRoute;
+import com.webcheckers.model.Piece.Single_Piece;
 
-
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 /**
@@ -206,6 +203,35 @@ public class Game {
         return true;
     }
 
+    public boolean backUp(){
+        Move move = this.turn.getPrevMove();
+        if (move == null){
+            return false;
+        }
+        int currRow = move.getStart().getRow();
+        int currCell = move.getStart().getCell();
+        int endRow = move.getEnd().getRow();
+        int endCell = move.getEnd().getCell();
+        Piece end = this.boardView.getSpace(endRow, endCell).getPiece();
+        if (Math.abs(currRow - endRow) == 2){
+            this.boardView.getSpace(currRow, currCell).setPiece(end);
+            this.boardView.getSpace(endRow, endCell).setPiece(null);
+            int row = ( currRow + endRow ) / 2;
+            int col = ( currCell + endCell) / 2;
+            PieceColor color;
+            if (activeColor == PieceColor.RED){
+                color = PieceColor.WHITE;
+            } else {
+                color = PieceColor.RED;
+            }
+            this.boardView.getSpace(row, col).setPiece(new Single_Piece(color));
+        } else {
+            this.boardView.getSpace(currRow,currCell).setPiece(end);
+            this.boardView.getSpace(endRow, endCell).setPiece(null);
+        }
+        return true;
+    }
+
 
     public boolean makeMove(Move move){
         Position start = move.getStart();
@@ -243,20 +269,11 @@ public class Game {
                         captured.setPiece(null);
                     }
             }
-        } else {
-            if (!check_board()){
-                return false;
-            }
         }
         curr.setPiece(null);
         end_space.setPiece(moved);
         System.out.println("Start Row : " + currRow + " Start Col: " + currCell);
         System.out.println("End Row: " + endRow + " End Col: " + endCell);
-        if (this.activeColor == PieceColor.RED){
-            this.activeColor = PieceColor.WHITE;
-        } else {
-            this.activeColor = PieceColor.RED;
-        }
         return true;
     }
 
@@ -291,7 +308,26 @@ public class Game {
         else {
             return true;
         }
+    }
 
+    public boolean endTurn(){
+        if (Math.abs(turn.getPrevMove().getStart().getRow() - turn.getPrevMove().getEnd().getRow()) != 2){
+            if (!check_board()){
+                return false;
+            }
+        }
+        if (this.activeColor == PieceColor.RED){
+            this.activeColor = PieceColor.WHITE;
+        } else {
+            this.activeColor = PieceColor.RED;
+        }
+        this.turn = new Turn();
+        return true;
+    }
+
+    private void setTurnAttr(int row, int col){
+        this.getTurn().setCol(col);
+        this.getTurn().setRow(row);
     }
 
     public Boolean isValidJump(Move move){
@@ -299,6 +335,11 @@ public class Game {
         int startCol = move.getStart().getCell();
         int endRow = move.getEnd().getRow();
         int endCol = move.getEnd().getCell();
+        if (this.getTurn().getNum() > 1){
+            if (startRow != this.turn.getRow() || startCol != this.turn.getCol()){
+                return false;
+            }
+        }
         if (Math.abs(startRow - endRow) != 2 || Math.abs(startCol - endCol) != 2){
             return false;
         } else {
@@ -353,6 +394,8 @@ public class Game {
         }
 
         if (startPiece.getType() == Piece.PieceType.SINGLE) {
+            if (turn.getNum() > 1){
+            }
             if (Math.abs(start.getRow() - end.getRow()) == 1) {
                 return isValidNormalMoveSingle(move);
             }
@@ -361,6 +404,8 @@ public class Game {
                 boolean b = isValidJump(move);
                 if (!b){
                     throw new Exception("Not a Valid Move.");
+                } else {
+                    setTurnAttr(move.getStart().getRow(), move.getStart().getCell());
                 }
                 return b;
             }
