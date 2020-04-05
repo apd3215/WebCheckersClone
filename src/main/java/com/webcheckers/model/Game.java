@@ -3,11 +3,7 @@ package com.webcheckers.model;
 import com.webcheckers.appl.Player;
 import com.webcheckers.model.Piece.Piece;
 import com.webcheckers.model.Piece.Piece.PieceColor;
-import com.webcheckers.ui.PostLoginRoute;
 
-
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 /**

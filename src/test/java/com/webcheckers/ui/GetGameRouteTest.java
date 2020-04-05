@@ -73,7 +73,7 @@ public class GetGameRouteTest {
         final Game game = new Game(player, otherPlayer);
 
         //Mock call to playerLobby
-        when(session.attribute("Player")).thenReturn(player);
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
         when(gameCenter.getGameByPlayer(player)).thenReturn(game);
 
         //Template engine tester
@@ -87,16 +87,15 @@ public class GetGameRouteTest {
         testHelper.assertViewModelExists();
         testHelper.assertViewModelIsaMap();
 
-        //TODO: Replace these magic strings with constants!
         //Test viewmodel attributes
-        testHelper.assertViewModelAttribute("title", "Game page!");
-        testHelper.assertViewModelAttribute("message", GetGameRoute.WELCOME_MSG);
-        testHelper.assertViewModelAttribute("currentUser", player);
-        testHelper.assertViewModelAttribute("redPlayer", game.getRedPlayer());
-        testHelper.assertViewModelAttribute("whitePlayer", game.getWhitePlayer());
-        testHelper.assertViewModelAttribute("viewMode", Game.ViewMode.PLAY);
-        testHelper.assertViewModelAttribute("board", game.getBoardView());
-        testHelper.assertViewModelAttribute("activeColor", game.getActiveColor());
+        testHelper.assertViewModelAttribute(VMAttributes.TITLE, GetGameRoute.GAME_TITLE);
+        testHelper.assertViewModelAttribute(VMAttributes.MESSAGE, GetGameRoute.WELCOME_MSG);
+        testHelper.assertViewModelAttribute(VMAttributes.CURRENT_USER, player);
+        testHelper.assertViewModelAttribute(VMAttributes.RED_PLAYER, game.getRedPlayer());
+        testHelper.assertViewModelAttribute(VMAttributes.WHITE_PLAYER, game.getWhitePlayer());
+        testHelper.assertViewModelAttribute(VMAttributes.VIEW_MODE, Game.ViewMode.PLAY);
+        testHelper.assertViewModelAttribute(VMAttributes.BOARD, game.getBoardView());
+        testHelper.assertViewModelAttribute(VMAttributes.ACTIVE_COLOR, game.getActiveColor());
     }
 
     /**
@@ -104,7 +103,7 @@ public class GetGameRouteTest {
      */
     @Test
     public void nonexistant_game() {
-        when(session.attribute("Player")).thenReturn(player);
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
         when(gameCenter.getGameByPlayer(player)).thenReturn(null);
 
         try {
@@ -121,7 +120,7 @@ public class GetGameRouteTest {
     @Test
     public void nonexistant_player() {
         final Game game = new Game(player, otherPlayer);
-        when(session.attribute("Player")).thenReturn(null);
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(null);
         when(gameCenter.getGameByPlayer(player)).thenReturn(game);
 
         try {

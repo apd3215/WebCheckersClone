@@ -1,8 +1,5 @@
 package com.webcheckers.appl;
 
-import com.webcheckers.model.Game;
-import com.webcheckers.appl.LoginStatus;
-
 import java.util.Dictionary;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -11,6 +8,10 @@ import java.util.Collections;
 /**
  * PlayerLobby, performs various server side tasks and takes care of
  * state and management of multiple users, games, etc.
+ * @author Joe Netti
+ * @author Joshua Yoder
+ * @author Jonathan Baxley
+ * @author Dhaval Shrishrimal
  */
 public class PlayerLobby {
     private Dictionary<String, String> Users;
@@ -67,7 +68,6 @@ public class PlayerLobby {
             }
         }
         return false;
-
     }
 
     /**
@@ -82,10 +82,10 @@ public class PlayerLobby {
      * @return WRONG_PASS_OR_USER_EXISTS if wrong password or user already exists
      */
     public LoginStatus sign_in(String username, String password){
-        if (!check_name(username)){
+        if (!check_name(username)) {
             return LoginStatus.INVALID_USER_FORMAT;
-        } if (Users.get(username) == null){
-            if (!check_pass(password)){
+        } if (Users.get(username) == null) {
+            if (!check_pass(password)) {
                 return LoginStatus.INVALID_PASS_FORMAT;
             }
             Users.put(username, password);
@@ -93,8 +93,8 @@ public class PlayerLobby {
             Players.put(username, player);
             this.num_logged_in++;
             return LoginStatus.NEW_USER_LOGIN;
-        } else{
-            if(Users.get(username).equals(password)){
+        } else {
+            if(Users.get(username).equals(password)) {
                 if (Players.get(username).isLogged()) {
                     return LoginStatus.USER_ALREADY_LOGIN;
                 }
@@ -110,7 +110,7 @@ public class PlayerLobby {
      * Sign out a given player.
      * @param player the player object to sign out
      */
-    public void sign_out(Player player){
+    public void sign_out(Player player) {
         this.num_logged_in--;
         player.logout();
     }
@@ -119,7 +119,7 @@ public class PlayerLobby {
      * Gets the number of people logged in.
      * @return the number of people logged in
      */
-    public int getNum_logged_in(){
+    public int getNum_logged_in() {
         return this.num_logged_in;
     }
 
@@ -127,16 +127,20 @@ public class PlayerLobby {
      * Gets an array list of logged in users
      * @return ArrayList of logged in users
      */
-    public ArrayList<String> get_logged_names(){
+    public ArrayList<String> get_logged_names() {
         ArrayList<String> keys = Collections.list(Users.keys());
         return keys;
     }
 
-    public ArrayList<String> get_playing(){
+    /**
+     * Gets an array list of playing users
+     * @return ArrayList of playing users
+     */
+    public ArrayList<String> get_playing() {
         ArrayList<String> keys = Collections.list(Users.keys());
         ArrayList<String> playing = new ArrayList<>();
-        for(String name: keys){
-            if (Players.get(name).isLogged() && Players.get(name).isPlaying()){
+        for(String name: keys) {
+            if (Players.get(name).isLogged() && Players.get(name).isPlaying()) {
                 playing.add(name);
             }
         }

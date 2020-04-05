@@ -37,9 +37,9 @@ public class PostSignOutRoute implements Route {
     @Override
     public Object handle(Request request, Response response) {
         Session httpSession = request.session();
-        Player curr = httpSession.attribute("Player");
+        Player curr = httpSession.attribute(SessionAttributes.PLAYER);
         Application.playerLobby.sign_out(curr);
-        httpSession.attribute("Player", null);
+        httpSession.attribute(SessionAttributes.PLAYER, null);
         response.redirect(HOME_URL);
         return null;
     }

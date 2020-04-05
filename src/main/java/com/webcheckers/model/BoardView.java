@@ -14,6 +14,7 @@ import com.webcheckers.model.Piece.Piece.PieceColor;
  * @author Joshua Yoder
  */
 public class BoardView implements Iterable<Row> {
+    //ArrayList of Rows
     private List<Row> rows = new ArrayList<Row>();
 
     /**
@@ -63,13 +64,17 @@ public class BoardView implements Iterable<Row> {
         return this.rows.iterator();
     }
 
-
+    /**
+     * Get a space corresponding to a row and column
+     * @param row the row of the space
+     * @param col the column of the space
+     * @return the space object
+     */
     public Space getSpace(int row, int col) {
         try {
             Space space = this.rows.get(row).getSpace(col);
             return space;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return null;
         }
     }

@@ -19,13 +19,14 @@ import com.webcheckers.util.Message;
 
 import static com.webcheckers.ui.WebServer.GAME_URL;
 
-
 /**
  * The UI Controller to GET the Home page.
  */
 public class GetHomeRoute implements Route {
     private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
     public static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+    public static final String WELCOME_STR = "Welcome!";
+
     private final TemplateEngine templateEngine;
 
     /**
@@ -36,7 +37,6 @@ public class GetHomeRoute implements Route {
      */
     public GetHomeRoute(final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
-        //
         LOG.config("GetHomeRoute is initialized.");
     }
 
@@ -56,32 +56,32 @@ public class GetHomeRoute implements Route {
         final Session httpSession = request.session();
 
         LOG.finer("GetHomeRoute is invoked.");
-        //
-        if(httpSession.attribute("Player") == null) {
+
+        if(httpSession.attribute(SessionAttributes.PLAYER) == null) {
             Map<String, Object> vm = new HashMap<>();
-            vm.put("title", "Welcome!");
+            vm.put(VMAttributes.TITLE, WELCOME_STR);
             // display a user message in the Home page
-            vm.put("message", WELCOME_MSG);
-            vm.put("num", Application.playerLobby.getNum_logged_in());
+            vm.put(VMAttributes.MESSAGE, WELCOME_MSG);
+            vm.put(VMAttributes.NUM_PLAYERS, Application.playerLobby.getNum_logged_in());
             // render the View
             return templateEngine.render(new ModelAndView(vm, "home.ftl"));
         } else {
             Map<String, Object> vm = new HashMap<>();
-            Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute("Player"));
+            Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute(SessionAttributes.PLAYER));
             if (game != null) {
                 response.redirect(GAME_URL);
                 return null;
             } else {
-                vm.put("title", "Welcome");
-                if (httpSession.attribute("error_attr") != null){
-                    vm.put("message", httpSession.attribute("error_attr"));
-                    httpSession.attribute("error_attr", null);
+                vm.put(VMAttributes.TITLE, WELCOME_STR);
+                if (httpSession.attribute(SessionAttributes.ERROR) != null){
+                    vm.put(VMAttributes.MESSAGE, httpSession.attribute(SessionAttributes.ERROR));
+                    httpSession.attribute(SessionAttributes.ERROR, null);
                 } else {
-                    vm.put("message", WELCOME_MSG);
+                    vm.put(VMAttributes.MESSAGE, WELCOME_MSG);
                 }
-                vm.put("currentUser", httpSession.attribute("Player"));
-                vm.put("signed", Application.playerLobby.get_logged_names());
-                vm.put("playing", Application.playerLobby.get_playing());
+                vm.put(VMAttributes.CURRENT_USER, httpSession.attribute(SessionAttributes.PLAYER));
+                vm.put(VMAttributes.SIGNED, Application.playerLobby.get_logged_names());
+                vm.put(VMAttributes.PLAYING, Application.playerLobby.get_playing());
                 return templateEngine.render(new ModelAndView(vm, "home.ftl"));
             }
         }

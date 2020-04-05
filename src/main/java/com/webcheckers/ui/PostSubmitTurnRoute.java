@@ -19,9 +19,9 @@ public class PostSubmitTurnRoute implements Route {
     @Override
     public Object handle(Request request, Response response){
         final Session httpSession = request.session();
-        Move move = httpSession.attribute("last_move");
-        httpSession.attribute("last_move", null);
-        Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute("Player"));
+        Move move = httpSession.attribute(SessionAttributes.LAST_MOVE);
+        httpSession.attribute(SessionAttributes.LAST_MOVE, null);
+        Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute(SessionAttributes.PLAYER));
         game.makeMove(move);
         Gson gson = new Gson();
         Message message = Message.info("true");

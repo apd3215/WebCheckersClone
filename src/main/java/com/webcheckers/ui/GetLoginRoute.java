@@ -17,7 +17,6 @@ public class GetLoginRoute implements Route {
     
     private final TemplateEngine templateEngine;
     static final String GET_LOGGED_IN = "isLoggedIn";
-    static final String TITLE_ATTR = "title";
     static final String TITLE = "Sign In";
 
     /**
@@ -42,7 +41,7 @@ public class GetLoginRoute implements Route {
     @Override
     public Object handle(Request request, Response response) {
         Map<String, Object> vm = new HashMap<>();
-        vm.put(TITLE_ATTR, TITLE);
+        vm.put(VMAttributes.TITLE, TITLE);
         return templateEngine.render(new ModelAndView(vm, "signin.ftl"));
     }
 }

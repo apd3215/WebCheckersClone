@@ -23,7 +23,9 @@ import com.webcheckers.util.Message;
  */
 public class GetGameRoute implements Route {
 
+  //Constants
   public static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+  public static final String GAME_TITLE = "Game page!";
 
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
   private final TemplateEngine templateEngine;
@@ -57,19 +59,18 @@ public class GetGameRoute implements Route {
     final Session httpSession = request.session();
 
     Map<String, Object> vm = new HashMap<>();
-    Player player = httpSession.attribute("Player");
-    httpSession.attribute("resign", "false");
-    Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute("Player"));
+    Player player = httpSession.attribute(SessionAttributes.PLAYER);
+    httpSession.attribute(SessionAttributes.RESIGN, "false");
+    Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute(SessionAttributes.PLAYER));
 
-    //TODO: Replace these magic strings with constants!
-    vm.put("title", "Game page!");
-    vm.put("message", WELCOME_MSG);
-    vm.put("currentUser", player);
-    vm.put("redPlayer", game.getRedPlayer());
-    vm.put("whitePlayer", game.getWhitePlayer());
-    vm.put("viewMode", Game.ViewMode.PLAY);
-    vm.put("board", game.getBoardView());
-    vm.put("activeColor", game.getActiveColor());
+    vm.put(VMAttributes.TITLE, GAME_TITLE);
+    vm.put(VMAttributes.MESSAGE, WELCOME_MSG);
+    vm.put(VMAttributes.CURRENT_USER, player);
+    vm.put(VMAttributes.RED_PLAYER, game.getRedPlayer());
+    vm.put(VMAttributes.WHITE_PLAYER, game.getWhitePlayer());
+    vm.put(VMAttributes.VIEW_MODE, Game.ViewMode.PLAY);
+    vm.put(VMAttributes.BOARD, game.getBoardView());
+    vm.put(VMAttributes.ACTIVE_COLOR, game.getActiveColor());
 
     return templateEngine.render(new ModelAndView(vm, "game.ftl"));
   }

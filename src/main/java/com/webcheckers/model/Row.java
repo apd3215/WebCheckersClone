@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.webcheckers.model.Piece.Piece;
 import com.webcheckers.model.Piece.Piece.PieceColor;
-import com.webcheckers.model.Piece.Piece.PieceType;
 import com.webcheckers.model.Piece.Single_Piece;
 
 /**
@@ -100,8 +99,18 @@ public class Row implements Iterable<Space> {
         return index;
     }
 
-    public List<Space> getSpaces(){ return spaces;}
+    /**
+     * Get the list of space objects in this row
+     */
+    public List<Space> getSpaces(){
+        return spaces;
+    }
 
+    /**
+     * Get a specific space in this row
+     * @param i the space index
+     * @return the space
+     */
     public Space getSpace(int i) {
         return this.spaces.get(i);
     }

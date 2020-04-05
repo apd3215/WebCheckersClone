@@ -6,10 +6,17 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+/**
+ * GameCenter, contains globally accessed game database.
+ * @author Jonathan Baxley
+ */
 public class GameCenter {
     private Dictionary<String, Game> Games;
     private ArrayList<Game> GameArrayList;
 
+    /**
+     * Constructor, create new games hashtable and arraylist.
+     */
     public GameCenter(){
         this.Games = new Hashtable<>();
         this.GameArrayList = new ArrayList<Game>();
@@ -50,6 +57,11 @@ public class GameCenter {
         return null;
     }
 
+    /**
+     * Ends a game that is currently in progress
+     * TODO: fix this and get clatification
+     * @param game the game to end
+     */
     public void endGame(Game game){
         game.getRedPlayer().endGamePlayer();
         game.getWhitePlayer().endGamePlayer();

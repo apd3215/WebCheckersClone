@@ -4,13 +4,10 @@ import com.google.gson.Gson;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Piece.Piece;
 import com.webcheckers.util.Message;
-import com.webcheckers.model.Move;
 import com.webcheckers.Application;
 import com.webcheckers.appl.Player;
 import spark.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import static com.webcheckers.ui.WebServer.HOME_URL;
@@ -46,9 +43,9 @@ public class PostCheckTurnRoute implements Route {
     public Object handle(Request request, Response response){
         final Session httpSession = request.session();
 
-        while(httpSession.attribute("resign").equals("false")){
+        while(httpSession.attribute(SessionAttributes.RESIGN).equals("false")){
             Gson gson = new Gson();
-            Player player = httpSession.attribute("Player");
+            Player player = httpSession.attribute(SessionAttributes.PLAYER);
             Game game = Application.gameCenter.getGameByPlayer(player);
             Piece.PieceColor callerColor;
 
@@ -60,7 +57,7 @@ public class PostCheckTurnRoute implements Route {
             }
 
             while ( callerColor != game.getActiveColor() ){
-                if (httpSession.attribute("resign").equals("true")) {
+                if (httpSession.attribute(SessionAttributes.RESIGN).equals("true")) {
                     get(HOME_URL, new GetHomeRoute(templateEngine)); //Home route (default)
                     return null;
                 }

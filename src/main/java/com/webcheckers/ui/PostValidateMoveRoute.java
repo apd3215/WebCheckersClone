@@ -8,11 +8,7 @@ import com.webcheckers.Application;
 import com.webcheckers.appl.Player;
 import spark.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-
-import static com.webcheckers.ui.WebServer.HOME_URL;
 
 /**
  * The UI Controller to GET the home page after sign out.
@@ -20,6 +16,8 @@ import static com.webcheckers.ui.WebServer.HOME_URL;
 public class PostValidateMoveRoute implements Route {
 
     private final TemplateEngine templateEngine;
+
+    static final String QP_ACTION_DATA = "actionData";
 
     /**
      * Create the Spark Route (UI controller) to handle all {@code POST /} HTTP requests.
@@ -43,17 +41,17 @@ public class PostValidateMoveRoute implements Route {
     @Override
     public Object handle(Request request, Response response) {
         final Session httpSession = request.session();
-        String jsonMove = request.queryParams("actionData");
+        String jsonMove = request.queryParams(QP_ACTION_DATA);
         Gson gson = new Gson();
         Move move = gson.fromJson(jsonMove, Move.class);
-        Player player = httpSession.attribute("Player");
+        Player player = httpSession.attribute(SessionAttributes.PLAYER);
         Game game = Application.gameCenter.getGameByPlayer(player);
         boolean isValid;
         try {
             isValid = game.isMoveValid(move);
             Message message = Message.info("Valid move");
             String jsonMessage = gson.toJson(message);
-            httpSession.attribute("last_move", move);
+            httpSession.attribute(SessionAttributes.LAST_MOVE, move);
             response.body(jsonMessage);
             return jsonMessage;
         }

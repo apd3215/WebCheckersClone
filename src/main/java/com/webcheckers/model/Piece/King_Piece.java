@@ -1,9 +1,8 @@
 package com.webcheckers.model.Piece;
 
-import com.webcheckers.model.Piece.Piece;
-
 /**
  * Subclass of Piece for King pieces.
+ * @author Jonathan Baxley
  */
 public class King_Piece extends Piece {
     public PieceType type;

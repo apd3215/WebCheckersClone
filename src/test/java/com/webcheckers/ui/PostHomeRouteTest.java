@@ -85,9 +85,9 @@ public class PostHomeRouteTest {
     @Test
     public void non_existent_game() {
         //Mock call to playerLobby
-        when(request.queryParams("otherPlayer")).thenReturn("otherPlayer");
+        when(request.queryParams(PostHomeRoute.OTHER)).thenReturn("otherPlayer");
         when(gameCenter.getGameByPlayer(player)).thenReturn(null);
-        when(session.attribute("Player")).thenReturn(player);
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
 
         //Template engine tester
         final TemplateEngineTester testHelper = new TemplateEngineTester();
@@ -96,7 +96,7 @@ public class PostHomeRouteTest {
         //Call handle on the CuT
         CuT.handle(request, response);
 
-        verify(response).redirect("/game");
+        verify(response).redirect(WebServer.GAME_URL);
     }
 
     /**
@@ -104,12 +104,12 @@ public class PostHomeRouteTest {
      */
     @Test
     public void existent_game() {
-        when(request.queryParams("otherPlayer")).thenReturn("otherPlayer");
+        when(request.queryParams(PostHomeRoute.OTHER)).thenReturn("otherPlayer");
         when(gameCenter.getGameByPlayer(otherPlayer)).thenReturn(game);
-        when(session.attribute("Player")).thenReturn(player);
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
 
         CuT.handle(request, response);
 
-        verify(response).redirect("/");
+        verify(response).redirect(WebServer.HOME_URL);
     }
 }

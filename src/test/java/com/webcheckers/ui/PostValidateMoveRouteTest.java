@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,11 +14,9 @@ import spark.Request;
 import spark.Response;
 import spark.Session;
 
-import com.google.gson.Gson;
 import com.webcheckers.Application;
 import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.Player;
-import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Move;
 
@@ -74,11 +71,11 @@ public class PostValidateMoveRouteTest {
     public void test_validMove() {
         //Mock attr
         when(gameCenter.getGameByPlayer(player)).thenReturn(game);
-        when(session.attribute("Player")).thenReturn(player);
-        when(session.attribute("last_move")).thenReturn(lastMove);
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(session.attribute(SessionAttributes.LAST_MOVE)).thenReturn(lastMove);
 
         //Send an example move
-        when(request.queryParams("actionData"))
+        when(request.queryParams(PostValidateMoveRoute.QP_ACTION_DATA))
           .thenReturn("{\"start\":{\"row\":5,\"cell\":2},\"end\":{\"row\":4,\"cell\":3}}");
         
         //Template engine tester
@@ -95,12 +92,12 @@ public class PostValidateMoveRouteTest {
     public void test_invalidMove() throws Exception {
         //Mock attr
         when(gameCenter.getGameByPlayer(player)).thenReturn(game);
-        when(session.attribute("Player")).thenReturn(player);
-        when(session.attribute("last_move")).thenReturn(lastMove);
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(session.attribute(SessionAttributes.LAST_MOVE)).thenReturn(lastMove);
 
         //Send an example move
         String jsonMove = "{\"start\":{\"row\":9,\"cell\":9},\"end\":{\"row\":8,\"cell\":8}}";
-        when(request.queryParams("actionData")).thenReturn(jsonMove);
+        when(request.queryParams(PostValidateMoveRoute.QP_ACTION_DATA)).thenReturn(jsonMove);
         //This will suffice, isMoveValid only called once (on invalid move).
         when(game.isMoveValid(any(Move.class))).thenThrow(new Exception("Index request out of bounds"));
         

@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -73,8 +72,8 @@ public class PostCheckTurnRouteTest {
     @Test
     public void test_instant_resign_red() {
         //Mock attr
-        when(session.attribute("Player")).thenReturn(player);
-        when(session.attribute("resign")).thenReturn("true");
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(session.attribute(SessionAttributes.RESIGN)).thenReturn("true");
         
         //Template engine tester
         final TemplateEngineTester testHelper = new TemplateEngineTester();
@@ -86,8 +85,8 @@ public class PostCheckTurnRouteTest {
     
     @Test
     public void test_isActiveColor() {
-        when(session.attribute("Player")).thenReturn(player);
-        when(session.attribute("resign")).thenReturn("false");
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(session.attribute(SessionAttributes.RESIGN)).thenReturn("false");
         when(gameCenter.getGameByPlayer(player)).thenReturn(game);
         when(game.getRedPlayer()).thenReturn(player);
 
@@ -105,8 +104,8 @@ public class PostCheckTurnRouteTest {
 
     @Test
     public void test_notActiveColor_resignTrue() {
-        when(session.attribute("Player")).thenReturn(player);
-        when(session.attribute("resign")).thenReturn("false").thenReturn("true");
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(session.attribute(SessionAttributes.RESIGN)).thenReturn("false").thenReturn("true");
         when(gameCenter.getGameByPlayer(player)).thenReturn(game);
         when(game.getRedPlayer()).thenReturn(player);
 
@@ -122,8 +121,8 @@ public class PostCheckTurnRouteTest {
     
     @Test
     public void test_notActiveColor_resignFalseThenTrue() {
-        when(session.attribute("Player")).thenReturn(player);
-        when(session.attribute("resign")).thenReturn("false").thenReturn("false").thenReturn("true");
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(session.attribute(SessionAttributes.RESIGN)).thenReturn("false").thenReturn("false").thenReturn("true");
         when(gameCenter.getGameByPlayer(player)).thenReturn(game);
         when(game.getRedPlayer()).thenReturn(player);
 

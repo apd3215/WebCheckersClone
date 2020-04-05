@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,6 @@ import spark.Session;
 import com.webcheckers.Application;
 import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.Player;
-import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Move;
 
@@ -73,8 +71,8 @@ public class PostResignRouteTest {
     public void test_resign() {
         //Mock attr
         when(gameCenter.getGameByPlayer(player)).thenReturn(game);
-        when(session.attribute("Player")).thenReturn(player);
-        when(session.attribute("last_move")).thenReturn(lastMove);
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(session.attribute(SessionAttributes.LAST_MOVE)).thenReturn(lastMove);
         
         //Template engine tester
         final TemplateEngineTester testHelper = new TemplateEngineTester();

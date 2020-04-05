@@ -47,11 +47,8 @@ public class PostLoginRouteTest {
     private String PASSW = "pass";
     private String empty = "";
 
-    private static final String TITLE_ATTR = "title";
-    private static final String TITLE = "Sign In";
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
-    private static final String MSG = "message";
 
     /**
      * Setup new mock objects for each test.
@@ -96,8 +93,8 @@ public class PostLoginRouteTest {
         testHelper.assertViewModelIsaMap();
 
         // assert view model data
-        testHelper.assertViewModelAttribute(TITLE_ATTR, TITLE);
-        testHelper.assertViewModelAttribute(MSG, PostLoginRoute.NAME_ERR);
+        testHelper.assertViewModelAttribute(VMAttributes.TITLE, PostLoginRoute.TITLE);
+        testHelper.assertViewModelAttribute(VMAttributes.MESSAGE, PostLoginRoute.NAME_ERR);
 
         //assert view
         testHelper.assertViewName("signin.ftl");
@@ -126,8 +123,8 @@ public class PostLoginRouteTest {
         testHelper.assertViewModelIsaMap();
 
         // assert view model data
-        testHelper.assertViewModelAttribute(TITLE_ATTR, TITLE);
-        testHelper.assertViewModelAttribute(MSG, PostLoginRoute.ALREADY);
+        testHelper.assertViewModelAttribute(VMAttributes.TITLE, PostLoginRoute.TITLE);
+        testHelper.assertViewModelAttribute(VMAttributes.MESSAGE, PostLoginRoute.ALREADY);
 
         //assert view
         testHelper.assertViewName("signin.ftl");
@@ -157,8 +154,8 @@ public class PostLoginRouteTest {
         testHelper.assertViewModelIsaMap();
 
         // assert view model data
-        testHelper.assertViewModelAttribute(TITLE_ATTR, TITLE);
-        testHelper.assertViewModelAttribute(MSG, PostLoginRoute.PASS);
+        testHelper.assertViewModelAttribute(VMAttributes.TITLE, PostLoginRoute.TITLE);
+        testHelper.assertViewModelAttribute(VMAttributes.MESSAGE, PostLoginRoute.PASS);
         //assert view
         testHelper.assertViewName("signin.ftl");
 
@@ -186,8 +183,8 @@ public class PostLoginRouteTest {
         testHelper.assertViewModelIsaMap();
 
         // assert view model data
-        testHelper.assertViewModelAttribute(TITLE_ATTR, TITLE);
-        testHelper.assertViewModelAttribute(MSG, PostLoginRoute.WRONG);
+        testHelper.assertViewModelAttribute(VMAttributes.TITLE, PostLoginRoute.TITLE);
+        testHelper.assertViewModelAttribute(VMAttributes.MESSAGE, PostLoginRoute.WRONG);
 
         //assert view
         testHelper.assertViewName("signin.ftl");
@@ -219,8 +216,8 @@ public class PostLoginRouteTest {
         testHelper.assertViewModelIsaMap();
 
         // assert view model data
-        testHelper.assertViewModelAttribute(TITLE_ATTR, TITLE);
-        testHelper.assertViewModelAttribute(MSG, PostLoginRoute.WELCOME_MSG);
+        testHelper.assertViewModelAttribute(VMAttributes.TITLE, PostLoginRoute.TITLE);
+        testHelper.assertViewModelAttribute(VMAttributes.MESSAGE, PostLoginRoute.WELCOME_MSG);
 
         //assert view
         testHelper.assertViewName("home.ftl");

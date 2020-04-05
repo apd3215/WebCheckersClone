@@ -65,7 +65,7 @@ public class PostSignOutRouteTest {
     @Test
     public void test_sign_out() {
         //Mock attr
-        when(session.attribute("Player")).thenReturn(player);
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
         
         //Template engine tester
         final TemplateEngineTester testHelper = new TemplateEngineTester();
@@ -76,6 +76,6 @@ public class PostSignOutRouteTest {
 
         //May be able to test better here
 
-        verify(response).redirect("/");
+        verify(response).redirect(WebServer.HOME_URL);
     }
 }

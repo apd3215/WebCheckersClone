@@ -82,24 +82,24 @@ public class GetHomeRouteTest {
         testHelper.assertViewModelExists();
         testHelper.assertViewModelIsaMap();
 
-        testHelper.assertViewModelAttribute("title", "Welcome!");
-        testHelper.assertViewModelAttribute("num", 0);
+        testHelper.assertViewModelAttribute(VMAttributes.TITLE, GetHomeRoute.WELCOME_STR);
+        testHelper.assertViewModelAttribute(VMAttributes.NUM_PLAYERS, 0);
     }
 
     @Test
     public void test_home_redirectGame() {
-        when(session.attribute("Player")).thenReturn(player);
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
         when(gameCenter.getGameByPlayer(player)).thenReturn(game);
 
         CuT.handle(request, response);
 
-        verify(response).redirect("/game");
+        verify(response).redirect(WebServer.GAME_URL);
     }
 
     @Test
     public void test_newGame_errorAttr() {
-        when(session.attribute("Player")).thenReturn(player);
-        when(session.attribute("error_attr")).thenReturn("error");
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(session.attribute(SessionAttributes.ERROR)).thenReturn("error");
         when(gameCenter.getGameByPlayer(player)).thenReturn(null);
         when(playerLobby.get_logged_names()).thenReturn(plist);
         when(playerLobby.get_playing()).thenReturn(plist2);
@@ -113,17 +113,17 @@ public class GetHomeRouteTest {
         testHelper.assertViewModelExists();
         testHelper.assertViewModelIsaMap();
 
-        testHelper.assertViewModelAttribute("title", "Welcome"); //TODO: FIX!!
-        testHelper.assertViewModelAttribute("message", "error");
-        testHelper.assertViewModelAttribute("currentUser", player);
-        testHelper.assertViewModelAttribute("signed", plist);
-        testHelper.assertViewModelAttribute("playing", plist2);
+        testHelper.assertViewModelAttribute(VMAttributes.TITLE, GetHomeRoute.WELCOME_STR);
+        testHelper.assertViewModelAttribute(VMAttributes.MESSAGE, "error");
+        testHelper.assertViewModelAttribute(VMAttributes.CURRENT_USER, player);
+        testHelper.assertViewModelAttribute(VMAttributes.SIGNED, plist);
+        testHelper.assertViewModelAttribute(VMAttributes.PLAYING, plist2);
     }
 
     @Test
     public void test_newGame_noErrorAttr() {
-        when(session.attribute("Player")).thenReturn(player);
-        when(session.attribute("error_attr")).thenReturn(null);
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(session.attribute(SessionAttributes.ERROR)).thenReturn(null);
         when(gameCenter.getGameByPlayer(player)).thenReturn(null);
         when(playerLobby.get_logged_names()).thenReturn(plist);
         when(playerLobby.get_playing()).thenReturn(plist2);
@@ -137,10 +137,10 @@ public class GetHomeRouteTest {
         testHelper.assertViewModelExists();
         testHelper.assertViewModelIsaMap();
 
-        testHelper.assertViewModelAttribute("title", "Welcome"); //TODO: FIX!!
-        testHelper.assertViewModelAttribute("message", GetHomeRoute.WELCOME_MSG);
-        testHelper.assertViewModelAttribute("currentUser", player);
-        testHelper.assertViewModelAttribute("signed", plist);
-        testHelper.assertViewModelAttribute("playing", plist2);
+        testHelper.assertViewModelAttribute(VMAttributes.TITLE, GetHomeRoute.WELCOME_STR);
+        testHelper.assertViewModelAttribute(VMAttributes.MESSAGE, GetHomeRoute.WELCOME_MSG);
+        testHelper.assertViewModelAttribute(VMAttributes.CURRENT_USER, player);
+        testHelper.assertViewModelAttribute(VMAttributes.SIGNED, plist);
+        testHelper.assertViewModelAttribute(VMAttributes.PLAYING, plist2);
     }
 }

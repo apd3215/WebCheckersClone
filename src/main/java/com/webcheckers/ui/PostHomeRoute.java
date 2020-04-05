@@ -26,18 +26,10 @@ public class PostHomeRoute implements Route {
     private final TemplateEngine templateEngine;
     private static final String ERR = "%s is already in game. Select Other Player.";
     public static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+    public static final String TITLE_STR = "Welcome";
 
-    private static final String TITLE_ATTR = "title";
     public static final String TITLE = "Make game";
-    private static final String OTHER = "otherPlayer";
-    private static final String MSG = "message";
-    private static final String CURR = "currentUser";
-    private static final String RED = "redPlayer";
-    private static final String WHITE = "whitePlayer";
-    private static final String VIEW = "viewMode";
-    private static final String BOARD = "board";
-    private static final String COLOR = "activeColor";
-    private static final String SIGNED = "signed";
+    public static final String OTHER = "otherPlayer";
 
     /**
      * Create the Spark Route (UI controller) to handle all {@code POST /} HTTP requests.
@@ -69,29 +61,29 @@ public class PostHomeRoute implements Route {
 
         //If we have a null game, we redirect to home
         if (game != null){
-            vm.put(TITLE_ATTR, "Welcome");
-            vm.put(CURR, httpSession.attribute("Player"));
-            vm.put(SIGNED, Application.playerLobby.get_logged_names());
-            httpSession.attribute("error_attr", Message.error(String.format(ERR, otherPlayer)));
+            vm.put(VMAttributes.TITLE, TITLE_STR);
+            vm.put(VMAttributes.CURRENT_USER, httpSession.attribute(SessionAttributes.PLAYER));
+            vm.put(VMAttributes.SIGNED, Application.playerLobby.get_logged_names());
+            httpSession.attribute(SessionAttributes.ERROR, Message.error(String.format(ERR, otherPlayer)));
             response.redirect(HOME_URL);
             return null;
         }
 
         //The following occurs (new game is created)
 
-        Player currentPlayer = httpSession.attribute("Player");
+        Player currentPlayer = httpSession.attribute(SessionAttributes.PLAYER);
         Game newGame = new Game(currentPlayer, whitePlayer);
         Application.gameCenter.addGame(newGame);
-        httpSession.attribute("Game", newGame);
+        httpSession.attribute(SessionAttributes.GAME, newGame);
 
-        vm.put(TITLE_ATTR, TITLE);
-        vm.put(MSG, WELCOME_MSG);
-        vm.put(CURR, currentPlayer);
-        vm.put(RED, currentPlayer);
-        vm.put(WHITE, whitePlayer);
-        vm.put(VIEW, Game.ViewMode.PLAY);
-        vm.put(BOARD, newGame.getBoardView());
-        vm.put(COLOR, newGame.getActiveColor());
+        vm.put(VMAttributes.TITLE, TITLE);
+        vm.put(VMAttributes.MESSAGE, WELCOME_MSG);
+        vm.put(VMAttributes.CURRENT_USER, currentPlayer);
+        vm.put(VMAttributes.RED_PLAYER, currentPlayer);
+        vm.put(VMAttributes.WHITE_PLAYER, whitePlayer);
+        vm.put(VMAttributes.VIEW_MODE, Game.ViewMode.PLAY);
+        vm.put(VMAttributes.BOARD, newGame.getBoardView());
+        vm.put(VMAttributes.ACTIVE_COLOR, newGame.getActiveColor());
 
         //Redirect to the game url
         response.redirect(GAME_URL);
