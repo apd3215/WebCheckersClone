@@ -81,6 +81,6 @@ public class PostSubmitTurnRouteTest {
         //Call handle on the CuT
         Object json = CuT.handle(request, response);
 
-        assertEquals("{\"text\":\"true\",\"type\":\"INFO\"}", json);
+        assertEquals("{\"text\":\"Jump moves possible.\",\"type\":\"ERROR\"}", json);
     }
 }
