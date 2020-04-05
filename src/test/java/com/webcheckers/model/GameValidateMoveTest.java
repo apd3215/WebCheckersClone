@@ -59,7 +59,7 @@ public class GameValidateMoveTest {
      * _ is a space
      * w is a white piece, W kinged
      * r is a red piece, R kinged
-     * u (or any other char) leaves a space unchanged
+     * (any other char) leaves a space unchanged
      * @param board board representation as a 2d char array
      * @param boardView the boardView to set
      */
@@ -123,6 +123,10 @@ public class GameValidateMoveTest {
     }
 
     public void test_invalidMoveOntoWhite() {
+
+    }
+
+    public void test_invalidMoveOntoPiece() {
 
     }
 
