@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import com.webcheckers.Application;
 import com.webcheckers.appl.GameCenter;
+import com.webcheckers.model.Game;
 import com.webcheckers.util.Message;
 import spark.Request;
 import spark.Response;
@@ -27,14 +28,20 @@ public class PostResignRoute implements Route{
     public Object handle(Request request, Response response){
         final Session httpSession = request.session();
 
-        httpSession.attribute("resign", "true");
         Gson gson = new Gson();
+        Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute("Player"));
+
+        if (game != null) {
+            game.setIsResigned(httpSession.attribute("Player"));
+            game.gameOver();
+        }
         Message message = Message.info("Successful");
         String jsonMessage = gson.toJson(message);
         response.body(jsonMessage);
-        Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
-        get(HOME_URL, new GetHomeRoute(templateEngine)); //Home route (default)
+        while (Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")) != null){
 
+        }
+        get(HOME_URL, new GetHomeRoute(templateEngine)); //Home route (default)
         return jsonMessage;
 
     }

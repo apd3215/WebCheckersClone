@@ -23,6 +23,8 @@ public class Game {
     private Player whitePlayer;
     private PieceColor activeColor;
     private BoardView boardView;
+    private boolean isGameOver;
+    private Player isResigned;
 
     /**
      * Enum representing the view mode (player, spectator, replay)
@@ -41,6 +43,8 @@ public class Game {
         this.activeColor = PieceColor.RED;
         this.boardView = new BoardView();
         boardView.setBoard();
+        this.isGameOver = false;
+        this.isResigned = null;
     }
 
     /**
@@ -59,6 +63,18 @@ public class Game {
         return this.whitePlayer;
     }
 
+
+    public void gameOver(){
+        this.isGameOver = true;
+    }
+
+    public boolean isGameOver(){
+        return this.isGameOver;
+    }
+
+    public void setIsResigned(Player player){
+        this.isResigned = player;
+    }
     /**
      * Gets the active PieceColor of the game (red or white)
      * @return the active PieceColor
