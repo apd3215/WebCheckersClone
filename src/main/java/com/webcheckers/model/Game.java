@@ -256,16 +256,24 @@ public class Game {
                 return false;
             }
             if (startRow - endRow > 0){
-                if (startCol - endCol > 0){
-                    return boardView.getSpace(startRow - 1, startCol - 1).getPiece().getColor() != curr;
+                if (pStart instanceof King_Piece || pStart.getColor() == PieceColor.RED) {
+                    if (startCol - endCol > 0) {
+                        return boardView.getSpace(startRow - 1, startCol - 1).getPiece().getColor() != curr;
+                    } else {
+                        return boardView.getSpace(startRow - 1, startCol + 1).getPiece().getColor() != curr;
+                    }
                 } else {
-                    return boardView.getSpace(startRow - 1, startCol + 1).getPiece().getColor() != curr;
+                    return false;
                 }
             } else {
-                if (startCol - endCol > 0){
-                    return boardView.getSpace(startRow + 1, startCol - 1).getPiece().getColor() != curr;
+                if (pStart instanceof King_Piece || pStart.getColor() == PieceColor.WHITE) {
+                    if (startCol - endCol > 0) {
+                        return boardView.getSpace(startRow + 1, startCol - 1).getPiece().getColor() != curr;
+                    } else {
+                        return boardView.getSpace(startRow + 1, startCol + 1).getPiece().getColor() != curr;
+                    }
                 } else {
-                    return boardView.getSpace(startRow + 1, startCol + 1).getPiece().getColor() != curr;
+                    return false;
                 }
             }
         }
