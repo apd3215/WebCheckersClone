@@ -70,7 +70,7 @@ public class PostCheckTurnRoute implements Route {
                         response.body(jsonMessage);
                     }
 
-                    Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
+//                    Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
                     get(HOME_URL, new GetHomeRoute(templateEngine)); //Home route (default)
                     return jsonMessage;
                 }

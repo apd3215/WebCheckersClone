@@ -205,6 +205,7 @@ public class Game {
 
     public boolean backUp(){
         Move move = this.turn.getPrevMove();
+        this.turn.remove_move();
         if (move == null){
             return false;
         }
@@ -212,6 +213,7 @@ public class Game {
         int currCell = move.getStart().getCell();
         int endRow = move.getEnd().getRow();
         int endCell = move.getEnd().getCell();
+        setTurnAttr(currRow, currCell);
         Piece end = this.boardView.getSpace(endRow, endCell).getPiece();
         if (Math.abs(currRow - endRow) == 2){
             this.boardView.getSpace(currRow, currCell).setPiece(end);
@@ -312,9 +314,12 @@ public class Game {
 
     public boolean endTurn(){
         if (Math.abs(turn.getPrevMove().getStart().getRow() - turn.getPrevMove().getEnd().getRow()) != 2){
+            Move prev = this.turn.getPrevMove();
+            this.backUp();
             if (!check_board()){
                 return false;
             }
+            this.makeMove(prev);
         }
         if (this.activeColor == PieceColor.RED){
             this.activeColor = PieceColor.WHITE;

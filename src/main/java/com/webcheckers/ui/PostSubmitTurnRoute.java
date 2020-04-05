@@ -7,7 +7,8 @@ import com.webcheckers.model.Move;
 import com.webcheckers.util.Message;
 import spark.*;
 
-import static spark.Spark.post;
+import static spark.Spark.get;
+import static spark.route.HttpMethod.get;
 
 public class PostSubmitTurnRoute implements Route {
 
@@ -34,7 +35,6 @@ public class PostSubmitTurnRoute implements Route {
             message = Message.error("Jump moves possible.");
             String move_json = gson.toJson(message);
             response.body(move_json);
-            post("/backup", new PostBackUpMoveRoute(templateEngine));
             return move_json;
         }
 
