@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 
 import com.webcheckers.appl.GameCenter;
-import com.webcheckers.model.Piece.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,8 +25,9 @@ import java.util.Hashtable;
 import java.util.Collections;
 
 /**
- * PostHomeRouteTest is a testing suite for the GetGameRoute class.
+ * PostHomeRouteTest is a testing suite for the PostHomeRoute class.
  * @author Joe Netti
+ * @author Joshua Yoder
  */
 public class PostHomeRouteTest {
     /**
@@ -46,8 +46,7 @@ public class PostHomeRouteTest {
     private Player otherPlayer;
     private PlayerLobby playerLobby;
     private GameCenter gameCenter;
-
-    /**
+    private Game game;
 
     /**
      * Setup new mock objects for each test.
@@ -63,6 +62,7 @@ public class PostHomeRouteTest {
         otherPlayer = mock(Player.class);
         playerLobby = mock(PlayerLobby.class);
         gameCenter = mock(GameCenter.class);
+        game = mock(Game.class);
 
         //Create ArrayList of players
         Dictionary<String, Player> players = new Hashtable();
@@ -97,5 +97,19 @@ public class PostHomeRouteTest {
         CuT.handle(request, response);
 
         verify(response).redirect("/game");
+    }
+
+    /**
+     * Test with existing game
+     */
+    @Test
+    public void existent_game() {
+        when(request.queryParams("otherPlayer")).thenReturn("otherPlayer");
+        when(gameCenter.getGameByPlayer(otherPlayer)).thenReturn(game);
+        when(session.attribute("Player")).thenReturn(player);
+
+        CuT.handle(request, response);
+
+        verify(response).redirect("/");
     }
 }
