@@ -5,6 +5,7 @@ import com.webcheckers.model.Piece.Piece;
 import com.webcheckers.model.Piece.Piece.PieceColor;
 import com.webcheckers.ui.PostLoginRoute;
 
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -93,8 +94,39 @@ public class Game {
         Space curr = this.boardView.getSpace(currRow, currCell);
         Space end_space = this.boardView.getSpace(endRow, endCell);
         Piece moved = curr.getPiece();
+        if (Math.abs(currRow - endRow) != 1){ // check if it's a jump move
+            if (endRow < currRow){ // if Red player makes the jump Move
+                    int capturedRow = endRow +1;
+                    if ( (endCell - currCell) == 2){ // coming from left to right
+                        int capturedCell = endCell -1;
+                        Space captured = this.boardView.getSpace(capturedRow,capturedCell);
+                        captured.setPiece(null);
+                    }
+                    else if ((endCell - currCell) == -2){ // coming from right to left
+                        int capturedCell = endCell +1;
+                        Space captured = this.boardView.getSpace(capturedRow,capturedCell);
+                        captured.setPiece(null);
+                    }
+
+            } else { // if White player makes the jump move
+                    int capturedRow =  endRow - 1;
+                    if ((endCell - currCell) == 2){ //coming from left to right but from white's perspective
+                        int capturedCell = endCell - 1;
+                        Space captured = this.boardView.getSpace(capturedRow,capturedCell);
+                        captured.setPiece(null);
+                    }
+                    else if ((endCell - currCell) == -2){
+                        int capturedCell = endCell + 1;
+                        Space captured = this.boardView.getSpace(capturedRow,capturedCell);
+                        captured.setPiece(null);
+                    }
+            }
+
+        }
         curr.setPiece(null);
         end_space.setPiece(moved);
+        System.out.println("Start Row : " + currRow + " Start Col: " + currCell);
+        System.out.println("End Row: " + endRow + " End Col: " + endCell);
         if (this.activeColor == PieceColor.RED){
             this.activeColor = PieceColor.WHITE;
         } else {
@@ -135,7 +167,7 @@ public class Game {
         }
 
     }
-
+/**
     private Boolean isValidJumpMoveSingle(Move move) {
         Position start = move.getStart();
         Position end = move.getEnd();
@@ -189,6 +221,59 @@ public class Game {
                     landingPiece2 = landingPos2.getPiece();
                     if (landingPiece2 == null) {
                         movesToExplore.add(new Position(currRow + (2*modifier), currCol - 2));
+                    }
+                }
+            }
+        }
+        return false;
+    }
+**/
+    public Boolean isValidJumpMoveSingle(Move move){
+        int startRow = move.getStart().getRow();
+        int startCol = move.getStart().getCell();
+        int endRow = move.getEnd().getRow();
+        int endCol = move.getEnd().getCell();
+        Boolean redJumpingRight;
+        Boolean whiteJumpingRight;
+        PieceColor myColor = this.boardView.getSpace(startRow,startCol).getPiece().getColor(); // get color of jumping piece
+        if (myColor == PieceColor.RED){ // this means that the endRow is lower
+            redJumpingRight = endCol > startCol;
+            if ((endRow - startRow) == -2) { // make sure its 2 rows away
+                if (Math.abs(endCol - startCol) == 2) { // make sure its 2 cols away
+                    if(redJumpingRight){
+                        if(this.boardView.getSpace(endRow+1,endCol-1).getPiece().getColor() == PieceColor.WHITE){
+                            //make sure there's actually a piece being jumped / jump to the right
+                            return this.boardView.getSpace(endRow, endCol).getPiece() == null;
+                            // make sure the landing spot is empty
+                        }
+                    }
+                    else {
+                        if(this.boardView.getSpace(endRow+1,endCol+1).getPiece().getColor() == PieceColor.WHITE){
+                            //make sure there's actually a piece being jumped / jump to the left
+                            return this.boardView.getSpace(endRow, endCol).getPiece() == null;
+                            // make sure the landing spot is empty
+                        }
+                    }
+                }
+            }
+        }
+        else { // white player means endRow should be greater than start
+            whiteJumpingRight = endCol < startCol;
+            if ((endRow - startRow) == 2){ // make sure it's 2 rows away
+                if (Math.abs(endCol - startCol) == 2) { // make sure its 2 cols away
+                    if (whiteJumpingRight){
+                        if (this.boardView.getSpace(endRow-1,endCol+1).getPiece().getColor() == PieceColor.RED){
+                            //make sure there's actually a piece being jumped / jump to the right
+                            return this.boardView.getSpace(endRow, endCol).getPiece() == null;
+                            // make sure the landing spot is empty
+                        }
+                    }
+                    else{
+                        if (this.boardView.getSpace(endRow-1,endCol-1).getPiece().getColor() == PieceColor.RED){
+                            //make sure there's actually a piece being jumped / jump to the right
+                            return this.boardView.getSpace(endRow, endCol).getPiece() == null;
+                            // make sure the landing spot is empty
+                        }
                     }
                 }
             }
