@@ -23,6 +23,9 @@ public class Game {
     private Player whitePlayer;
     private PieceColor activeColor;
     private BoardView boardView;
+    private boolean isGameOver;
+    private Player isResigned;
+    private Turn turn;
 
     /**
      * Enum representing the view mode (player, spectator, replay)
@@ -40,7 +43,14 @@ public class Game {
         this.whitePlayer = whitePlayer;
         this.activeColor = PieceColor.RED;
         this.boardView = new BoardView();
+        this.turn = new Turn();
         boardView.setBoard();
+        this.isGameOver = false;
+        this.isResigned = null;
+    }
+
+    public Turn getTurn(){
+        return this.turn;
     }
 
     /**
@@ -59,6 +69,49 @@ public class Game {
         return this.whitePlayer;
     }
 
+    public void gameOver(){
+        this.isGameOver = true;
+    }
+
+    public boolean isGameOver(){
+        if (this.isGameOver){
+            return true;
+        }
+        else{
+            int redpieces = 0;
+            int whitepieces = 0;
+            for (int i = 0; i < 8; i++){
+                for (int k = 0; k < 8; k++){
+                    Space space = this.boardView.getSpace(i, k);
+                    if (space != null){
+                        if (space.getPiece() != null){
+                            if (space.getPiece().color == PieceColor.RED){
+                                redpieces++;
+                            }
+                            else{
+                                whitepieces++;
+                            }
+                        }
+                    }
+                }
+            }
+            if (redpieces == 0 || whitepieces == 0){
+                this.isGameOver = true;
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+
+    public void setIsResigned(Player player){
+        this.isResigned = player;
+    }
+
+    public Player getIsResigned(){
+        return this.isResigned;
+    }
     /**
      * Gets the active PieceColor of the game (red or white)
      * @return the active PieceColor
@@ -216,7 +269,7 @@ public class Game {
         Space endSpace = boardView.getSpace(end.getRow(), end.getCell());
         Piece endPiece = endSpace.getPiece();
         if (endPiece != null) {
-            throw new Exception("Piece already present at endPiece");
+            throw new Exception("Piece already present at endPiece.");
         }
         boolean validRow;
         boolean validCell;
@@ -230,10 +283,10 @@ public class Game {
         }
 
         if (!validRow) {
-            throw new Exception("Non-jump must be a difference of 1 row");
+            throw new Exception("Non-jump must be a difference of 1 row.");
         }
         else if (!validCell){
-            throw new Exception("Non-jump must be a difference of 1 col");
+            throw new Exception("Non-jump must be a difference of 1 col.");
         }
         else {
             return true;

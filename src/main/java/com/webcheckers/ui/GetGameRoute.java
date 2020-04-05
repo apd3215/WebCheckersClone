@@ -18,12 +18,17 @@ import spark.Session;
 
 import com.webcheckers.util.Message;
 
+import static com.webcheckers.ui.WebServer.GAME_URL;
+import static spark.Spark.get;
+import static spark.Spark.redirect;
+
 /**
  * The UI Controller to GET the game route.
  */
 public class GetGameRoute implements Route {
 
   public static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+  public static final String HOME_URL = "/";
 
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
   private final TemplateEngine templateEngine;
@@ -31,8 +36,7 @@ public class GetGameRoute implements Route {
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
    *
-   * @param templateEngine
-   *   the HTML template rendering engine
+   * @param templateEngine the HTML template rendering engine
    */
   public GetGameRoute(final TemplateEngine templateEngine) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
@@ -43,13 +47,9 @@ public class GetGameRoute implements Route {
   /**
    * Render the WebCheckers Game route.
    *
-   * @param request
-   *   the HTTP request
-   * @param response
-   *   the HTTP response
-   *
-   * @return
-   *   the rendered HTML for the Game page
+   * @param request  the HTTP request
+   * @param response the HTTP response
+   * @return the rendered HTML for the Game page
    */
   @Override
   public Object handle(Request request, Response response) {
@@ -58,20 +58,24 @@ public class GetGameRoute implements Route {
 
     Map<String, Object> vm = new HashMap<>();
     Player player = httpSession.attribute("Player");
-    httpSession.attribute("resign", "false");
     Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute("Player"));
 
-    //TODO: Replace these magic strings with constants!
-    vm.put("title", "Game page!");
-    vm.put("message", WELCOME_MSG);
-    vm.put("currentUser", player);
-    vm.put("redPlayer", game.getRedPlayer());
-    vm.put("whitePlayer", game.getWhitePlayer());
-    vm.put("viewMode", Game.ViewMode.PLAY);
-    vm.put("board", game.getBoardView());
-    vm.put("activeColor", game.getActiveColor());
 
-    return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+    if (game != null) {
+      vm.put("title", "Game page!");
+      vm.put("message", WELCOME_MSG);
+      vm.put("currentUser", player);
+      vm.put("redPlayer", game.getRedPlayer());
+      vm.put("whitePlayer", game.getWhitePlayer());
+      vm.put("viewMode", Game.ViewMode.PLAY);
+      vm.put("board", game.getBoardView());
+      vm.put("activeColor", game.getActiveColor());
+
+      return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+    }
+    else{
+      response.redirect("/");
+      return null;
+    }
   }
-
 }

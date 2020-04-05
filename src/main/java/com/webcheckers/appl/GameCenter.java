@@ -55,7 +55,6 @@ public class GameCenter {
         game.getRedPlayer().endGamePlayer();
         game.getWhitePlayer().endGamePlayer();
         GameArrayList.remove(game);
-        return;
     }
 
 }

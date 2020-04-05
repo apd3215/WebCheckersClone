@@ -53,7 +53,7 @@ public class PostValidateMoveRoute implements Route {
             isValid = game.isMoveValid(move);
             Message message = Message.info("Valid move");
             String jsonMessage = gson.toJson(message);
-            httpSession.attribute("last_move", move);
+            game.getTurn().add_move(move);
             response.body(jsonMessage);
             return jsonMessage;
         }
