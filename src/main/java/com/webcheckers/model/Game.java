@@ -180,7 +180,6 @@ public class Game {
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
                         captured.setPiece(null);
                     }
-
             } else { // if White player makes the jump move
                     int capturedRow =  endRow - 1;
                     if ((endCell - currCell) == 2){ //coming from left to right but from white's perspective
@@ -194,7 +193,6 @@ public class Game {
                         captured.setPiece(null);
                     }
             }
-
         } else {
             if (!check_board()){
                 return false;

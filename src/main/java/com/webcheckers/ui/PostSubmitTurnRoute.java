@@ -7,6 +7,8 @@ import com.webcheckers.model.Move;
 import com.webcheckers.util.Message;
 import spark.*;
 
+import static spark.Spark.post;
+
 public class PostSubmitTurnRoute implements Route {
 
     private final TemplateEngine templateEngine;
@@ -26,11 +28,16 @@ public class PostSubmitTurnRoute implements Route {
         Message message;
         if (game.makeMove(move)) {
             message = Message.info("true");
+            String move_json = gson.toJson(message);
+            response.body(move_json);
+            return move_json;
         } else {
-            message = Message.error("Jump moves possible");
+            message = Message.error("Jump moves possible.");
+            String move_json = gson.toJson(message);
+            response.body(move_json);
+            post("/backup", new PostBackUpMoveRoute(templateEngine));
+            return move_json;
         }
-        String move_json = gson.toJson(message);
-        response.body(move_json);
-        return move_json;
+
     }
 }
