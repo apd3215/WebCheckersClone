@@ -74,7 +74,35 @@ public class Game {
     }
 
     public boolean isGameOver(){
-        return this.isGameOver;
+        if (this.isGameOver){
+            return true;
+        }
+        else{
+            int redpieces = 0;
+            int whitepieces = 0;
+            for (int i = 0; i < 8; i++){
+                for (int k = 0; k < 8; k++){
+                    Space space = this.boardView.getSpace(i, k);
+                    if (space != null){
+                        if (space.getPiece() != null){
+                            if (space.getPiece().color == PieceColor.RED){
+                                redpieces++;
+                            }
+                            else{
+                                whitepieces++;
+                            }
+                        }
+                    }
+                }
+            }
+            if (redpieces == 0 || whitepieces == 0){
+                this.isGameOver = true;
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
     }
 
     public void setIsResigned(Player player){
