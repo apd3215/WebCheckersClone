@@ -242,9 +242,7 @@ public class Game {
 
             int row = ( currRow + endRow ) / 2;
             int col = ( currCell + endCell) / 2;
-            Space captured = this.boardView.getSpace(row,col);
             Piece capturedPiece = this.turn.rem_capture();
-            boolean isKing = capturedPiece.getType() == Piece.PieceType.KING;
             this.boardView.getSpace(row,col).setPiece(capturedPiece);
 
         } else {
@@ -450,28 +448,21 @@ public class Game {
             throw new Exception("Already a piece present on end square.");
         }
 
-        //if (startPiece.getType() == Piece.PieceType.SINGLE) {
-            if (turn.getNum() == 1 && this.turn.getCapturedLen() == 0){
-                throw new Exception("Invalid Move.");
+        if (turn.getNum() == 1 && this.turn.getCapturedLen() == 0){
+            throw new Exception("Invalid Move.");
+        }
+        if (Math.abs(start.getRow() - end.getRow()) == 1) {
+            return isValidNormalMoveSingle(move);
+        }
+        else {
+            // handles king as well as normal jump moves
+            boolean b = isValidJump(move);
+            if (!b){
+                throw new Exception("Not a Valid Move.");
+            } else {
+                setTurnAttr(move.getStart().getRow(), move.getStart().getCell());
             }
-            if (Math.abs(start.getRow() - end.getRow()) == 1) {
-                return isValidNormalMoveSingle(move);
-            }
-            else {
-                // handles king as well as normal jump moves
-                boolean b = isValidJump(move);
-                if (!b){
-                    throw new Exception("Not a Valid Move.");
-                } else {
-                    setTurnAttr(move.getStart().getRow(), move.getStart().getCell());
-                }
-                return b;
-            }
-        //}
-        //else {
-            //TODO KING PIECE
-           // throw new Exception("King move not implemented yet");
-
-        //}
+            return true;
+        }
     }
 }
