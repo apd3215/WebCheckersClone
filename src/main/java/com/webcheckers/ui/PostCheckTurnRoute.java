@@ -46,10 +46,6 @@ public class PostCheckTurnRoute implements Route {
         Game game = Application.gameCenter.getGameByPlayer(player);
         Piece.PieceColor callerColor;
 
-//        if (game.getIsResigned() != null){
-//            Application.gameCenter.endGame(game);
-//        }
-
         if (game != null) {
 
             if (player == game.getRedPlayer()) {
@@ -84,8 +80,6 @@ public class PostCheckTurnRoute implements Route {
                             Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
                         }
                     }
-
-//                    Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
                     get(HOME_URL, new GetHomeRoute(templateEngine)); //Home route (default)
                     return jsonMessage;
                 }

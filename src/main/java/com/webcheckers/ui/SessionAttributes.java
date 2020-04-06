@@ -1,5 +1,10 @@
 package com.webcheckers.ui;
 
+/**
+ * Class that saves key names used
+ * @author Joshua Yoder
+ * @author Jonathan Baxley
+ */
 public class SessionAttributes {
     static final String PLAYER = "Player";
     static final String RESIGN = "resign";

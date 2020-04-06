@@ -1,5 +1,10 @@
 package com.webcheckers.ui;
 
+/**
+ * VM Attribute Strings commonly used
+ * @author Joshua Yoder
+ * @author Jonathan Baxley
+ */
 public class VMAttributes {
     static final String TITLE = "title";
     static final String MESSAGE = "message";

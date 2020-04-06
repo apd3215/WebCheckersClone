@@ -10,15 +10,29 @@ import spark.*;
 import static spark.Spark.get;
 import static spark.route.HttpMethod.get;
 
+/**
+ * UI controller for POST submit turn
+ * @author Jonathan Baxley
+ * @author Andre DeCosta
+ * @author Dhaval Shrishrimal
+ * @author Joe Netti
+ */
 public class PostSubmitTurnRoute implements Route {
 
     private final TemplateEngine templateEngine;
 
+    //Default Constructor
     public PostSubmitTurnRoute(TemplateEngine templateEngine){
         this.templateEngine = templateEngine;
     }
 
 
+    /**
+     * Handles submit a turn request. Either rejects or accepts a move
+     * @param request http request
+     * @param response http response
+     * @return jsonmessage Object
+     */
     @Override
     public Object handle(Request request, Response response){
         final Session httpSession = request.session();
