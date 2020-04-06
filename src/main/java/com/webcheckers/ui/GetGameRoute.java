@@ -80,21 +80,19 @@ public class GetGameRoute implements Route {
 
         if (player.equals(game.getWinner())){
           modeOptions.put("gameOverMessage", "you win");
-          vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
         }
         else{
           Message message = Message.info("You lost.");
-          vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
         }
+        vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
+        return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+
       }
       else{
         vm.put("message", WELCOME_MSG);
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
 
       }
-      TimeUnit.SECONDS.sleep(10);
-      response.redirect("/");
-      return null;
     }
 
     else{

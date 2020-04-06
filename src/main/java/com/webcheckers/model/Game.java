@@ -74,7 +74,6 @@ public class Game {
     }
 
     public boolean isGameOver(){
-        System.out.println("REd:" + this.redpieces + " WHITE: " + this.whitepieces);
         if (this.isGameOver){
             return true;
         }
