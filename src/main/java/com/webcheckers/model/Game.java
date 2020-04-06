@@ -139,7 +139,7 @@ public class Game {
         }
     }
 
-    public void revertPiece(PieceColor Color){
+    private void revertPiece(PieceColor Color){
         if (Color == PieceColor.WHITE){
             this.whitepieces++;
         } else {
@@ -265,7 +265,7 @@ public class Game {
     }
 
 
-    public boolean makeMove(Move move){
+    public void makeMove(Move move){
         Position start = move.getStart();
         Position end = move.getEnd();
         int currRow = start.getRow();
@@ -329,7 +329,6 @@ public class Game {
         boolean isKing = this.boardView.getSpace(endRow,endCell).getPiece().type == Piece.PieceType.KING;
         System.out.println("Start Row : " + currRow + " Start Col: " + currCell + " isKing: " + isKing);
         System.out.println("End Row: " + endRow + " End Col: " + endCell + " isKing: " + isKing );
-        return true;
     }
 
     private Boolean isValidNormalMoveSingle(Move move) throws Exception {
