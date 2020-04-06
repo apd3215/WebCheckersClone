@@ -69,21 +69,26 @@ public class GetHomeRoute implements Route {
             Map<String, Object> vm = new HashMap<>();
             Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute(SessionAttributes.PLAYER));
             if (game != null) {
-                response.redirect(GAME_URL);
-                return null;
-            } else {
-                vm.put(VMAttributes.TITLE, WELCOME_STR);
-                if (httpSession.attribute(SessionAttributes.ERROR) != null){
-                    vm.put(VMAttributes.MESSAGE, httpSession.attribute(SessionAttributes.ERROR));
-                    httpSession.attribute(SessionAttributes.ERROR, null);
-                } else {
-                    vm.put(VMAttributes.MESSAGE, WELCOME_MSG);
+                if (game.isGameOver()){
+                    Application.gameCenter.endGame(game);
                 }
-                vm.put(VMAttributes.CURRENT_USER, httpSession.attribute(SessionAttributes.PLAYER));
-                vm.put(VMAttributes.SIGNED, Application.playerLobby.get_logged_names());
-                vm.put(VMAttributes.PLAYING, Application.playerLobby.get_playing());
-                return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+                else {
+                    response.redirect(GAME_URL);
+                    return null;
+                }
             }
+
+            vm.put(VMAttributes.TITLE, WELCOME_STR);
+            if (httpSession.attribute(SessionAttributes.ERROR) != null){
+                vm.put(VMAttributes.MESSAGE, httpSession.attribute(SessionAttributes.ERROR));
+                httpSession.attribute(SessionAttributes.ERROR, null);
+            } else {
+                vm.put(VMAttributes.MESSAGE, WELCOME_MSG);
+            }
+            vm.put(VMAttributes.CURRENT_USER, httpSession.attribute(SessionAttributes.PLAYER));
+            vm.put(VMAttributes.SIGNED, Application.playerLobby.get_logged_names());
+            vm.put(VMAttributes.PLAYING, Application.playerLobby.get_playing());
+            return templateEngine.render(new ModelAndView(vm, "home.ftl"));
         }
     }
 }

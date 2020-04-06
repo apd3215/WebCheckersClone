@@ -91,7 +91,6 @@ public class GetGameRoute implements Route {
       else{
         vm.put("message", WELCOME_MSG);
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
-
       }
     }
 
