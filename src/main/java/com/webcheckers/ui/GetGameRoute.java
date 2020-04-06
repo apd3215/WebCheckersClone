@@ -7,6 +7,7 @@ import com.webcheckers.model.Game;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import spark.ModelAndView;
@@ -52,7 +53,7 @@ public class GetGameRoute implements Route {
    * @return the rendered HTML for the Game page
    */
   @Override
-  public Object handle(Request request, Response response) {
+  public Object handle(Request request, Response response) throws InterruptedException{
     LOG.finer("GetGameRoute is invoked.");
     final Session httpSession = request.session();
 
@@ -63,7 +64,6 @@ public class GetGameRoute implements Route {
 
     if (game != null) {
       vm.put("title", "Game page!");
-      vm.put("message", WELCOME_MSG);
       vm.put("currentUser", player);
       vm.put("redPlayer", game.getRedPlayer());
       vm.put("whitePlayer", game.getWhitePlayer());
@@ -71,8 +71,26 @@ public class GetGameRoute implements Route {
       vm.put("board", game.getBoardView());
       vm.put("activeColor", game.getActiveColor());
 
-      return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+      if (game.isGameOver()){
+        if (player.equals(game.getWinner())){
+          Message message = Message.info("You won");
+          vm.put("message", message);
+        }
+        else{
+          Message message = Message.info("You lost.");
+          vm.put("message", "You lost");
+        }
+      }
+      else{
+        vm.put("message", WELCOME_MSG);
+        return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+
+      }
+      TimeUnit.SECONDS.sleep(10);
+      response.redirect("/");
+      return null;
     }
+
     else{
       response.redirect("/");
       return null;
