@@ -206,9 +206,6 @@ public class Game {
     public boolean backUp(){
         Move move = this.turn.getPrevMove();
         this.turn.remove_move();
-        if (move == null){
-            return false;
-        }
         int currRow = move.getStart().getRow();
         int currCell = move.getStart().getCell();
         int endRow = move.getEnd().getRow();
@@ -337,9 +334,15 @@ public class Game {
             Move prev = this.turn.getPrevMove();
             this.backUp();
             if (!check_board()){
+                this.makeMove(prev);
+                this.getTurn().add_move(prev);
                 return false;
             }
             this.makeMove(prev);
+        } else {
+            if (!check_board()){
+                return false;
+            }
         }
         if (this.activeColor == PieceColor.RED){
             this.activeColor = PieceColor.WHITE;
@@ -424,7 +427,8 @@ public class Game {
         }
 
         //if (startPiece.getType() == Piece.PieceType.SINGLE) {
-            if (turn.getNum() > 1){
+            if (turn.getNum() == 1 && this.turn.getCapturedLen() == 0){
+                throw new Exception("Invalid Move.");
             }
             if (Math.abs(start.getRow() - end.getRow()) == 1) {
                 return isValidNormalMoveSingle(move);
