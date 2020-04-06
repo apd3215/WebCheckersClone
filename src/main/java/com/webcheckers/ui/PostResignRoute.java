@@ -36,9 +36,7 @@ public class PostResignRoute implements Route{
         Message message = Message.info("Successful");
         String jsonMessage = gson.toJson(message);
         response.body(jsonMessage);
-//        while (Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")) != null){
-//
-//        }
+
         Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
         get(WebServer.HOME_URL, new GetHomeRoute(templateEngine)); //Home route (default)
         return jsonMessage;
