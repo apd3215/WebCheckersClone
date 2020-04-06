@@ -339,6 +339,7 @@ public class Game {
                 return false;
             }
             this.makeMove(prev);
+            this.getTurn().add_move(prev);
         } else {
             if (!check_board()){
                 return false;
