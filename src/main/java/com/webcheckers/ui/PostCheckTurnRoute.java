@@ -46,34 +46,42 @@ public class PostCheckTurnRoute implements Route {
         Game game = Application.gameCenter.getGameByPlayer(player);
         Piece.PieceColor callerColor;
 
+//        if (game.getIsResigned() != null){
+//            Application.gameCenter.endGame(game);
+//        }
+
         if (game != null) {
+
             if (player == game.getRedPlayer()) {
                 callerColor = Piece.PieceColor.RED;
             } else {
                 callerColor = Piece.PieceColor.WHITE;
             }
             while (callerColor != game.getActiveColor()) {
+                if (game.getIsResigned() != null){
+                    Message message = Message.info("true");
+                    String jsonMessage = gson.toJson(message);
+                    response.body(jsonMessage);
+                    return jsonMessage;
+                }
                 if (game.isGameOver()) {
                     String jsonMessage;
                     if (game.getIsResigned() != null) {
                         Message message = Message.error(game.getIsResigned().getName() + " has resigned. You win! You will now be sent home.");
                         jsonMessage = gson.toJson(message);
                         response.body(jsonMessage);
-                        TimeUnit.SECONDS.sleep(10);
                     } else {
                         if (game.getWinner().equals(player)){
                             Message message = Message.error("You won. You will now be sent home.");
                             jsonMessage = gson.toJson(message);
                             response.body(jsonMessage);
                             Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
-                            TimeUnit.SECONDS.sleep(10);
                         }
                         else {
                             Message message = Message.error("You lost. You will now be sent home.");
                             jsonMessage = gson.toJson(message);
                             response.body(jsonMessage);
                             Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
-                            TimeUnit.SECONDS.sleep(10);
                         }
                     }
 

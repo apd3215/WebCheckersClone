@@ -74,15 +74,26 @@ public class GetGameRoute implements Route {
       vm.put("board", game.getBoardView());
       vm.put("activeColor", game.getActiveColor());
 
+      final Map<String, Object> modeOptions = new HashMap<>(2);
+      modeOptions.put("isGameOver", true);
+
+      if (game.getIsResigned() == httpSession.attribute(SessionAttributes.PLAYER)){
+        modeOptions.put("gameOverMessage", "You resigned. BOO.");
+        game.gameOver();
+        vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
+        return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+      } else if (game.getIsResigned() != null){
+        modeOptions.put("gameOverMessage", "Other Player resigned. You Win.");
+        game.gameOver();
+        vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
+        Application.gameCenter.endGame(game);
+        return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+      }
       if (game.isGameOver()){
-        final Map<String, Object> modeOptions = new HashMap<>(2);
-        modeOptions.put("isGameOver", true);
+
 
         if (player.equals(game.getWinner())){
           modeOptions.put("gameOverMessage", "you win");
-        }
-        else{
-          Message message = Message.info("You lost.");
         }
         vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
