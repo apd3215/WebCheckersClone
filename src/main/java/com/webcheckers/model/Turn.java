@@ -1,7 +1,5 @@
 package com.webcheckers.model;
 
-import com.webcheckers.model.Piece.Piece;
-
 import java.util.ArrayList;
 
 public class Turn {

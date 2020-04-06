@@ -1,10 +1,7 @@
 package com.webcheckers.model;
 
 import com.webcheckers.appl.Player;
-import com.webcheckers.model.Piece.King_Piece;
-import com.webcheckers.model.Piece.Piece;
-import com.webcheckers.model.Piece.Piece.PieceColor;
-import com.webcheckers.model.Piece.Single_Piece;
+import com.webcheckers.model.Piece.PieceColor;
 
 import java.util.logging.Logger;
 
@@ -191,7 +188,7 @@ public class Game {
     }
 
     private boolean checkBoardDoubleJump(int i, int j){
-        if (boardView.getSpace(i, j).getPiece() instanceof King_Piece){
+        if (boardView.getSpace(i, j).getPiece().getType() == Piece.PieceType.KING){
             boolean temp = check_DownLeft(i,j) && check_DownRight(i,j) && check_UpLeft(i,j)
                     && check_UpRight(i,j);
             if (!temp){
@@ -218,7 +215,7 @@ public class Game {
             for (int j = 0; j < 8; j++){
                 if (boardView.getSpace(i,j).getPiece() == null) {
                     continue;
-                } else if (boardView.getSpace(i, j).getPiece() instanceof King_Piece){
+                } else if (boardView.getSpace(i, j).getPiece().getType() == Piece.PieceType.KING){
                     boolean temp = check_DownLeft(i,j) && check_DownRight(i,j) && check_UpLeft(i,j)
                             && check_UpRight(i,j);
                     if (!temp){
@@ -309,8 +306,11 @@ public class Game {
             }
         }
         curr.setPiece(null);
-        Piece redKing = new King_Piece(PieceColor.RED);
-        Piece whiteKing = new King_Piece(PieceColor.WHITE);
+//        Piece redKing = new King_Piece(PieceColor.RED);
+//        Piece whiteKing = new King_Piece(PieceColor.WHITE);
+        Piece redKing = new Piece(Piece.PieceColor.RED, Piece.PieceType.KING);
+        Piece whiteKing = new Piece(PieceColor.WHITE, Piece.PieceType.KING);
+
         PieceColor color = moved.getColor();
         if (color == PieceColor.RED && endRow == 0){
             end_space.setPiece(redKing);
@@ -415,7 +415,7 @@ public class Game {
                 return false;
             }
             if (startRow - endRow > 0){
-                if (pStart instanceof King_Piece || pStart.getColor() == PieceColor.RED) {
+                if (pStart.getType() == Piece.PieceType.KING || pStart.getColor() == PieceColor.RED) {
                     if (startCol - endCol > 0) {
                         return boardView.getSpace(startRow - 1, startCol - 1).getPiece().getColor() != curr;
                     } else {
@@ -425,7 +425,7 @@ public class Game {
                     return false;
                 }
             } else {
-                if (pStart instanceof King_Piece || pStart.getColor() == PieceColor.WHITE) {
+                if (pStart.getType() == Piece.PieceType.KING || pStart.getColor() == PieceColor.WHITE) {
                     if (startCol - endCol > 0) {
                         return boardView.getSpace(startRow + 1, startCol - 1).getPiece().getColor() != curr;
                     } else {

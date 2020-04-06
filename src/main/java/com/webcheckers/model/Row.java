@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.webcheckers.model.Piece.Piece;
-import com.webcheckers.model.Piece.Piece.PieceColor;
-import com.webcheckers.model.Piece.Single_Piece;
+import com.webcheckers.model.Piece.PieceColor;
 
 /**
  * Represents a Row on the game board.
@@ -57,12 +55,12 @@ public class Row implements Iterable<Space> {
         for(int i = 0; i < 8; i++) {
             if(index%2 == 0) {
                 if(i%2 != 0) {
-                    Piece piece = new Single_Piece(pieceColor);
+                    Piece piece = new Piece(pieceColor, Piece.PieceType.SINGLE);
                     spaces.get(i).setPiece(piece);
                 }
             } else {
                 if(i%2 == 0) {
-                    Piece piece = new Single_Piece(pieceColor);
+                    Piece piece = new Piece(pieceColor, Piece.PieceType.SINGLE);
                     spaces.get(i).setPiece(piece);
                 }
             }

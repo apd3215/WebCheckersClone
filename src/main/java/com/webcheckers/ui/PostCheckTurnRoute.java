@@ -2,7 +2,7 @@ package com.webcheckers.ui;
 
 import com.google.gson.Gson;
 import com.webcheckers.model.Game;
-import com.webcheckers.model.Piece.Piece;
+import com.webcheckers.model.Piece;
 import com.webcheckers.util.Message;
 import com.webcheckers.Application;
 import com.webcheckers.appl.Player;
