@@ -74,27 +74,11 @@ public class Game {
     }
 
     public boolean isGameOver(){
+        System.out.println("REd:" + this.redpieces + " WHITE: " + this.whitepieces);
         if (this.isGameOver){
             return true;
         }
         else{
-//            int redpieces = 0;
-//            int whitepieces = 0;
-//            for (int i = 0; i < 8; i++){
-//                for (int k = 0; k < 8; k++){
-//                    Space space = this.boardView.getSpace(i, k);
-//                    if (space != null){
-//                        if (space.getPiece() != null){
-//                            if (space.getPiece().color == PieceColor.RED){
-//                                redpieces++;
-//                            }
-//                            else{
-//                                whitepieces++;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
             if (redpieces == 0){
                 this.winner = this.whitePlayer;
                 this.isGameOver = true;

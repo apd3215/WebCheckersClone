@@ -18,6 +18,7 @@ import spark.TemplateEngine;
 import spark.Session;
 
 import com.webcheckers.util.Message;
+import com.google.gson.Gson;
 
 import static com.webcheckers.ui.WebServer.GAME_URL;
 import static spark.Spark.get;
@@ -62,6 +63,7 @@ public class GetGameRoute implements Route {
     
     Player player = httpSession.attribute(SessionAttributes.PLAYER);
     Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute(SessionAttributes.PLAYER));
+    Gson gson = new Gson();
 
     if (game != null) {
       vm.put("title", "Game page!");
@@ -73,13 +75,16 @@ public class GetGameRoute implements Route {
       vm.put("activeColor", game.getActiveColor());
 
       if (game.isGameOver()){
+        final Map<String, Object> modeOptions = new HashMap<>(2);
+        modeOptions.put("isGameOver", true);
+
         if (player.equals(game.getWinner())){
-          Message message = Message.info("You won");
-          vm.put("message", message);
+          modeOptions.put("gameOverMessage", "you win");
+          vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
         }
         else{
           Message message = Message.info("You lost.");
-          vm.put("message", "You lost");
+          vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
         }
       }
       else{
