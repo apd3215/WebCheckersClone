@@ -24,6 +24,10 @@ public class Turn {
         captured.add(piece);
     }
 
+    public int getCapturedLen() {
+        return captured.size();
+    }
+
     public Piece rem_capture(){
         return captured.remove(captured.size() - 1);
     }

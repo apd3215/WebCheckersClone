@@ -440,7 +440,8 @@ public class Game {
         }
 
         //if (startPiece.getType() == Piece.PieceType.SINGLE) {
-            if (turn.getNum() > 1){
+            if (turn.getNum() == 1 && this.turn.getCapturedLen() == 0){
+                throw new Exception("Invalid Move.");
             }
             if (Math.abs(start.getRow() - end.getRow()) == 1) {
                 return isValidNormalMoveSingle(move);
