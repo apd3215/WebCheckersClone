@@ -65,10 +65,20 @@ public class PostCheckTurnRoute implements Route {
                         response.body(jsonMessage);
                         TimeUnit.SECONDS.sleep(10);
                     } else {
-                        Message message = Message.error("You lost. You will now be sent home.");
-                        jsonMessage = gson.toJson(message);
-                        response.body(jsonMessage);
-                        TimeUnit.SECONDS.sleep(10);
+                        if (game.getWinner().equals(player)){
+                            Message message = Message.error("You won. You will now be sent home.");
+                            jsonMessage = gson.toJson(message);
+                            response.body(jsonMessage);
+                            Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
+                            TimeUnit.SECONDS.sleep(10);
+                        }
+                        else {
+                            Message message = Message.error("You lost. You will now be sent home.");
+                            jsonMessage = gson.toJson(message);
+                            response.body(jsonMessage);
+                            Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
+                            TimeUnit.SECONDS.sleep(10);
+                        }
                     }
 
 //                    Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
