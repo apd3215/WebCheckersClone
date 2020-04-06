@@ -45,7 +45,6 @@ public class Player {
     }
 
     /**
-     * TODO NEEDS TO BE CALLED IN POSTGAMEROUTE
      * Mutator, sets game not playing for a player
      */
     public void endGamePlayer(){

@@ -59,7 +59,6 @@ public class GameCenter {
 
     /**
      * Ends a game that is currently in progress
-     * TODO: fix this and get clatification
      * @param game the game to end
      */
     public void endGame(Game game){
