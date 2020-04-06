@@ -215,7 +215,8 @@ public class Game {
             for (int j = 0; j < 8; j++){
                 if (boardView.getSpace(i,j).getPiece() == null) {
                     continue;
-                } else if (boardView.getSpace(i, j).getPiece().getType() == Piece.PieceType.KING){
+                } else if (boardView.getSpace(i, j).getPiece().getType() == Piece.PieceType.KING &&
+                                                boardView.getSpace(i, j).getPiece().getColor() == this.activeColor){
                     boolean temp = check_DownLeft(i,j) && check_DownRight(i,j) && check_UpLeft(i,j)
                             && check_UpRight(i,j);
                     if (!temp){
