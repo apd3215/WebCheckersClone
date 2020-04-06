@@ -65,6 +65,5 @@ public class PostValidateMoveRoute implements Route {
             response.body(jsonMessage);
             return jsonMessage;
         }
-
     }
 }
