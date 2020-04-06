@@ -81,8 +81,11 @@ public class GetGameRouteTest {
         when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
         //Call handle on the CuT
-        CuT.handle(request, response);
+        try {
+            CuT.handle(request, response);
+        } catch (InterruptedException e) {
 
+        }
         //Test viewmodel
         testHelper.assertViewModelExists();
         testHelper.assertViewModelIsaMap();
@@ -111,7 +114,11 @@ public class GetGameRouteTest {
         when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
         //Call handle on the CuT
-        CuT.handle(request, response);
+        try {
+            CuT.handle(request, response);
+        } catch (InterruptedException e) {
+
+        }
 
         verify(response).redirect(WebServer.HOME_URL);
     }
