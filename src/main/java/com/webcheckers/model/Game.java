@@ -74,8 +74,13 @@ public class Game {
     }
 
     public boolean isGameOver(){
-        System.out.println("REd:" + this.redpieces + " WHITE: " + this.whitepieces);
         if (this.isGameOver){
+            if (this.isResigned.equals(this.whitePlayer)){
+                this.winner = redPlayer;
+            }
+            else{
+                this.winner = whitePlayer;
+            }
             return true;
         }
         else{
@@ -327,8 +332,6 @@ public class Game {
             end_space.setPiece(moved);
         }
         boolean isKing = this.boardView.getSpace(endRow,endCell).getPiece().type == Piece.PieceType.KING;
-        System.out.println("Start Row : " + currRow + " Start Col: " + currCell + " isKing: " + isKing);
-        System.out.println("End Row: " + endRow + " End Col: " + endCell + " isKing: " + isKing );
     }
 
     private Boolean isValidNormalMoveSingle(Move move) throws Exception {
@@ -446,8 +449,6 @@ public class Game {
     public Boolean isMoveValid(Move move) throws Exception {
         Position start = move.getStart();
         Position end = move.getEnd();
-
-        System.out.println(start);
 
         if (start.getRow() > 7 || start.getCell() > 7 || start.getRow() < 0 || start.getCell() < 0) {
             throw new Exception("Index request out of bounds");
