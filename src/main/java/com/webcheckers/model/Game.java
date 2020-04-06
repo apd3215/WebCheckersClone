@@ -81,7 +81,6 @@ public class Game {
             return true;
         }
         else{
-            return redpieces == 0 || whitepieces == 0;
 //            int redpieces = 0;
 //            int whitepieces = 0;
 //            for (int i = 0; i < 8; i++){
@@ -99,19 +98,19 @@ public class Game {
 //                    }
 //                }
 //            }
-//            if (redpieces == 0){
-//                this.winner = this.whitePlayer;
-//                this.isGameOver = true;
-//                return true;
-//            }
-//            else if (whitepieces == 0){
-//                this.winner = this.redPlayer;
-//                this.isGameOver = true;
-//                return true;
-//            }
-//            else{
-//                return false;
-//            }
+            if (redpieces == 0){
+                this.winner = this.whitePlayer;
+                this.isGameOver = true;
+                return true;
+            }
+            else if (whitepieces == 0){
+                this.winner = this.redPlayer;
+                this.isGameOver = true;
+                return true;
+            }
+            else{
+                return false;
+            }
         }
     }
 
