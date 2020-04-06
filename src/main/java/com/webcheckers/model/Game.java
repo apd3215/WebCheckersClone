@@ -21,8 +21,8 @@ public class Game {
     private Player isResigned;
     private Turn turn;
     private Player winner;
-    private int whitepieces;
-    private int redpieces;
+    private int whitePieces;
+    private int redPieces;
 
     /**
      * Enum representing the view mode (player, spectator, replay)
@@ -45,8 +45,8 @@ public class Game {
         this.isGameOver = false;
         this.isResigned = null;
         this.winner = null;
-        this.whitepieces = 12;
-        this.redpieces = 12;
+        this.whitePieces = 12;
+        this.redPieces = 12;
     }
 
     public Turn getTurn(){
@@ -74,17 +74,17 @@ public class Game {
     }
 
     public boolean isGameOver(){
-        System.out.println("REd:" + this.redpieces + " WHITE: " + this.whitepieces);
+        System.out.println("REd:" + this.redPieces + " WHITE: " + this.whitePieces);
         if (this.isGameOver){
             return true;
         }
         else{
-            if (redpieces == 0){
+            if (redPieces == 0){
                 this.winner = this.whitePlayer;
                 this.isGameOver = true;
                 return true;
             }
-            else if (whitepieces == 0){
+            else if (whitePieces == 0){
                 this.winner = this.redPlayer;
                 this.isGameOver = true;
                 return true;
@@ -133,17 +133,17 @@ public class Game {
 
     private void updatePiece(PieceColor Color){
         if (Color == PieceColor.WHITE){
-            this.whitepieces--;
+            this.whitePieces--;
         } else {
-            this.redpieces--;
+            this.redPieces--;
         }
     }
 
     private void revertPiece(PieceColor Color){
         if (Color == PieceColor.WHITE){
-            this.whitepieces++;
+            this.whitePieces++;
         } else {
-            this.redpieces++;
+            this.redPieces++;
         }
     }
 
@@ -311,8 +311,6 @@ public class Game {
             }
         }
         curr.setPiece(null);
-//        Piece redKing = new King_Piece(PieceColor.RED);
-//        Piece whiteKing = new King_Piece(PieceColor.WHITE);
         Piece redKing = new Piece(Piece.PieceColor.RED, Piece.PieceType.KING);
         Piece whiteKing = new Piece(PieceColor.WHITE, Piece.PieceType.KING);
 
