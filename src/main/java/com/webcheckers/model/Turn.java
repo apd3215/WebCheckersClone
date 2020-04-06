@@ -34,8 +34,10 @@ public class Turn {
     }
 
     public void remove_move(){
-        this.moves.remove(this.moves.size() - 1);
-        num--;
+        if (this.moves.size() != 0) {
+            this.moves.remove(this.moves.size() - 1);
+            num--;
+        }
     }
 
     public Move getPrevMove(){

@@ -7,6 +7,7 @@ import com.webcheckers.model.Game;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import spark.ModelAndView;
@@ -53,7 +54,7 @@ public class GetGameRoute implements Route {
    * @return the rendered HTML for the Game page
    */
   @Override
-  public Object handle(Request request, Response response) {
+  public Object handle(Request request, Response response) throws InterruptedException{
     LOG.finer("GetGameRoute is invoked.");
     final Session httpSession = request.session();
 
@@ -63,18 +64,36 @@ public class GetGameRoute implements Route {
     Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute(SessionAttributes.PLAYER));
 
     if (game != null) {
-      vm.put(VMAttributes.TITLE, GAME_TITLE);
-      vm.put(VMAttributes.MESSAGE, WELCOME_MSG);
-      vm.put(VMAttributes.CURRENT_USER, player);
-      vm.put(VMAttributes.RED_PLAYER, game.getRedPlayer());
-      vm.put(VMAttributes.WHITE_PLAYER, game.getWhitePlayer());
-      vm.put(VMAttributes.VIEW_MODE, Game.ViewMode.PLAY);
-      vm.put(VMAttributes.BOARD, game.getBoardView());
-      vm.put(VMAttributes.ACTIVE_COLOR, game.getActiveColor());
+      vm.put("title", "Game page!");
+      vm.put("currentUser", player);
+      vm.put("redPlayer", game.getRedPlayer());
+      vm.put("whitePlayer", game.getWhitePlayer());
+      vm.put("viewMode", Game.ViewMode.PLAY);
+      vm.put("board", game.getBoardView());
+      vm.put("activeColor", game.getActiveColor());
 
-      return templateEngine.render(new ModelAndView(vm, "game.ftl"));
-    } else {
-      response.redirect(WebServer.HOME_URL);
+      if (game.isGameOver()){
+        if (player.equals(game.getWinner())){
+          Message message = Message.info("You won");
+          vm.put("message", message);
+        }
+        else{
+          Message message = Message.info("You lost.");
+          vm.put("message", "You lost");
+        }
+      }
+      else{
+        vm.put("message", WELCOME_MSG);
+        return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+
+      }
+      TimeUnit.SECONDS.sleep(10);
+      response.redirect("/");
+      return null;
+    }
+
+    else{
+      response.redirect("/");
       return null;
     }
   }

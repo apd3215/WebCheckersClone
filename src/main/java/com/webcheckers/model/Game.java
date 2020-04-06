@@ -24,6 +24,8 @@ public class Game {
     private Player isResigned;
     private Turn turn;
     private Player winner;
+    private int whitepieces;
+    private int redpieces;
 
     /**
      * Enum representing the view mode (player, spectator, replay)
@@ -46,6 +48,8 @@ public class Game {
         this.isGameOver = false;
         this.isResigned = null;
         this.winner = null;
+        this.whitepieces = 12;
+        this.redpieces = 12;
     }
 
     public Turn getTurn(){
