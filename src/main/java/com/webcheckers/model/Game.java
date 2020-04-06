@@ -81,20 +81,37 @@ public class Game {
             return true;
         }
         else{
-
-            if (this.redpieces == 0){
-                this.winner = this.whitePlayer;
-                this.isGameOver = true;
-                return true;
-            }
-            else if (this.whitepieces == 0){
-                this.winner = this.redPlayer;
-                this.isGameOver = true;
-                return true;
-            }
-            else{
-                return false;
-            }
+            return redpieces == 0 || whitepieces == 0;
+//            int redpieces = 0;
+//            int whitepieces = 0;
+//            for (int i = 0; i < 8; i++){
+//                for (int k = 0; k < 8; k++){
+//                    Space space = this.boardView.getSpace(i, k);
+//                    if (space != null){
+//                        if (space.getPiece() != null){
+//                            if (space.getPiece().color == PieceColor.RED){
+//                                redpieces++;
+//                            }
+//                            else{
+//                                whitepieces++;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            if (redpieces == 0){
+//                this.winner = this.whitePlayer;
+//                this.isGameOver = true;
+//                return true;
+//            }
+//            else if (whitepieces == 0){
+//                this.winner = this.redPlayer;
+//                this.isGameOver = true;
+//                return true;
+//            }
+//            else{
+//                return false;
+//            }
         }
     }
 
@@ -132,6 +149,22 @@ public class Game {
      */
     public Boolean isPlayerInGame(Player player) {
         return redPlayer == player || whitePlayer == player;
+    }
+
+    private void updatePiece(PieceColor Color){
+        if (Color == PieceColor.WHITE){
+            this.whitepieces--;
+        } else {
+            this.redpieces--;
+        }
+    }
+
+    public void revertPiece(PieceColor Color){
+        if (Color == PieceColor.WHITE){
+            this.whitepieces++;
+        } else {
+            this.redpieces++;
+        }
     }
 
     private boolean check_UpRight(int i, int j){
@@ -235,15 +268,14 @@ public class Game {
         int endCell = move.getEnd().getCell();
         setTurnAttr(currRow, currCell);
         Piece end = this.boardView.getSpace(endRow, endCell).getPiece();
-
         if (Math.abs(currRow - endRow) == 2){
             this.boardView.getSpace(currRow, currCell).setPiece(end);
             this.boardView.getSpace(endRow, endCell).setPiece(null);
-
             int row = ( currRow + endRow ) / 2;
             int col = ( currCell + endCell) / 2;
             Piece capturedPiece = this.turn.rem_capture();
             this.boardView.getSpace(row,col).setPiece(capturedPiece);
+            revertPiece(capturedPiece.color);
 
         } else {
             this.boardView.getSpace(currRow,currCell).setPiece(end);
@@ -270,12 +302,14 @@ public class Game {
                         int capturedCell = endCell -1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
                         this.turn.add_capture(captured.getPiece());
+                        updatePiece(captured.getPiece().color);
                         captured.setPiece(null);
                     }
                     else if ((endCell - currCell) == -2){ // coming from right to left
                         int capturedCell = endCell +1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
                         this.turn.add_capture(captured.getPiece());
+                        updatePiece(captured.getPiece().color);
                         captured.setPiece(null);
                     }
             } else { // if White player makes the jump move
@@ -284,12 +318,14 @@ public class Game {
                         int capturedCell = endCell - 1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
                         this.turn.add_capture(captured.getPiece());
+                        updatePiece(captured.getPiece().color);
                         captured.setPiece(null);
                     }
                     else if ((endCell - currCell) == -2){
                         int capturedCell = endCell + 1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
                         this.turn.add_capture(captured.getPiece());
+                        updatePiece(captured.getPiece().color);
                         captured.setPiece(null);
                     }
             }
@@ -308,7 +344,8 @@ public class Game {
             end_space.setPiece(moved);
         }
         boolean isKing = this.boardView.getSpace(endRow,endCell).getPiece().type == Piece.PieceType.KING;
-
+        System.out.println("Start Row : " + currRow + " Start Col: " + currCell + " isKing: " + isKing);
+        System.out.println("End Row: " + endRow + " End Col: " + endCell + " isKing: " + isKing );
         return true;
     }
 
@@ -428,6 +465,7 @@ public class Game {
         Position start = move.getStart();
         Position end = move.getEnd();
 
+        System.out.println(start);
 
         if (start.getRow() > 7 || start.getCell() > 7 || start.getRow() < 0 || start.getCell() < 0) {
             throw new Exception("Index request out of bounds");
