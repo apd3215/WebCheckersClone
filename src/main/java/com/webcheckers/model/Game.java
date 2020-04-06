@@ -190,6 +190,29 @@ public class Game {
         }
     }
 
+    private boolean checkBoardDoubleJump(int i, int j){
+        if (boardView.getSpace(i, j).getPiece() instanceof King_Piece){
+            boolean temp = check_DownLeft(i,j) && check_DownRight(i,j) && check_UpLeft(i,j)
+                    && check_UpRight(i,j);
+            if (!temp){
+                return false;
+            }
+        } else if (boardView.getSpace(i,j).getPiece().getColor() == this.activeColor &&
+                this.activeColor == PieceColor.WHITE){
+            boolean temp = check_UpLeft(i,j) && check_UpRight(i,j);
+            if (!temp){
+                return false;
+            }
+        } else if (boardView.getSpace(i,j).getPiece().getColor() == this.activeColor &&
+                this.activeColor == PieceColor.RED){
+            boolean temp = check_DownLeft(i,j) && check_DownRight(i,j);
+            if (!temp){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean check_board(){
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
@@ -345,8 +368,8 @@ public class Game {
     }
 
     public boolean endTurn(){
+        Move prev = this.turn.getPrevMove();
         if (Math.abs(turn.getPrevMove().getStart().getRow() - turn.getPrevMove().getEnd().getRow()) != 2){
-            Move prev = this.turn.getPrevMove();
             this.backUp();
             if (!check_board()){
                 this.makeMove(prev);
@@ -356,7 +379,7 @@ public class Game {
             this.makeMove(prev);
             this.getTurn().add_move(prev);
         } else {
-            if (!check_board()){
+            if (!checkBoardDoubleJump(prev.getEnd().getRow(), prev.getEnd().getCell())){
                 return false;
             }
         }
