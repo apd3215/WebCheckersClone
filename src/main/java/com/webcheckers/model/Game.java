@@ -82,14 +82,15 @@ public class Game {
      * @return boolean true if game is over, false if game is not over
      */
     public boolean isGameOver(){
-        if (this.isGameOver){
-            if (this.isResigned.equals(this.whitePlayer)){
-                this.winner = redPlayer;
+        if (this.isResigned != null) {
+            if (this.isGameOver) {
+                if (this.isResigned.equals(this.whitePlayer)) {
+                    this.winner = redPlayer;
+                } else {
+                    this.winner = whitePlayer;
+                }
+                return true;
             }
-            else{
-                this.winner = whitePlayer;
-            }
-            return true;
         }
         else{
             if (redpieces == 0){
@@ -106,6 +107,7 @@ public class Game {
                 return false;
             }
         }
+        return false;
     }
 
     /**
