@@ -1,15 +1,18 @@
 package com.webcheckers.model;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 import com.webcheckers.appl.Player;
 import com.webcheckers.model.Piece.PieceColor;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
  * Checks move validation code in Game.
+ * 
  * @author Joshua Yoder
  */
 public class GameValidateMoveTest {
@@ -26,13 +29,14 @@ public class GameValidateMoveTest {
 
     /**
      * printBoard prints a boardView to the console
+     * 
      * @param boardView the boardView to print
      */
     private void printBoard(BoardView boardView) {
         System.out.println(" 01234567");
-        for(int i = 0; i <= 7; i++) {
+        for (int i = 0; i <= 7; i++) {
             System.out.print(i);
-            for(int j = 0; j <= 7; j++) {
+            for (int j = 0; j <= 7; j++) {
                 Space space = boardView.getSpace(i, j);
                 Piece piece = space.getPiece();
                 if (piece == null) {
@@ -45,24 +49,22 @@ public class GameValidateMoveTest {
                     System.out.print("r");
                 } else if (piece.color == Piece.PieceColor.RED && piece.type == Piece.PieceType.KING) {
                     System.out.print("R");
-                } 
+                }
             }
             System.out.println();
         }
     }
 
     /**
-     * setCustomBoard sets a board in a custom way
-     * _ is a space
-     * w is a white piece, W kinged
-     * r is a red piece, R kinged
-     * (any other char) leaves a space unchanged
-     * @param board board representation as a 2d char array
+     * setCustomBoard sets a board in a custom way _ is a space w is a white piece,
+     * W kinged r is a red piece, R kinged (any other char) leaves a space unchanged
+     * 
+     * @param board     board representation as a 2d char array
      * @param boardView the boardView to set
      */
     private void setCustomBoard(char[][] board, BoardView boardView) {
-        for(int i = 0; i <= 7; i++) {
-            for(int j = 0; j <= 7; j++) {
+        for (int i = 0; i <= 7; i++) {
+            for (int j = 0; j <= 7; j++) {
                 if (board[i][j] == '_') {
                     boardView.getSpace(i, j).setPiece(null);
                 } else if (board[i][j] == 'w') {
@@ -80,6 +82,7 @@ public class GameValidateMoveTest {
 
     /**
      * Create a new move quickly with origin and destination integers.
+     * 
      * @param origRow the origin row
      * @param origCol the origin column
      * @param destRow the destination row
@@ -104,32 +107,25 @@ public class GameValidateMoveTest {
 
     @Test
     public void test_invalidMoveOntoSelf() {
-                        //  0 . 1 . 2 . 3 . 4 . 5 . 6 . 7
-        char[][] board = {{' ','_',' ','_',' ','_',' ','_'}, //0
-                          {'_',' ','_',' ','_',' ','_',' '}, //1
-                          {' ','_',' ','_',' ','_',' ','_'}, //2
-                          {'_',' ','_',' ','w',' ','_',' '}, //3
-                          {' ','_',' ','w',' ','_',' ','_'}, //4
-                          {'_',' ','_',' ','_',' ','_',' '}, //5
-                          {' ','_',' ','_',' ','_',' ','_'}, //6
-                          {'_',' ','_',' ','_',' ','_',' '}}; //7
+                           // 0 . 1 . 2 . 3 . 4 . 5 . 6 . 7
+        char[][] board = { { ' ', '_', ' ', '_', ' ', '_', ' ', '_' }, // 0
+                           { '_', ' ', '_', ' ', '_', ' ', '_', ' ' }, // 1
+                           { ' ', '_', ' ', '_', ' ', '_', ' ', '_' }, // 2
+                           { '_', ' ', '_', ' ', 'w', ' ', '_', ' ' }, // 3
+                           { ' ', '_', ' ', 'w', ' ', '_', ' ', '_' }, // 4
+                           { '_', ' ', '_', ' ', '_', ' ', '_', ' ' }, // 5
+                           { ' ', '_', ' ', '_', ' ', '_', ' ', '_' }, // 6
+                           { '_', ' ', '_', ' ', '_', ' ', '_', ' ' } }; // 7
         setCustomBoard(board, CuT.getBoardView());
-        Move move = createMove(4,3,3,4);
-    }
-
-    @Test
-    public void test_invalidMoveOntoOpponent() {
-                        //  0 . 1 . 2 . 3 . 4 . 5 . 6 . 7
-        char[][] board = {{' ','_',' ','_',' ','_',' ','_'}, //0
-                          {'_',' ','_',' ','_',' ','_',' '}, //1
-                          {' ','_',' ','_',' ','_',' ','_'}, //2
-                          {'_',' ','_',' ','r',' ','_',' '}, //3
-                          {' ','_',' ','w',' ','_',' ','_'}, //4
-                          {'_',' ','_',' ','_',' ','_',' '}, //5
-                          {' ','_',' ','_',' ','_',' ','_'}, //6
-                          {'_',' ','_',' ','_',' ','_',' '}}; //7
-        setCustomBoard(board, CuT.getBoardView());
-        Move move = createMove(4,3,3,4);
+        Move move = createMove(4, 3, 3, 4);
+        assertTrue(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            CuT.isMoveValid(move);
+            fail();
+        } catch (Exception e) {
+            // 
+        }
     }
 
     @Test
@@ -145,6 +141,14 @@ public class GameValidateMoveTest {
                           {'_',' ','_',' ','_',' ','_',' '}}; //7
         setCustomBoard(board, CuT.getBoardView());
         Move move = createMove(4,3,2,5);
+        assertTrue(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            CuT.isMoveValid(move);
+            fail();
+        } catch (Exception e) {
+            // 
+        }
     }
 
     @Test
@@ -160,10 +164,18 @@ public class GameValidateMoveTest {
                           {'_',' ','_',' ','_',' ','_',' '}}; //7
         setCustomBoard(board, CuT.getBoardView());
         Move move = createMove(4,3,3,4);
+        assertTrue(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            assertTrue(CuT.isMoveValid(move));
+        } catch (Exception e) {
+            // 
+        }
     }
-
+    
+    @Disabled
     @Test
-    public void test_invalidBackwardsMove() {
+    public void test_validBackup() {
                         //  0 . 1 . 2 . 3 . 4 . 5 . 6 . 7
         char[][] board = {{' ','_',' ','_',' ','_',' ','_'}, //0
                           {'_',' ','_',' ','_',' ','_',' '}, //1
@@ -174,7 +186,15 @@ public class GameValidateMoveTest {
                           {' ','_',' ','_',' ','_',' ','_'}, //6
                           {'_',' ','_',' ','_',' ','_',' '}}; //7
         setCustomBoard(board, CuT.getBoardView());
-        Move move = createMove(4,3,5,2);
+        Move move = createMove(4,3,3,4);
+        assertTrue(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            CuT.isMoveValid(move);
+        } catch (Exception e) {
+            // 
+        }
+        assertTrue(CuT.backUp());
     }
 
     @Test
@@ -190,6 +210,36 @@ public class GameValidateMoveTest {
                           {'_',' ','_',' ','_',' ','_',' '}}; //7
         setCustomBoard(board, CuT.getBoardView());
         Move move = createMove(4,3,2,5);
+        assertTrue(CuT.check_board());
+        assertFalse(CuT.isValidJump(move));
+        CuT.makeMove(move);
+        try {
+            assertTrue(CuT.isMoveValid(move));
+        } catch (Exception e) {
+            // 
+        }
+    }
+    
+    @Test
+    public void test_validSimpleJumpB() {
+                        //  0 . 1 . 2 . 3 . 4 . 5 . 6 . 7
+        char[][] board = {{' ','_',' ','_',' ','_',' ','_'}, //0
+                          {'_',' ','_',' ','_',' ','_',' '}, //1
+                          {' ','_',' ','_',' ','_',' ','_'}, //2
+                          {'_',' ','r',' ','_',' ','_',' '}, //3
+                          {' ','_',' ','w',' ','_',' ','_'}, //4
+                          {'_',' ','_',' ','_',' ','_',' '}, //5
+                          {' ','_',' ','_',' ','_',' ','_'}, //6
+                          {'_',' ','_',' ','_',' ','_',' '}}; //7
+        setCustomBoard(board, CuT.getBoardView());
+        Move move = createMove(4,3,2,1);
+        assertTrue(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            assertTrue(CuT.isMoveValid(move));
+        } catch (Exception e) {
+            // 
+        }
     }
 
     @Test
@@ -205,6 +255,13 @@ public class GameValidateMoveTest {
                           {'_',' ','_',' ','_',' ','_',' '}}; //7
         setCustomBoard(board, CuT.getBoardView());
         Move move = createMove(4,3,0,7);
+        assertTrue(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            assertTrue(CuT.isMoveValid(move));
+        } catch (Exception e) {
+            // 
+        }
     }
 
     @Test
@@ -220,6 +277,13 @@ public class GameValidateMoveTest {
                           {'_',' ','_',' ','_',' ','_',' '}}; //7
         setCustomBoard(board, CuT.getBoardView());
         Move move = createMove(4,3,3,2);
+        assertTrue(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            assertFalse(CuT.isMoveValid(move));
+        } catch (Exception e) {
+            // 
+        }
     }
 
     @Test
@@ -235,6 +299,13 @@ public class GameValidateMoveTest {
                           {'_',' ','_',' ','_',' ','_',' '}}; //7
         setCustomBoard(board, CuT.getBoardView());
         Move move = createMove(4,3,3,2);
+        assertTrue(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            assertFalse(CuT.isMoveValid(move));
+        } catch (Exception e) {
+            // 
+        }
     }
 
     @Test
@@ -250,6 +321,13 @@ public class GameValidateMoveTest {
                           {'_',' ','_',' ','_',' ','_',' '}}; //7
         setCustomBoard(board, CuT.getBoardView());
         Move move = createMove(4,3,2,5);
+        assertTrue(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            assertFalse(CuT.isMoveValid(move));
+        } catch (Exception e) {
+            // 
+        }
     }
 
     @Test
@@ -265,6 +343,13 @@ public class GameValidateMoveTest {
                           {'_',' ','_',' ','_',' ','_',' '}}; //7
         setCustomBoard(board, CuT.getBoardView());
         Move move = createMove(4,3,2,5);
+        assertTrue(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            assertTrue(CuT.isMoveValid(move));
+        } catch (Exception e) {
+            // 
+        }
     }
 
     public void test_validMultiRouteForcedSimpleJumpB() {
@@ -279,6 +364,13 @@ public class GameValidateMoveTest {
                           {'_',' ','_',' ','_',' ','_',' '}}; //7
         setCustomBoard(board, CuT.getBoardView());
         Move move = createMove(4,3,2,1);
+        assertTrue(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            assertTrue(CuT.isMoveValid(move));
+        } catch (Exception e) {
+            // 
+        }
     }
 
     @Test
@@ -294,6 +386,13 @@ public class GameValidateMoveTest {
                           {'_',' ','_',' ','_',' ','_',' '}}; //7
         setCustomBoard(board, CuT.getBoardView());
         Move move = createMove(4,3,5,2);
+        assertTrue(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            assertTrue(CuT.isMoveValid(move));
+        } catch (Exception e) {
+            // 
+        }
     }
 
     @Test
@@ -309,6 +408,13 @@ public class GameValidateMoveTest {
                           {'_',' ','_',' ','_',' ','_',' '}}; //7
         setCustomBoard(board, CuT.getBoardView());
         Move move = createMove(4,3,2,5);
+        assertTrue(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            assertTrue(CuT.isMoveValid(move));
+        } catch (Exception e) {
+            // 
+        }
     }
     
     @Test
@@ -324,6 +430,13 @@ public class GameValidateMoveTest {
                           {'_',' ','_',' ','_',' ','_',' '}}; //7
         setCustomBoard(board, CuT.getBoardView());
         Move move = createMove(3,4,7,0);
+        assertTrue(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            assertTrue(CuT.isMoveValid(move));
+        } catch (Exception e) {
+            // 
+        }
     }
 
     @Test
@@ -339,6 +452,13 @@ public class GameValidateMoveTest {
                           {'_',' ','_',' ','_',' ','_',' '}}; //7
         setCustomBoard(board, CuT.getBoardView());
         Move move = createMove(4,3,2,5);
+        assertFalse(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            assertTrue(CuT.isMoveValid(move));
+        } catch (Exception e) {
+            // 
+        }
     }
 
     @Test
@@ -354,5 +474,12 @@ public class GameValidateMoveTest {
                           {'_',' ','_',' ','_',' ','_',' '}}; //7
         setCustomBoard(board, CuT.getBoardView());
         Move move = createMove(4,3,3,4); 
+        assertTrue(CuT.check_board());
+        CuT.makeMove(move);
+        try {
+            assertFalse(CuT.isMoveValid(move));
+        } catch (Exception e) {
+            // 
+        }
     }
 }

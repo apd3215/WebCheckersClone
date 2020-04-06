@@ -169,7 +169,7 @@ public class PostCheckTurnRouteTest {
         } catch(InterruptedException e) {
             jsonResponse = "EXCEPTION THROWN";
         }
-        assertEquals("{\"text\":\"null has resigned. You win! You will now be sent home.\",\"type\":\"ERROR\"}", jsonResponse);
+        assertEquals("{\"text\":\"true\",\"type\":\"INFO\"}", jsonResponse);
     }
     
     @Test
@@ -190,5 +190,25 @@ public class PostCheckTurnRouteTest {
             jsonResponse = "EXCEPTION THROWN";
         }
         assertEquals("{\"text\":\"You lost. You will now be sent home.\",\"type\":\"ERROR\"}", jsonResponse);
+    }
+
+    @Test
+    public void test_gameOver_isResignedTrue() {
+        when(gameCenter.getGameByPlayer(player)).thenReturn(game);
+        when(game.getRedPlayer()).thenReturn(player);
+        when(game.getActiveColor()).thenReturn(Piece.PieceColor.WHITE);
+        when(game.getIsResigned()).thenReturn(null).thenReturn(player);
+        when(game.isGameOver()).thenReturn(true);
+
+        Object jsonResponse;
+
+        //Call handle on the CuT
+        try {
+            jsonResponse = CuT.handle(request, response);
+        } catch(InterruptedException e) {
+            jsonResponse = "EXCEPTION THROWN";
+        }
+        //assertEquals("{\"text\":\"You lost. You will now be sent home.\",\"type\":\"ERROR\"}", jsonResponse);
+        assertEquals("{\"text\":\"null has resigned. You win! You will now be sent home.\",\"type\":\"ERROR\"}", jsonResponse);
     }
 }

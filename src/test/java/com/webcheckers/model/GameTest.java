@@ -2,6 +2,7 @@ package com.webcheckers.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,22 @@ public class GameTest {
         redPlayer = mock(Player.class);
         whitePlayer = mock(Player.class);
         CuT = new Game(redPlayer, whitePlayer);
+    }
+
+    @Test
+    public void gameIsOverWhite() {
+        CuT.gameOver();
+        CuT.setIsResigned(whitePlayer);
+        assertTrue(CuT.isGameOver());
+        assertEquals(redPlayer, CuT.getWinner());
+    }
+    
+    @Test
+    public void gameIsOverRed() {
+        CuT.gameOver();
+        CuT.setIsResigned(redPlayer);
+        assertTrue(CuT.isGameOver());
+        assertEquals(whitePlayer, CuT.getWinner());
     }
 
     /**
