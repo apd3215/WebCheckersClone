@@ -156,7 +156,7 @@ public class WebServer {
     post(CHECKTURN_URL, new PostCheckTurnRoute(templateEngine));
     post(SUBMIT_URL, new PostSubmitTurnRoute(templateEngine));
     post(RESIGN_URL, new PostResignRoute(templateEngine));
-//    post(BACKUP_URL, new PostBackUpMoveRoute(templateEngine));
+    post(BACKUP_URL, new PostBackUpMoveRoute(templateEngine));
 
 
 

@@ -4,6 +4,7 @@ import com.webcheckers.appl.Player;
 import com.webcheckers.model.Piece.King_Piece;
 import com.webcheckers.model.Piece.Piece;
 import com.webcheckers.model.Piece.Piece.PieceColor;
+import com.webcheckers.model.Piece.Single_Piece;
 
 import java.util.logging.Logger;
 
@@ -21,6 +22,8 @@ public class Game {
     private BoardView boardView;
     private boolean isGameOver;
     private Player isResigned;
+    private Turn turn;
+    private Player winner;
 
     /**
      * Enum representing the view mode (player, spectator, replay)
@@ -38,9 +41,15 @@ public class Game {
         this.whitePlayer = whitePlayer;
         this.activeColor = PieceColor.RED;
         this.boardView = new BoardView();
+        this.turn = new Turn();
         boardView.setBoard();
         this.isGameOver = false;
         this.isResigned = null;
+        this.winner = null;
+    }
+
+    public Turn getTurn(){
+        return this.turn;
     }
 
     /**
@@ -59,17 +68,58 @@ public class Game {
         return this.whitePlayer;
     }
 
-
     public void gameOver(){
         this.isGameOver = true;
     }
 
     public boolean isGameOver(){
-        return this.isGameOver;
+        if (this.isGameOver){
+            return true;
+        }
+        else{
+            int redpieces = 0;
+            int whitepieces = 0;
+            for (int i = 0; i < 8; i++){
+                for (int k = 0; k < 8; k++){
+                    Space space = this.boardView.getSpace(i, k);
+                    if (space != null){
+                        if (space.getPiece() != null){
+                            if (space.getPiece().color == PieceColor.RED){
+                                redpieces++;
+                            }
+                            else{
+                                whitepieces++;
+                            }
+                        }
+                    }
+                }
+            }
+            if (redpieces == 0){
+                this.winner = this.whitePlayer;
+                this.isGameOver = true;
+                return true;
+            }
+            else if (whitepieces == 0){
+                this.winner = this.redPlayer;
+                this.isGameOver = true;
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+
+    public Player getWinner(){
+        return this.winner;
     }
 
     public void setIsResigned(Player player){
         this.isResigned = player;
+    }
+
+    public Player getIsResigned(){
+        return this.isResigned;
     }
     /**
      * Gets the active PieceColor of the game (red or white)
@@ -165,6 +215,35 @@ public class Game {
         return true;
     }
 
+    public boolean backUp(){
+        Move move = this.turn.getPrevMove();
+        this.turn.remove_move();
+        if (move == null){
+            return false;
+        }
+        int currRow = move.getStart().getRow();
+        int currCell = move.getStart().getCell();
+        int endRow = move.getEnd().getRow();
+        int endCell = move.getEnd().getCell();
+        setTurnAttr(currRow, currCell);
+        Piece end = this.boardView.getSpace(endRow, endCell).getPiece();
+        if (Math.abs(currRow - endRow) == 2){
+            this.boardView.getSpace(currRow, currCell).setPiece(end);
+            this.boardView.getSpace(endRow, endCell).setPiece(null);
+            int row = ( currRow + endRow ) / 2;
+            int col = ( currCell + endCell) / 2;
+            Space captured = this.boardView.getSpace(row,col);
+            Piece capturedPiece = this.turn.rem_capture();
+            boolean isKing = capturedPiece.getType() == Piece.PieceType.KING;
+            this.boardView.getSpace(row,col).setPiece(capturedPiece);
+
+        } else {
+            this.boardView.getSpace(currRow,currCell).setPiece(end);
+            this.boardView.getSpace(endRow, endCell).setPiece(null);
+        }
+        return true;
+    }
+
 
     public boolean makeMove(Move move){
         Position start = move.getStart();
@@ -182,11 +261,13 @@ public class Game {
                     if ( (endCell - currCell) == 2){ // coming from left to right
                         int capturedCell = endCell -1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
+                        this.turn.add_capture(captured.getPiece());
                         captured.setPiece(null);
                     }
                     else if ((endCell - currCell) == -2){ // coming from right to left
                         int capturedCell = endCell +1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
+                        this.turn.add_capture(captured.getPiece());
                         captured.setPiece(null);
                     }
             } else { // if White player makes the jump move
@@ -194,28 +275,33 @@ public class Game {
                     if ((endCell - currCell) == 2){ //coming from left to right but from white's perspective
                         int capturedCell = endCell - 1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
+                        this.turn.add_capture(captured.getPiece());
                         captured.setPiece(null);
                     }
                     else if ((endCell - currCell) == -2){
                         int capturedCell = endCell + 1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
+                        this.turn.add_capture(captured.getPiece());
                         captured.setPiece(null);
                     }
             }
-        } else {
-            if (!check_board()){
-                return false;
-            }
         }
         curr.setPiece(null);
-        end_space.setPiece(moved);
-        System.out.println("Start Row : " + currRow + " Start Col: " + currCell);
-        System.out.println("End Row: " + endRow + " End Col: " + endCell);
-        if (this.activeColor == PieceColor.RED){
-            this.activeColor = PieceColor.WHITE;
-        } else {
-            this.activeColor = PieceColor.RED;
+        Piece redKing = new King_Piece(PieceColor.RED);
+        Piece whiteKing = new King_Piece(PieceColor.WHITE);
+        PieceColor color = moved.getColor();
+        if (color == PieceColor.RED && endRow == 0){
+            end_space.setPiece(redKing);
         }
+        else if (color == PieceColor.WHITE && endRow == 7){
+            end_space.setPiece(whiteKing);
+        }
+        else{
+            end_space.setPiece(moved);
+        }
+        boolean isKing = this.boardView.getSpace(endRow,endCell).getPiece().type == Piece.PieceType.KING;
+        System.out.println("Start Row : " + currRow + " Start Col: " + currCell + " isKing: " + isKing);
+        System.out.println("End Row: " + endRow + " End Col: " + endCell + " isKing: " + isKing );
         return true;
     }
 
@@ -227,12 +313,17 @@ public class Game {
         PieceColor pieceColor = startPiece.color;
         Space endSpace = boardView.getSpace(end.getRow(), end.getCell());
         Piece endPiece = endSpace.getPiece();
+        boolean isKing = startPiece.getType() == Piece.PieceType.KING;
         if (endPiece != null) {
-            throw new Exception("Piece already present at endPiece");
+            throw new Exception("Piece already present at endPiece.");
         }
         boolean validRow;
         boolean validCell;
-        if (pieceColor == PieceColor.RED) {
+        if (isKing){
+            validRow = Math.abs(start.getRow() - end.getRow()) == 1;
+            validCell = Math.abs(start.getCell() - end.getCell()) ==1;
+        }
+        else if (pieceColor == PieceColor.RED ) {
             validRow = start.getRow() - end.getRow() == 1;
             validCell = start.getCell() - end.getCell() == -1 || start.getCell() - end.getCell() == 1;
         }
@@ -242,15 +333,37 @@ public class Game {
         }
 
         if (!validRow) {
-            throw new Exception("Non-jump must be a difference of 1 row");
+            throw new Exception("Non-jump must be a difference of 1 row.");
         }
         else if (!validCell){
-            throw new Exception("Non-jump must be a difference of 1 col");
+            throw new Exception("Non-jump must be a difference of 1 col.");
         }
         else {
             return true;
         }
+    }
 
+    public boolean endTurn(){
+        if (Math.abs(turn.getPrevMove().getStart().getRow() - turn.getPrevMove().getEnd().getRow()) != 2){
+            Move prev = this.turn.getPrevMove();
+            this.backUp();
+            if (!check_board()){
+                return false;
+            }
+            this.makeMove(prev);
+        }
+        if (this.activeColor == PieceColor.RED){
+            this.activeColor = PieceColor.WHITE;
+        } else {
+            this.activeColor = PieceColor.RED;
+        }
+        this.turn = new Turn();
+        return true;
+    }
+
+    private void setTurnAttr(int row, int col){
+        this.getTurn().setCol(col);
+        this.getTurn().setRow(row);
     }
 
     public Boolean isValidJump(Move move){
@@ -258,6 +371,11 @@ public class Game {
         int startCol = move.getStart().getCell();
         int endRow = move.getEnd().getRow();
         int endCol = move.getEnd().getCell();
+        if (this.getTurn().getNum() > 1){
+            if (startRow != this.turn.getRow() || startCol != this.turn.getCol()){
+                return false;
+            }
+        }
         if (Math.abs(startRow - endRow) != 2 || Math.abs(startCol - endCol) != 2){
             return false;
         } else {
@@ -317,7 +435,9 @@ public class Game {
             throw new Exception("Already a piece present on end square.");
         }
 
-        if (startPiece.getType() == Piece.PieceType.SINGLE) {
+        //if (startPiece.getType() == Piece.PieceType.SINGLE) {
+            if (turn.getNum() > 1){
+            }
             if (Math.abs(start.getRow() - end.getRow()) == 1) {
                 return isValidNormalMoveSingle(move);
             }
@@ -326,14 +446,16 @@ public class Game {
                 boolean b = isValidJump(move);
                 if (!b){
                     throw new Exception("Not a Valid Move.");
+                } else {
+                    setTurnAttr(move.getStart().getRow(), move.getStart().getCell());
                 }
                 return b;
             }
-        }
-        else {
+        //}
+        //else {
             //TODO KING PIECE
-            throw new Exception("King move not implemented yet");
+           // throw new Exception("King move not implemented yet");
 
-        }
+        //}
     }
 }
