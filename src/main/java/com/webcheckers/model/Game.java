@@ -222,9 +222,6 @@ public class Game {
     public boolean backUp(){
         Move move = this.turn.getPrevMove();
         this.turn.remove_move();
-        if (move == null){
-            return false;
-        }
         int currRow = move.getStart().getRow();
         int currCell = move.getStart().getCell();
         int endRow = move.getEnd().getRow();
@@ -352,9 +349,15 @@ public class Game {
             Move prev = this.turn.getPrevMove();
             this.backUp();
             if (!check_board()){
+                this.makeMove(prev);
+                this.getTurn().add_move(prev);
                 return false;
             }
             this.makeMove(prev);
+        } else {
+            if (!check_board()){
+                return false;
+            }
         }
         if (this.activeColor == PieceColor.RED){
             this.activeColor = PieceColor.WHITE;

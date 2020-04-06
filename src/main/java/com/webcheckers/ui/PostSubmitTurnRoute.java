@@ -35,7 +35,6 @@ public class PostSubmitTurnRoute implements Route {
             message = Message.error("Jump moves possible.");
             String move_json = gson.toJson(message);
             response.body(move_json);
-
             return move_json;
         }
 
