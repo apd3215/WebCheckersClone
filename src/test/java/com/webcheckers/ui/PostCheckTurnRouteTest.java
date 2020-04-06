@@ -49,6 +49,7 @@ public class PostCheckTurnRouteTest {
     private Response response;
     private TemplateEngine engine;
     private Player player;
+    private Player player2;
     private PlayerLobby playerLobby;
     private GameCenter gameCenter;
     private Game game;
@@ -64,6 +65,7 @@ public class PostCheckTurnRouteTest {
         response = mock(Response.class);
         engine = mock(TemplateEngine.class);
         player = mock(Player.class);
+        player2 = mock(Player.class);
         playerLobby = mock(PlayerLobby.class);
         gameCenter = mock(GameCenter.class);
         game = mock(Game.class);
@@ -169,16 +171,15 @@ public class PostCheckTurnRouteTest {
         }
         assertEquals("{\"text\":\"null has resigned. You win! You will now be sent home.\",\"type\":\"ERROR\"}", jsonResponse);
     }
-
-    @Disabled
+    
     @Test
-    public void test_gameOver_notGetWinner() {
+    public void test_gameOver_winnerEqualsOther() {
         when(gameCenter.getGameByPlayer(player)).thenReturn(game);
         when(game.getRedPlayer()).thenReturn(player);
         when(game.isGameOver()).thenReturn(true);
-        when(game.getIsResigned()).thenReturn(player);
+        when(game.getIsResigned()).thenReturn(null);
+        when(game.getWinner()).thenReturn(player2);
 
-        when(game.getWinner()).thenReturn(null);
         when(game.getActiveColor()).thenReturn(Piece.PieceColor.WHITE);
         Object jsonResponse;
 
@@ -188,6 +189,6 @@ public class PostCheckTurnRouteTest {
         } catch(InterruptedException e) {
             jsonResponse = "EXCEPTION THROWN";
         }
-        assertEquals("{\"text\":\"null has resigned. You win! You will now be sent home.\",\"type\":\"ERROR\"}", jsonResponse);
+        assertEquals("{\"text\":\"You lost. You will now be sent home.\",\"type\":\"ERROR\"}", jsonResponse);
     }
 }
