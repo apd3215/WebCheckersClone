@@ -60,14 +60,15 @@ public class PostCheckTurnRoute implements Route {
                 if (game.isGameOver()) {
                     String jsonMessage;
                     if (game.getIsResigned() != null) {
-                        Message message = Message.error(game.getIsResigned().getName() + " has resigned. You win! You will now be sent home");
+                        Message message = Message.error(game.getIsResigned().getName() + " has resigned. You win! You will now be sent home.");
                         jsonMessage = gson.toJson(message);
                         response.body(jsonMessage);
                         TimeUnit.SECONDS.sleep(10);
                     } else {
-                        Message message = Message.info("true");
+                        Message message = Message.error("You lost. You will now be sent home.");
                         jsonMessage = gson.toJson(message);
                         response.body(jsonMessage);
+                        TimeUnit.SECONDS.sleep(10);
                     }
 
 //                    Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));

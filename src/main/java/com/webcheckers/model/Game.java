@@ -23,6 +23,7 @@ public class Game {
     private boolean isGameOver;
     private Player isResigned;
     private Turn turn;
+    private Player winner;
 
     /**
      * Enum representing the view mode (player, spectator, replay)
@@ -44,6 +45,7 @@ public class Game {
         boardView.setBoard();
         this.isGameOver = false;
         this.isResigned = null;
+        this.winner = null;
     }
 
     public Turn getTurn(){
@@ -92,7 +94,13 @@ public class Game {
                     }
                 }
             }
-            if (redpieces == 0 || whitepieces == 0){
+            if (redpieces == 0){
+                this.winner = this.whitePlayer;
+                this.isGameOver = true;
+                return true;
+            }
+            else if (whitepieces == 0){
+                this.winner = this.redPlayer;
                 this.isGameOver = true;
                 return true;
             }
@@ -100,6 +108,10 @@ public class Game {
                 return false;
             }
         }
+    }
+
+    public Player getWinner(){
+        return this.winner;
     }
 
     public void setIsResigned(Player player){
