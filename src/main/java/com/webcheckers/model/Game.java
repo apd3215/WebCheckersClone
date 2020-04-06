@@ -220,13 +220,11 @@ public class Game {
             this.boardView.getSpace(endRow, endCell).setPiece(null);
             int row = ( currRow + endRow ) / 2;
             int col = ( currCell + endCell) / 2;
-            PieceColor color;
-            if (activeColor == PieceColor.RED){
-                color = PieceColor.WHITE;
-            } else {
-                color = PieceColor.RED;
-            }
-            this.boardView.getSpace(row, col).setPiece(new Single_Piece(color));
+            Space captured = this.boardView.getSpace(row,col);
+            Piece capturedPiece = this.turn.rem_capture();
+            boolean isKing = capturedPiece.getType() == Piece.PieceType.KING;
+            this.boardView.getSpace(row,col).setPiece(capturedPiece);
+
         } else {
             this.boardView.getSpace(currRow,currCell).setPiece(end);
             this.boardView.getSpace(endRow, endCell).setPiece(null);
@@ -277,9 +275,21 @@ public class Game {
             }
         }
         curr.setPiece(null);
-        end_space.setPiece(moved);
-        System.out.println("Start Row : " + currRow + " Start Col: " + currCell);
-        System.out.println("End Row: " + endRow + " End Col: " + endCell);
+        Piece redKing = new King_Piece(PieceColor.RED);
+        Piece whiteKing = new King_Piece(PieceColor.WHITE);
+        PieceColor color = moved.getColor();
+        if (color == PieceColor.RED && endRow == 0){
+            end_space.setPiece(redKing);
+        }
+        else if (color == PieceColor.WHITE && endRow == 7){
+            end_space.setPiece(whiteKing);
+        }
+        else{
+            end_space.setPiece(moved);
+        }
+        boolean isKing = this.boardView.getSpace(endRow,endCell).getPiece().type == Piece.PieceType.KING;
+        System.out.println("Start Row : " + currRow + " Start Col: " + currCell + " isKing: " + isKing);
+        System.out.println("End Row: " + endRow + " End Col: " + endCell + " isKing: " + isKing );
         return true;
     }
 
@@ -291,12 +301,17 @@ public class Game {
         PieceColor pieceColor = startPiece.color;
         Space endSpace = boardView.getSpace(end.getRow(), end.getCell());
         Piece endPiece = endSpace.getPiece();
+        boolean isKing = startPiece.getType() == Piece.PieceType.KING;
         if (endPiece != null) {
             throw new Exception("Piece already present at endPiece.");
         }
         boolean validRow;
         boolean validCell;
-        if (pieceColor == PieceColor.RED) {
+        if (isKing){
+            validRow = Math.abs(start.getRow() - end.getRow()) == 1;
+            validCell = Math.abs(start.getCell() - end.getCell()) ==1;
+        }
+        else if (pieceColor == PieceColor.RED ) {
             validRow = start.getRow() - end.getRow() == 1;
             validCell = start.getCell() - end.getCell() == -1 || start.getCell() - end.getCell() == 1;
         }
@@ -402,7 +417,7 @@ public class Game {
             throw new Exception("Already a piece present on end square.");
         }
 
-        if (startPiece.getType() == Piece.PieceType.SINGLE) {
+        //if (startPiece.getType() == Piece.PieceType.SINGLE) {
             if (turn.getNum() > 1){
             }
             if (Math.abs(start.getRow() - end.getRow()) == 1) {
@@ -418,11 +433,11 @@ public class Game {
                 }
                 return b;
             }
-        }
-        else {
+        //}
+        //else {
             //TODO KING PIECE
-            throw new Exception("King move not implemented yet");
+           // throw new Exception("King move not implemented yet");
 
-        }
+        //}
     }
 }
