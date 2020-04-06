@@ -80,7 +80,11 @@ public class PostCheckTurnRouteTest {
         when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
         //Call handle on the CuT
-        CuT.handle(request, response);
+        try {
+            CuT.handle(request, response);
+        } catch(InterruptedException e) {
+
+        }
     }
     
     @Test
@@ -97,9 +101,12 @@ public class PostCheckTurnRouteTest {
         when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
         //Call handle on the CuT
-        Object jsonMessage = CuT.handle(request, response);
+        try {
+            Object jsonMessage = CuT.handle(request, response);
+            assertEquals("{\"text\":\"true\",\"type\":\"INFO\"}", jsonMessage);
+        } catch(InterruptedException e) {
 
-        assertEquals("{\"text\":\"true\",\"type\":\"INFO\"}", jsonMessage);
+        }
     }
 
     @Test
@@ -116,7 +123,12 @@ public class PostCheckTurnRouteTest {
         when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
         //Call handle on the CuT
-        CuT.handle(request, response);
+        try {
+            CuT.handle(request, response);
+        } catch(InterruptedException e) {
+
+        }
+
     }
     
     @Test
@@ -133,6 +145,10 @@ public class PostCheckTurnRouteTest {
         when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
         //Call handle on the CuT
-        CuT.handle(request, response);
+        try {
+            CuT.handle(request, response);
+        } catch(InterruptedException e) {
+
+        }
     }
 }
