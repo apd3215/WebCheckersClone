@@ -1,4 +1,4 @@
-package com.webcheckers.model.Piece;
+package com.webcheckers.model;
 
 /**
  * Abstract class that represents a piece that lies in a space in the webcheckers game.
@@ -6,7 +6,7 @@ package com.webcheckers.model.Piece;
  * @author Joshua Yoder
  * @author Jonathan Baxley
  */
-public abstract class Piece {
+public class Piece {
   /**
    * Enum, either a white or red piece.
    */
@@ -29,6 +29,14 @@ public abstract class Piece {
     this.type = PieceType.SINGLE;
   }
 
+  /**
+   * Constructor for a piece object.
+   * @param color the color of the piece
+   */
+  public Piece(PieceColor color, PieceType type) {
+    this.color = color;
+    this.type = type;
+  }
 
   /**
    * Accessor

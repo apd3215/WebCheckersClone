@@ -3,10 +3,7 @@ package com.webcheckers.model;
 import static org.mockito.Mockito.mock;
 
 import com.webcheckers.appl.Player;
-import com.webcheckers.model.Piece.King_Piece;
-import com.webcheckers.model.Piece.Piece;
-import com.webcheckers.model.Piece.Single_Piece;
-import com.webcheckers.model.Piece.Piece.PieceColor;
+import com.webcheckers.model.Piece.PieceColor;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
