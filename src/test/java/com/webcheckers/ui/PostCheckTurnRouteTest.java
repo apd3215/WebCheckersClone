@@ -28,7 +28,7 @@ import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.Player;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Game;
-import com.webcheckers.model.Piece.Piece;
+import com.webcheckers.model.Piece;
 
 /**
  * PostHomeRouteTest is a testing suite for the GetGameRoute class.

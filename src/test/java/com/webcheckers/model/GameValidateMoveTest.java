@@ -3,10 +3,7 @@ package com.webcheckers.model;
 import static org.mockito.Mockito.mock;
 
 import com.webcheckers.appl.Player;
-import com.webcheckers.model.Piece.King_Piece;
-import com.webcheckers.model.Piece.Piece;
-import com.webcheckers.model.Piece.Single_Piece;
-import com.webcheckers.model.Piece.Piece.PieceColor;
+import com.webcheckers.model.Piece.PieceColor;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -69,13 +66,13 @@ public class GameValidateMoveTest {
                 if (board[i][j] == '_') {
                     boardView.getSpace(i, j).setPiece(null);
                 } else if (board[i][j] == 'w') {
-                    boardView.getSpace(i, j).setPiece(new Single_Piece(PieceColor.WHITE));
+                    boardView.getSpace(i, j).setPiece(new Piece(PieceColor.WHITE));
                 } else if (board[i][j] == 'W') {
-                    boardView.getSpace(i, j).setPiece(new King_Piece(PieceColor.WHITE));
+                    boardView.getSpace(i, j).setPiece(new Piece(PieceColor.WHITE, Piece.PieceType.KING));
                 } else if (board[i][j] == 'r') {
-                    boardView.getSpace(i, j).setPiece(new Single_Piece(PieceColor.RED));
+                    boardView.getSpace(i, j).setPiece(new Piece(PieceColor.RED));
                 } else if (board[i][j] == 'R') {
-                    boardView.getSpace(i, j).setPiece(new King_Piece(PieceColor.RED));
+                    boardView.getSpace(i, j).setPiece(new Piece(PieceColor.RED, Piece.PieceType.KING));
                 }
             }
         }

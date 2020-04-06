@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-import com.webcheckers.model.Piece.Piece;
-
 /**
  * Test class for space object
  * @author Dhaval Shrishrimal

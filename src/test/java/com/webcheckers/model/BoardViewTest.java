@@ -2,8 +2,6 @@ package com.webcheckers.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.webcheckers.model.Piece.Piece;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

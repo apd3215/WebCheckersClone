@@ -1,10 +1,7 @@
 package com.webcheckers.model;
 
 import com.webcheckers.appl.Player;
-import com.webcheckers.model.Piece.King_Piece;
-import com.webcheckers.model.Piece.Piece;
-import com.webcheckers.model.Piece.Piece.PieceColor;
-import com.webcheckers.model.Piece.Single_Piece;
+import com.webcheckers.model.Piece.PieceColor;
 
 import java.util.logging.Logger;
 
@@ -77,27 +74,11 @@ public class Game {
     }
 
     public boolean isGameOver(){
+        System.out.println("REd:" + this.redpieces + " WHITE: " + this.whitepieces);
         if (this.isGameOver){
             return true;
         }
         else{
-            int redpieces = 0;
-            int whitepieces = 0;
-            for (int i = 0; i < 8; i++){
-                for (int k = 0; k < 8; k++){
-                    Space space = this.boardView.getSpace(i, k);
-                    if (space != null){
-                        if (space.getPiece() != null){
-                            if (space.getPiece().color == PieceColor.RED){
-                                redpieces++;
-                            }
-                            else{
-                                whitepieces++;
-                            }
-                        }
-                    }
-                }
-            }
             if (redpieces == 0){
                 this.winner = this.whitePlayer;
                 this.isGameOver = true;
@@ -150,6 +131,22 @@ public class Game {
         return redPlayer == player || whitePlayer == player;
     }
 
+    private void updatePiece(PieceColor Color){
+        if (Color == PieceColor.WHITE){
+            this.whitepieces--;
+        } else {
+            this.redpieces--;
+        }
+    }
+
+    private void revertPiece(PieceColor Color){
+        if (Color == PieceColor.WHITE){
+            this.whitepieces++;
+        } else {
+            this.redpieces++;
+        }
+    }
+
     private boolean check_UpRight(int i, int j){
         if (i > 5 || j > 5){
             return true;
@@ -191,7 +188,7 @@ public class Game {
     }
 
     private boolean checkBoardDoubleJump(int i, int j){
-        if (boardView.getSpace(i, j).getPiece() instanceof King_Piece){
+        if (boardView.getSpace(i, j).getPiece().getType() == Piece.PieceType.KING){
             boolean temp = check_DownLeft(i,j) && check_DownRight(i,j) && check_UpLeft(i,j)
                     && check_UpRight(i,j);
             if (!temp){
@@ -218,7 +215,7 @@ public class Game {
             for (int j = 0; j < 8; j++){
                 if (boardView.getSpace(i,j).getPiece() == null) {
                     continue;
-                } else if (boardView.getSpace(i, j).getPiece() instanceof King_Piece){
+                } else if (boardView.getSpace(i, j).getPiece().getType() == Piece.PieceType.KING){
                     boolean temp = check_DownLeft(i,j) && check_DownRight(i,j) && check_UpLeft(i,j)
                             && check_UpRight(i,j);
                     if (!temp){
@@ -258,6 +255,7 @@ public class Game {
             int col = ( currCell + endCell) / 2;
             Piece capturedPiece = this.turn.rem_capture();
             this.boardView.getSpace(row,col).setPiece(capturedPiece);
+            revertPiece(capturedPiece.color);
 
         } else {
             this.boardView.getSpace(currRow,currCell).setPiece(end);
@@ -267,7 +265,7 @@ public class Game {
     }
 
 
-    public boolean makeMove(Move move){
+    public void makeMove(Move move){
         Position start = move.getStart();
         Position end = move.getEnd();
         int currRow = start.getRow();
@@ -284,12 +282,14 @@ public class Game {
                         int capturedCell = endCell -1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
                         this.turn.add_capture(captured.getPiece());
+                        updatePiece(captured.getPiece().color);
                         captured.setPiece(null);
                     }
                     else if ((endCell - currCell) == -2){ // coming from right to left
                         int capturedCell = endCell +1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
                         this.turn.add_capture(captured.getPiece());
+                        updatePiece(captured.getPiece().color);
                         captured.setPiece(null);
                     }
             } else { // if White player makes the jump move
@@ -298,19 +298,24 @@ public class Game {
                         int capturedCell = endCell - 1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
                         this.turn.add_capture(captured.getPiece());
+                        updatePiece(captured.getPiece().color);
                         captured.setPiece(null);
                     }
                     else if ((endCell - currCell) == -2){
                         int capturedCell = endCell + 1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
                         this.turn.add_capture(captured.getPiece());
+                        updatePiece(captured.getPiece().color);
                         captured.setPiece(null);
                     }
             }
         }
         curr.setPiece(null);
-        Piece redKing = new King_Piece(PieceColor.RED);
-        Piece whiteKing = new King_Piece(PieceColor.WHITE);
+//        Piece redKing = new King_Piece(PieceColor.RED);
+//        Piece whiteKing = new King_Piece(PieceColor.WHITE);
+        Piece redKing = new Piece(Piece.PieceColor.RED, Piece.PieceType.KING);
+        Piece whiteKing = new Piece(PieceColor.WHITE, Piece.PieceType.KING);
+
         PieceColor color = moved.getColor();
         if (color == PieceColor.RED && endRow == 0){
             end_space.setPiece(redKing);
@@ -324,7 +329,6 @@ public class Game {
         boolean isKing = this.boardView.getSpace(endRow,endCell).getPiece().type == Piece.PieceType.KING;
         System.out.println("Start Row : " + currRow + " Start Col: " + currCell + " isKing: " + isKing);
         System.out.println("End Row: " + endRow + " End Col: " + endCell + " isKing: " + isKing );
-        return true;
     }
 
     private Boolean isValidNormalMoveSingle(Move move) throws Exception {
@@ -415,7 +419,7 @@ public class Game {
                 return false;
             }
             if (startRow - endRow > 0){
-                if (pStart instanceof King_Piece || pStart.getColor() == PieceColor.RED) {
+                if (pStart.getType() == Piece.PieceType.KING || pStart.getColor() == PieceColor.RED) {
                     if (startCol - endCol > 0) {
                         return boardView.getSpace(startRow - 1, startCol - 1).getPiece().getColor() != curr;
                     } else {
@@ -425,7 +429,7 @@ public class Game {
                     return false;
                 }
             } else {
-                if (pStart instanceof King_Piece || pStart.getColor() == PieceColor.WHITE) {
+                if (pStart.getType() == Piece.PieceType.KING || pStart.getColor() == PieceColor.WHITE) {
                     if (startCol - endCol > 0) {
                         return boardView.getSpace(startRow + 1, startCol - 1).getPiece().getColor() != curr;
                     } else {
