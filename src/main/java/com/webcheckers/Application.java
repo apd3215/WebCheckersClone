@@ -6,6 +6,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
+import com.webcheckers.appl.GameCenter;
 import com.webcheckers.ui.WebServer;
 
 import com.webcheckers.appl.PlayerLobby;
@@ -20,6 +21,7 @@ import spark.template.freemarker.FreeMarkerEngine;
 public final class Application {
   private static final Logger LOG = Logger.getLogger(Application.class.getName());
   public static PlayerLobby playerLobby = new PlayerLobby();
+  public static GameCenter gameCenter = new GameCenter();
   private static final String DEMO_MODE_PROPERTY = "demoMode";
   private static Boolean inDemoMode = null;
 

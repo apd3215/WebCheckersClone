@@ -2,9 +2,14 @@ package com.webcheckers.appl;
 
 /**
  * Player class, represents a player in webcheckers.
+ * @author Joe Netti
+ * @author Joshua Yoder
+ * @author Jonathan Baxley
+ * @author Dhaval Shrishrimal
  */
 public class Player {
-
+    //Player fields
+    private boolean isPlaying = false;
     private boolean isLogged = true;
     private String name;
 
@@ -22,6 +27,29 @@ public class Player {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Accessor
+     * @return weather the player is playing
+     */
+    public boolean isPlaying(){
+        return this.isPlaying;
+    }
+
+    /**
+     * Mutator, sets playing status for player
+     */
+    public void startGamePlayer(){
+        this.isPlaying = true;
+    }
+
+    /**
+     * TODO NEEDS TO BE CALLED IN POSTGAMEROUTE
+     * Mutator, sets game not playing for a player
+     */
+    public void endGamePlayer(){
+        this.isPlaying = false;
     }
 
     /**

@@ -48,6 +48,14 @@ public class Space {
     }
 
     /**
+     * Gets a piece color.
+     * @return the piece that is in the space
+     */
+    public Color getColor() {
+        return this.color;
+    }
+
+    /**
      * Set the color of a space.
      * @param color the color to set the space to
      */

@@ -19,70 +19,76 @@ import com.webcheckers.util.Message;
 
 import static com.webcheckers.ui.WebServer.GAME_URL;
 
-
 /**
  * The UI Controller to GET the Home page.
  */
 public class GetHomeRoute implements Route {
-  private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
-  private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
-  private final TemplateEngine templateEngine;
+    private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
+    public static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+    public static final String WELCOME_STR = "Welcome!";
 
-  /**
-   * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
-   *
-   * @param templateEngine
-   *   the HTML template rendering engine
-   */
-  public GetHomeRoute(final TemplateEngine templateEngine) {
-    this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
-    //
-    LOG.config("GetHomeRoute is initialized.");
-  }
+    private final TemplateEngine templateEngine;
 
-  /**
-   * Render the WebCheckers Home page.
-   *
-   * @param request
-   *   the HTTP request
-   * @param response
-   *   the HTTP response
-   *
-   * @return
-   *   the rendered HTML for the Home page
-   */
-  @Override
-  public Object handle(Request request, Response response) {
-    final Session httpSession = request.session();
-
-    LOG.finer("GetHomeRoute is invoked.");
-    //
-    if(httpSession.attribute("Player") == null) {
-      Map<String, Object> vm = new HashMap<>();
-      vm.put("title", "Welcome!");
-      // display a user message in the Home page
-      vm.put("message", WELCOME_MSG);
-      vm.put("num", Application.playerLobby.getNum_logged_in());
-      // render the View
-      return templateEngine.render(new ModelAndView(vm, "home.ftl"));
-    } else {
-      Map<String, Object> vm = new HashMap<>();
-      Game game = Application.playerLobby.getGameByPlayer(httpSession.attribute("Player"));
-      if (game != null) {
-        response.redirect(GAME_URL);
-        return null;
-      } else {
-        vm.put("title", "Welcome");
-        if (httpSession.attribute("error_attr") != null){
-          vm.put("message", httpSession.attribute("error_attr"));
-          httpSession.attribute("error_attr", null);
-        } else {
-          vm.put("message", WELCOME_MSG);
-        }
-        vm.put("currentUser", httpSession.attribute("Player"));
-        vm.put("signed", Application.playerLobby.get_logged_names());
-        return templateEngine.render(new ModelAndView(vm, "home.ftl"));
-      }
+    /**
+     * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
+     *
+     * @param templateEngine
+     *   the HTML template rendering engine
+     */
+    public GetHomeRoute(final TemplateEngine templateEngine) {
+        this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
+        LOG.config("GetHomeRoute is initialized.");
     }
-  }
+
+    /**
+     * Render the WebCheckers Home page.
+     *
+     * @param request
+     *   the HTTP request
+     * @param response
+     *   the HTTP response
+     *
+     * @return
+     *   the rendered HTML for the Home page
+     */
+    @Override
+    public Object handle(Request request, Response response) {
+        final Session httpSession = request.session();
+
+        LOG.finer("GetHomeRoute is invoked.");
+
+        if(httpSession.attribute(SessionAttributes.PLAYER) == null) {
+            Map<String, Object> vm = new HashMap<>();
+            vm.put(VMAttributes.TITLE, WELCOME_STR);
+            // display a user message in the Home page
+            vm.put(VMAttributes.MESSAGE, WELCOME_MSG);
+            vm.put(VMAttributes.NUM_PLAYERS, Application.playerLobby.getNum_logged_in());
+            // render the View
+            return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+        } else {
+            Map<String, Object> vm = new HashMap<>();
+            Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute(SessionAttributes.PLAYER));
+            if (game != null) {
+                if (game.isGameOver()){
+                    Application.gameCenter.endGame(game);
+                }
+                else {
+                    response.redirect(GAME_URL);
+                    return null;
+                }
+            }
+
+            vm.put(VMAttributes.TITLE, WELCOME_STR);
+            if (httpSession.attribute(SessionAttributes.ERROR) != null){
+                vm.put(VMAttributes.MESSAGE, httpSession.attribute(SessionAttributes.ERROR));
+                httpSession.attribute(SessionAttributes.ERROR, null);
+            } else {
+                vm.put(VMAttributes.MESSAGE, WELCOME_MSG);
+            }
+            vm.put(VMAttributes.CURRENT_USER, httpSession.attribute(SessionAttributes.PLAYER));
+            vm.put(VMAttributes.SIGNED, Application.playerLobby.get_logged_names());
+            vm.put(VMAttributes.PLAYING, Application.playerLobby.get_playing());
+            return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+        }
+    }
 }

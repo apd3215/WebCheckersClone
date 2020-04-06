@@ -1,40 +1,41 @@
 package com.webcheckers.model;
 
 /**
- * Represents a piece that lies in a space in the webcheckers game.
+ * Abstract class that represents a piece that lies in a space in the webcheckers game.
  * @author Joe Netti
  * @author Joshua Yoder
+ * @author Jonathan Baxley
  */
 public class Piece {
-  /**
-   * Enum, either a single piece or a king piece.
-   */
-  public enum PieceType {SINGLE, KING}
-
   /**
    * Enum, either a white or red piece.
    */
   public enum PieceColor {WHITE, RED}
 
-  public PieceType type;
+  /**
+   * Enum, either a single or king piece.
+   */
+  public enum PieceType {SINGLE, KING}
+
   public PieceColor color;
+  public PieceType type;
 
   /**
    * Constructor for a piece object.
-   * @param type the type of the piece
    * @param color the color of the piece
    */
-  public Piece(PieceType type, PieceColor color) {
-    this.type = type; 
-    this.color = color; 
+  public Piece(PieceColor color) {
+    this.color = color;
+    this.type = PieceType.SINGLE;
   }
 
   /**
-   * Accessor
-   * @return the type of the piece
+   * Constructor for a piece object.
+   * @param color the color of the piece
    */
-  public PieceType getType() {
-    return this.type;
+  public Piece(PieceColor color, PieceType type) {
+    this.color = color;
+    this.type = type;
   }
 
   /**
@@ -45,4 +46,11 @@ public class Piece {
     return this.color;
   }
 
+  /**
+   * Accessor
+   * @return the type of the piece
+   */
+  public PieceType getType(){
+    return this.type;
+  }
 }
