@@ -2,10 +2,18 @@ package com.webcheckers.ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyObject;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import spark.TemplateEngine;
@@ -13,6 +21,7 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Session;
+import spark.Spark;
 
 import com.webcheckers.Application;
 import com.webcheckers.appl.GameCenter;
@@ -23,6 +32,7 @@ import com.webcheckers.model.Piece.Piece;
 
 /**
  * PostHomeRouteTest is a testing suite for the GetGameRoute class.
+ * 
  * @author Joshua Yoder
  */
 public class PostCheckTurnRouteTest {
@@ -58,11 +68,14 @@ public class PostCheckTurnRouteTest {
         gameCenter = mock(GameCenter.class);
         game = mock(Game.class);
 
-        //Application set
+        // Application set
         Application.playerLobby = playerLobby;
         Application.gameCenter = gameCenter;
 
-        //CuT instantiated
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(game.getRedPlayer()).thenReturn(player);
+
+        // CuT instantiated
         CuT = new PostCheckTurnRoute(engine);
     }
 
@@ -70,85 +83,111 @@ public class PostCheckTurnRouteTest {
      * Test
      */
     @Test
-    public void test_instant_resign_red() {
-        //Mock attr
-        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
-        when(session.attribute(SessionAttributes.RESIGN)).thenReturn("true");
-        
-        //Template engine tester
-        final TemplateEngineTester testHelper = new TemplateEngineTester();
-        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-
-        //Call handle on the CuT
+    public void test_nullGame() {
+        when(gameCenter.getGameByPlayer(player)).thenReturn(null);
+        Object jsonResponse;
         try {
-            CuT.handle(request, response);
-        } catch(InterruptedException e) {
-
+            jsonResponse = CuT.handle(request, response);
+        } catch (InterruptedException e) {
+            jsonResponse = "EXCEPTION THROWN";
         }
+        assertEquals("{\"text\":\"true\",\"type\":\"INFO\"}", jsonResponse);
     }
-    
+
     @Test
     public void test_isActiveColor() {
-        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
-        when(session.attribute(SessionAttributes.RESIGN)).thenReturn("false");
         when(gameCenter.getGameByPlayer(player)).thenReturn(game);
         when(game.getRedPlayer()).thenReturn(player);
 
         when(game.getActiveColor()).thenReturn(Piece.PieceColor.RED);
+        Object jsonResponse;
         
-        //Template engine tester
-        final TemplateEngineTester testHelper = new TemplateEngineTester();
-        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-
         //Call handle on the CuT
         try {
-            Object jsonMessage = CuT.handle(request, response);
-            assertEquals("{\"text\":\"true\",\"type\":\"INFO\"}", jsonMessage);
+            jsonResponse = CuT.handle(request, response);
         } catch(InterruptedException e) {
-
+            jsonResponse = "EXCEPTION THROWN";
         }
+        assertEquals("{\"text\":\"true\",\"type\":\"INFO\"}", jsonResponse);
     }
 
     @Test
-    public void test_notActiveColor_resignTrue() {
-        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
-        when(session.attribute(SessionAttributes.RESIGN)).thenReturn("false").thenReturn("true");
+    public void test_instantNotGameOver() {
         when(gameCenter.getGameByPlayer(player)).thenReturn(game);
         when(game.getRedPlayer()).thenReturn(player);
+        when(game.isGameOver()).thenReturn(false);
 
-        when(game.getActiveColor()).thenReturn(Piece.PieceColor.WHITE);
-        
-        //Template engine tester
-        final TemplateEngineTester testHelper = new TemplateEngineTester();
-        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+        when(game.getActiveColor())
+            .thenReturn(Piece.PieceColor.WHITE)
+            .thenReturn(Piece.PieceColor.RED);
+        Object jsonResponse;
 
         //Call handle on the CuT
         try {
-            CuT.handle(request, response);
+            jsonResponse = CuT.handle(request, response);
         } catch(InterruptedException e) {
-
+            jsonResponse = "EXCEPTION THROWN";
         }
-
+        assertEquals("{\"text\":\"true\",\"type\":\"INFO\"}", jsonResponse);
     }
     
     @Test
-    public void test_notActiveColor_resignFalseThenTrue() {
-        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
-        when(session.attribute(SessionAttributes.RESIGN)).thenReturn("false").thenReturn("false").thenReturn("true");
+    public void test_gameOver_winnerEqualsPlayer() {
         when(gameCenter.getGameByPlayer(player)).thenReturn(game);
         when(game.getRedPlayer()).thenReturn(player);
+        when(game.isGameOver()).thenReturn(true);
+        when(game.getIsResigned()).thenReturn(null);
+        when(game.getWinner()).thenReturn(player);
 
         when(game.getActiveColor()).thenReturn(Piece.PieceColor.WHITE);
-        
-        //Template engine tester
-        final TemplateEngineTester testHelper = new TemplateEngineTester();
-        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+        Object jsonResponse;
 
         //Call handle on the CuT
         try {
-            CuT.handle(request, response);
+            jsonResponse = CuT.handle(request, response);
         } catch(InterruptedException e) {
-
+            jsonResponse = "EXCEPTION THROWN";
         }
+        assertEquals("{\"text\":\"You won. You will now be sent home.\",\"type\":\"ERROR\"}", jsonResponse);
+    }
+    
+    @Test
+    public void test_gameOver_resigned() {
+        when(gameCenter.getGameByPlayer(player)).thenReturn(game);
+        when(game.getRedPlayer()).thenReturn(player);
+        when(game.isGameOver()).thenReturn(true);
+        when(game.getIsResigned()).thenReturn(player);
+
+        when(game.getActiveColor()).thenReturn(Piece.PieceColor.WHITE);
+        Object jsonResponse;
+
+        //Call handle on the CuT
+        try {
+            jsonResponse = CuT.handle(request, response);
+        } catch(InterruptedException e) {
+            jsonResponse = "EXCEPTION THROWN";
+        }
+        assertEquals("{\"text\":\"null has resigned. You win! You will now be sent home.\",\"type\":\"ERROR\"}", jsonResponse);
+    }
+
+    @Disabled
+    @Test
+    public void test_gameOver_notGetWinner() {
+        when(gameCenter.getGameByPlayer(player)).thenReturn(game);
+        when(game.getRedPlayer()).thenReturn(player);
+        when(game.isGameOver()).thenReturn(true);
+        when(game.getIsResigned()).thenReturn(player);
+
+        when(game.getWinner()).thenReturn(null);
+        when(game.getActiveColor()).thenReturn(Piece.PieceColor.WHITE);
+        Object jsonResponse;
+
+        //Call handle on the CuT
+        try {
+            jsonResponse = CuT.handle(request, response);
+        } catch(InterruptedException e) {
+            jsonResponse = "EXCEPTION THROWN";
+        }
+        assertEquals("{\"text\":\"null has resigned. You win! You will now be sent home.\",\"type\":\"ERROR\"}", jsonResponse);
     }
 }

@@ -19,6 +19,7 @@ import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.Player;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Move;
+import com.webcheckers.model.Turn;
 
 /**
  * PostSubmitTurnRouteTest is a testing suite for the PostSubmitTurnRoute class.
@@ -40,7 +41,8 @@ public class PostSubmitTurnRouteTest {
     private Game game;
     private Player player;
     private GameCenter gameCenter;
-    private Move lastMove;
+    private Turn turn;
+    private Move move;
 
     /**
      * Setup new mock objects for each test
@@ -55,7 +57,8 @@ public class PostSubmitTurnRouteTest {
         player = mock(Player.class);
         game = mock(Game.class);
         gameCenter = mock(GameCenter.class);
-        lastMove = mock(Move.class);
+        turn = mock(Turn.class);
+        move = mock(Move.class);
 
         //Application set
         Application.gameCenter = gameCenter;
@@ -67,12 +70,36 @@ public class PostSubmitTurnRouteTest {
     /**
      * Test 
      */
+
     @Test
     public void test_submit_turn() {
         //Mock attr
         when(gameCenter.getGameByPlayer(player)).thenReturn(game);
         when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
-        when(session.attribute(SessionAttributes.LAST_MOVE)).thenReturn(lastMove);
+        when(game.getTurn()).thenReturn(turn);
+        when(turn.getPrevMove()).thenReturn(move);
+
+        when(game.endTurn()).thenReturn(true);
+        
+        //Template engine tester
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+
+        //Call handle on the CuT
+        Object json = CuT.handle(request, response);
+
+        assertEquals("{\"text\":\"true\",\"type\":\"INFO\"}", json);
+    }
+
+    @Test
+    public void test_submit_turn_jump_possible() {
+        //Mock attr
+        when(gameCenter.getGameByPlayer(player)).thenReturn(game);
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(game.getTurn()).thenReturn(turn);
+        when(turn.getPrevMove()).thenReturn(move);
+
+        when(game.endTurn()).thenReturn(false);
         
         //Template engine tester
         final TemplateEngineTester testHelper = new TemplateEngineTester();
