@@ -81,29 +81,13 @@ public class Game {
             return true;
         }
         else{
-            int redpieces = 0;
-            int whitepieces = 0;
-            for (int i = 0; i < 8; i++){
-                for (int k = 0; k < 8; k++){
-                    Space space = this.boardView.getSpace(i, k);
-                    if (space != null){
-                        if (space.getPiece() != null){
-                            if (space.getPiece().color == PieceColor.RED){
-                                redpieces++;
-                            }
-                            else{
-                                whitepieces++;
-                            }
-                        }
-                    }
-                }
-            }
-            if (redpieces == 0){
+
+            if (this.redpieces == 0){
                 this.winner = this.whitePlayer;
                 this.isGameOver = true;
                 return true;
             }
-            else if (whitepieces == 0){
+            else if (this.whitepieces == 0){
                 this.winner = this.redPlayer;
                 this.isGameOver = true;
                 return true;
@@ -231,9 +215,11 @@ public class Game {
         int endCell = move.getEnd().getCell();
         setTurnAttr(currRow, currCell);
         Piece end = this.boardView.getSpace(endRow, endCell).getPiece();
+
         if (Math.abs(currRow - endRow) == 2){
             this.boardView.getSpace(currRow, currCell).setPiece(end);
             this.boardView.getSpace(endRow, endCell).setPiece(null);
+
             int row = ( currRow + endRow ) / 2;
             int col = ( currCell + endCell) / 2;
             Space captured = this.boardView.getSpace(row,col);
@@ -304,8 +290,7 @@ public class Game {
             end_space.setPiece(moved);
         }
         boolean isKing = this.boardView.getSpace(endRow,endCell).getPiece().type == Piece.PieceType.KING;
-        System.out.println("Start Row : " + currRow + " Start Col: " + currCell + " isKing: " + isKing);
-        System.out.println("End Row: " + endRow + " End Col: " + endCell + " isKing: " + isKing );
+
         return true;
     }
 
@@ -418,7 +403,6 @@ public class Game {
         Position start = move.getStart();
         Position end = move.getEnd();
 
-        System.out.println(start);
 
         if (start.getRow() > 7 || start.getCell() > 7 || start.getRow() < 0 || start.getCell() < 0) {
             throw new Exception("Index request out of bounds");
