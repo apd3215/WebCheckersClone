@@ -78,23 +78,23 @@ public class Game {
             return true;
         }
         else{
-            int redpieces = 0;
-            int whitepieces = 0;
-            for (int i = 0; i < 8; i++){
-                for (int k = 0; k < 8; k++){
-                    Space space = this.boardView.getSpace(i, k);
-                    if (space != null){
-                        if (space.getPiece() != null){
-                            if (space.getPiece().color == PieceColor.RED){
-                                redpieces++;
-                            }
-                            else{
-                                whitepieces++;
-                            }
-                        }
-                    }
-                }
-            }
+//            int redpieces = 0;
+//            int whitepieces = 0;
+//            for (int i = 0; i < 8; i++){
+//                for (int k = 0; k < 8; k++){
+//                    Space space = this.boardView.getSpace(i, k);
+//                    if (space != null){
+//                        if (space.getPiece() != null){
+//                            if (space.getPiece().color == PieceColor.RED){
+//                                redpieces++;
+//                            }
+//                            else{
+//                                whitepieces++;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
             if (redpieces == 0){
                 this.winner = this.whitePlayer;
                 this.isGameOver = true;
@@ -145,6 +145,22 @@ public class Game {
      */
     public Boolean isPlayerInGame(Player player) {
         return redPlayer == player || whitePlayer == player;
+    }
+
+    private void updatePiece(PieceColor Color){
+        if (Color == PieceColor.WHITE){
+            this.whitepieces--;
+        } else {
+            this.redpieces--;
+        }
+    }
+
+    public void revertPiece(PieceColor Color){
+        if (Color == PieceColor.WHITE){
+            this.whitepieces++;
+        } else {
+            this.redpieces++;
+        }
     }
 
     private boolean check_UpRight(int i, int j){
@@ -255,6 +271,7 @@ public class Game {
             int col = ( currCell + endCell) / 2;
             Piece capturedPiece = this.turn.rem_capture();
             this.boardView.getSpace(row,col).setPiece(capturedPiece);
+            revertPiece(capturedPiece.color);
 
         } else {
             this.boardView.getSpace(currRow,currCell).setPiece(end);
@@ -281,12 +298,14 @@ public class Game {
                         int capturedCell = endCell -1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
                         this.turn.add_capture(captured.getPiece());
+                        updatePiece(captured.getPiece().color);
                         captured.setPiece(null);
                     }
                     else if ((endCell - currCell) == -2){ // coming from right to left
                         int capturedCell = endCell +1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
                         this.turn.add_capture(captured.getPiece());
+                        updatePiece(captured.getPiece().color);
                         captured.setPiece(null);
                     }
             } else { // if White player makes the jump move
@@ -295,12 +314,14 @@ public class Game {
                         int capturedCell = endCell - 1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
                         this.turn.add_capture(captured.getPiece());
+                        updatePiece(captured.getPiece().color);
                         captured.setPiece(null);
                     }
                     else if ((endCell - currCell) == -2){
                         int capturedCell = endCell + 1;
                         Space captured = this.boardView.getSpace(capturedRow,capturedCell);
                         this.turn.add_capture(captured.getPiece());
+                        updatePiece(captured.getPiece().color);
                         captured.setPiece(null);
                     }
             }
