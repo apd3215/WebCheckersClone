@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import com.webcheckers.Application;
 import com.webcheckers.appl.Player;
+import com.webcheckers.model.BoardView;
 import com.webcheckers.model.Game;
 
 import java.util.HashMap;
@@ -61,6 +62,15 @@ public class GetSpectateRoute implements Route {
     Game game = Application.gameCenter.getGameByPlayer(
       Application.playerLobby.getPlayers().get(
         request.queryParams("otherPlayer")));
+
+    BoardView currBoard = game.getBoardView();
+
+//    while(true){
+//      if (game.getBoardView().isChanged(currBoard)){
+//        redirect(/spectate)
+//      }
+//    }
+
 
     Gson gson = new Gson();
 
