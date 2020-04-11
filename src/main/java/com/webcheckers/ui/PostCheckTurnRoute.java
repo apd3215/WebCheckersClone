@@ -60,7 +60,7 @@ public class PostCheckTurnRoute implements Route {
                     response.body(jsonMessage);
                     return jsonMessage;
                 }
-                if (game.isGameOver()) {
+                /**if (game.isGameOver()) {
                     String jsonMessage;
                     if (game.getIsResigned() != null) {
                         Message message = Message.error(game.getIsResigned().getName() + " has resigned. You win! You will now be sent home.");
@@ -83,6 +83,7 @@ public class PostCheckTurnRoute implements Route {
                     get(HOME_URL, new GetHomeRoute(templateEngine)); //Home route (default)
                     return jsonMessage;
                 }
+                 */
                 Message message = Message.info("false");
                 String jsonMessage = gson.toJson(message);
                 response.body(jsonMessage);

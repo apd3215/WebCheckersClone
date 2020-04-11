@@ -10,7 +10,6 @@ import java.util.logging.Logger;
  * and is instantiated whenever a new game begins.
  * @author Joe Netti
  * @author Joshua Yoder
- * @author Jonathan Baxley
  */
 public class Game {
     private static final Logger LOG = Logger.getLogger(Game.class.getName());
@@ -70,20 +69,12 @@ public class Game {
         return this.whitePlayer;
     }
 
-    /**
-     * Sets the game to be over
-     */
     public void gameOver(){
         this.isGameOver = true;
     }
 
-    /**
-     * Checks to see if the game is over, either by resignation or by one player winning
-     * @return boolean true if game is over, false if game is not over
-     */
     public boolean isGameOver(){
-        if (this.isResigned != null) {
-            if (this.isGameOver) {
+        if (this.isResigned != null){
                 if (this.isResigned.equals(this.whitePlayer)) {
                     this.winner = redPlayer;
                 } else {
@@ -91,7 +82,7 @@ public class Game {
                 }
                 return true;
             }
-        }
+
         else{
             if (redpieces == 0){
                 this.winner = this.whitePlayer;
@@ -107,29 +98,16 @@ public class Game {
                 return false;
             }
         }
-        return false;
     }
 
-    /**
-     * Gets the winner of a game
-     * @return Player, player that won the game
-     */
     public Player getWinner(){
         return this.winner;
     }
 
-    /**
-     * Sets the player who resigned
-     * @param player player who resigned
-     */
     public void setIsResigned(Player player){
         this.isResigned = player;
     }
 
-    /**
-     * gets the player who resigned
-     * @return Player, player who resigned
-     */
     public Player getIsResigned(){
         return this.isResigned;
     }
@@ -158,10 +136,6 @@ public class Game {
         return redPlayer == player || whitePlayer == player;
     }
 
-    /**
-     * Called when a piece is taken
-     * @param Color color of piece
-     */
     private void updatePiece(PieceColor Color){
         if (Color == PieceColor.WHITE){
             this.whitepieces--;
@@ -170,10 +144,6 @@ public class Game {
         }
     }
 
-    /**
-     * called whenever a move capture is taken back
-     * @param Color color of piece
-     */
     private void revertPiece(PieceColor Color){
         if (Color == PieceColor.WHITE){
             this.whitepieces++;
@@ -182,12 +152,6 @@ public class Game {
         }
     }
 
-    /**
-     * Checks whether there is a possible jump move in the upper right direction
-     * @param i, row for space
-     * @param j, column for space
-     * @return false if there is a jump move available, true otherwise
-     */
     private boolean check_UpRight(int i, int j){
         if (i > 5 || j > 5){
             return true;
@@ -198,12 +162,6 @@ public class Game {
         }
     }
 
-    /**
-     * Checks whether there is a possible jump move in the upper left direction
-     * @param i, row for space
-     * @param j, column for space
-     * @return false if there is a jump move available, true otherwise
-     */
     private boolean check_UpLeft(int i, int j){
         if (i > 5 || j < 2){
             return true;
@@ -214,12 +172,6 @@ public class Game {
         }
     }
 
-    /**
-     * Checks whether there is a possible jump move in the lower right direction
-     * @param i, row for space
-     * @param j, column for space
-     * @return false if there is a jump move available, true otherwise
-     */
     private boolean check_DownRight(int i, int j){
         if (i < 2 || j > 5){
             return true;
@@ -230,12 +182,6 @@ public class Game {
         }
     }
 
-    /**
-     * Checks whether there is a possible jump move in the lower left direction
-     * @param i, row for space
-     * @param j, column for space
-     * @return false if there is a jump move available, true otherwise
-     */
     private boolean check_DownLeft(int i, int j){
         if (i < 2 || j < 2){
             return true;
@@ -246,12 +192,6 @@ public class Game {
         }
     }
 
-    /**
-     * checks if there is any available double jumps from a space
-     * @param i, row of space
-     * @param j, column of space
-     * @return false if there is a double jump available, true otherwise.
-     */
     private boolean checkBoardDoubleJump(int i, int j){
         if (boardView.getSpace(i, j).getPiece().getType() == Piece.PieceType.KING){
             boolean temp = check_DownLeft(i,j) && check_DownRight(i,j) && check_UpLeft(i,j)
@@ -275,10 +215,6 @@ public class Game {
         return true;
     }
 
-    /**
-     * Checks the entire board calling all of the other check functions.
-     * @return true if board is good, false otherwise
-     */
     public boolean check_board(){
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
@@ -308,11 +244,6 @@ public class Game {
         return true;
     }
 
-
-    /**
-     * backs up a move previously made
-     * @return if a move was backed up returns true, else false.
-     */
     public boolean backUp(){
         Move move = this.turn.getPrevMove();
         this.turn.remove_move();
@@ -338,10 +269,7 @@ public class Game {
         return true;
     }
 
-    /**
-     * Makes a move
-     * @param move, move to be made
-     */
+
     public void makeMove(Move move){
         Position start = move.getStart();
         Position end = move.getEnd();
@@ -406,14 +334,7 @@ public class Game {
         boolean isKing = this.boardView.getSpace(endRow,endCell).getPiece().type == Piece.PieceType.KING;
     }
 
-
-    /**
-     * Checks if single move is valid
-     * @param move, move to be made
-     * @return true if valid, false otherwise
-     * @throws Exception
-     */
-    private boolean isValidNormalMoveSingle(Move move) throws Exception {
+    private Boolean isValidNormalMoveSingle(Move move) throws Exception {
         Position start = move.getStart();
         Position end = move.getEnd();
         Space startSpace = boardView.getSpace(start.getRow(), start.getCell());
@@ -451,10 +372,6 @@ public class Game {
         }
     }
 
-    /**
-     * Ends the player turn
-     * @return true if move made and turn ended, false otherwise
-     */
     public boolean endTurn(){
         Move prev = this.turn.getPrevMove();
         if (Math.abs(turn.getPrevMove().getStart().getRow() - turn.getPrevMove().getEnd().getRow()) != 2){
@@ -480,22 +397,12 @@ public class Game {
         return true;
     }
 
-    /**
-     * Sets the turn attribute, rows and columns
-     * @param row, row of turn
-     * @param col, column of turn
-     */
     private void setTurnAttr(int row, int col){
         this.getTurn().setCol(col);
         this.getTurn().setRow(row);
     }
 
-    /**
-     * Checks if jump move is valid
-     * @param move
-     * @return true if jump move is valid, false otherwise
-     */
-    public boolean isValidJump(Move move){
+    public Boolean isValidJump(Move move){
         int startRow = move.getStart().getRow();
         int startCol = move.getStart().getCell();
         int endRow = move.getEnd().getRow();
@@ -539,13 +446,7 @@ public class Game {
     }
 
 
-    /**
-     * Checks if a move is valid
-     * @param move
-     * @return true if move is valid, false otherwise
-     * @throws Exception
-     */
-    public boolean isMoveValid(Move move) throws Exception {
+    public Boolean isMoveValid(Move move) throws Exception {
         Position start = move.getStart();
         Position end = move.getEnd();
 

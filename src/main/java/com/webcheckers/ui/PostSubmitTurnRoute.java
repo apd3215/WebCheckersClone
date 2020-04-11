@@ -7,6 +7,8 @@ import com.webcheckers.model.Move;
 import com.webcheckers.util.Message;
 import spark.*;
 
+import static com.webcheckers.ui.WebServer.GAME_URL;
+import static com.webcheckers.ui.WebServer.HOME_URL;
 import static spark.Spark.get;
 import static spark.route.HttpMethod.get;
 
@@ -37,9 +39,11 @@ public class PostSubmitTurnRoute implements Route {
     public Object handle(Request request, Response response){
         final Session httpSession = request.session();
         Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute("Player"));
+        Gson gson = new Gson();
+
         if (game != null){
+            game.isGameOver();
             Move move = game.getTurn().getPrevMove();
-            Gson gson = new Gson();
             Message message;
             if (game.endTurn()) {
                message = Message.info("true");
@@ -54,7 +58,10 @@ public class PostSubmitTurnRoute implements Route {
             return move_json;
         }
         else{
-            return null;
-        }
+            Message message = Message.info("true");
+            String jsonMessage = gson.toJson(message);
+            response.body(jsonMessage);
+            get(GAME_URL, new GetGameRoute(templateEngine)); //Home route (default)
+            return jsonMessage;        }
     }
 }
