@@ -7,7 +7,6 @@ import com.webcheckers.model.Game;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import spark.ModelAndView;
@@ -20,10 +19,6 @@ import spark.Session;
 import com.webcheckers.util.Message;
 import com.google.gson.Gson;
 
-import static com.webcheckers.ui.WebServer.GAME_URL;
-import static spark.Spark.get;
-import static spark.Spark.redirect;
-
 /**
  * The UI Controller to GET the game route.
  */
@@ -33,7 +28,7 @@ public class GetSpectateRoute implements Route {
   public static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
   public static final String GAME_TITLE = "Game page!";
 
-  private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
+  private static final Logger LOG = Logger.getLogger(GetSpectateRoute.class.getName());
   private final TemplateEngine templateEngine;
 
   /**
@@ -44,7 +39,7 @@ public class GetSpectateRoute implements Route {
   public GetSpectateRoute(final TemplateEngine templateEngine) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
     //
-    LOG.config("GetGameRoute is initialized.");
+    LOG.config("GetSpectateRoute is initialized.");
   }
 
   /**
@@ -56,18 +51,22 @@ public class GetSpectateRoute implements Route {
    */
   @Override
   public Object handle(Request request, Response response) throws InterruptedException{
-    LOG.finer("GetGameRoute is invoked.");
+    LOG.finer("GetSpectateRoute is invoked.");
     final Session httpSession = request.session();
 
     Map<String, Object> vm = new HashMap<>();
     
-    Player player = httpSession.attribute(SessionAttributes.PLAYER);
-    Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute(SessionAttributes.PLAYER));
+    Player spectator = httpSession.attribute(SessionAttributes.PLAYER);
+
+    Game game = Application.gameCenter.getGameByPlayer(
+      Application.playerLobby.getPlayers().get(
+        request.queryParams("otherPlayer")));
+
     Gson gson = new Gson();
 
     if (game != null) {
       vm.put("title", "Game page!");
-      vm.put("currentUser", player);
+      vm.put("currentUser", spectator);
       vm.put("redPlayer", game.getRedPlayer());
       vm.put("whitePlayer", game.getWhitePlayer());
       vm.put("viewMode", Game.ViewMode.SPECTATOR);
@@ -77,6 +76,7 @@ public class GetSpectateRoute implements Route {
       final Map<String, Object> modeOptions = new HashMap<>(2);
       modeOptions.put("isGameOver", true);
 
+      //TODO: Change logic
       if (game.getIsResigned() == httpSession.attribute(SessionAttributes.PLAYER)){
         modeOptions.put("gameOverMessage", "You resigned. BOO.");
         game.gameOver();
@@ -88,24 +88,17 @@ public class GetSpectateRoute implements Route {
         vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
         Application.gameCenter.endGame(game);
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
-      }
-      if (game.isGameOver()){
-
-
-        if (player.equals(game.getWinner())){
-          modeOptions.put("gameOverMessage", "you win");
-        }
+      } if (game.isGameOver()){
+          if (spectator.equals(game.getWinner())) { //TODO: Fix (current player -> spectator)
+            modeOptions.put("gameOverMessage", "you win");
+          }
         vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
-
-      }
-      else{
+      } else {
         vm.put("message", WELCOME_MSG);
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
       }
-    }
-
-    else{
+    } else {
       response.redirect("/");
       return null;
     }
