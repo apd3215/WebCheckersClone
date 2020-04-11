@@ -9,6 +9,7 @@ package com.webcheckers.appl;
  */
 public class Player {
     //Player fields
+    private boolean isSpectating = false;
     private boolean isPlaying = false;
     private boolean isLogged = true;
     private String name;
@@ -27,6 +28,18 @@ public class Player {
      */
     public String getName() {
         return name;
+    }
+
+    public boolean isSpectating() {
+        return isSpectating;
+    }
+
+    public void startSpectate(){
+        this.isSpectating = true;
+    }
+
+    public void stopSpectate(){
+        this.isSpectating = false;
     }
 
     /**

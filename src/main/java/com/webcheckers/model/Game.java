@@ -51,6 +51,8 @@ public class Game {
         this.whitepieces = 12;
         this.redpieces = 12;
         this.spectators = new ArrayList<Player>();
+        this.redPlayer.startGamePlayer();
+        this.whitePlayer.startGamePlayer();
     }
 
     public Turn getTurn(){

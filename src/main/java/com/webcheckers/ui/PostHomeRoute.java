@@ -64,6 +64,8 @@ public class PostHomeRoute implements Route {
             vm.put(VMAttributes.TITLE, TITLE_STR);
             vm.put(VMAttributes.CURRENT_USER, httpSession.attribute(SessionAttributes.PLAYER));
             vm.put(VMAttributes.SIGNED, Application.playerLobby.get_logged_names());
+            vm.put(VMAttributes.PLAYING, Application.playerLobby.get_playing());
+            vm.put(VMAttributes.SPECTATING, Application.playerLobby.get_spectating());
             httpSession.attribute(SessionAttributes.ERROR, Message.error(String.format(ERR, otherPlayer)));
             response.redirect(HOME_URL);
             return null;
