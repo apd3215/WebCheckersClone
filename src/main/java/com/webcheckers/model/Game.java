@@ -3,6 +3,7 @@ package com.webcheckers.model;
 import com.webcheckers.appl.Player;
 import com.webcheckers.model.Piece.PieceColor;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 /**
@@ -16,6 +17,7 @@ public class Game {
     private static final Logger LOG = Logger.getLogger(Game.class.getName());
     private Player redPlayer;
     private Player whitePlayer;
+    private ArrayList<Player> spectators;
     private PieceColor activeColor;
     private BoardView boardView;
     private boolean isGameOver;
@@ -48,6 +50,7 @@ public class Game {
         this.winner = null;
         this.whitepieces = 12;
         this.redpieces = 12;
+        this.spectators = new ArrayList<Player>();
     }
 
     public Turn getTurn(){
@@ -68,6 +71,10 @@ public class Game {
      */
     public Player getWhitePlayer() {
         return this.whitePlayer;
+    }
+
+    public ArrayList<Player> getSpectators() {
+        return this.spectators;
     }
 
     /**
