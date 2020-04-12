@@ -61,7 +61,7 @@ public class WebServer {
   public static final String BACKUP_URL = "/backupMove";
   public static final String RESIGN_URL = "/resignGame";
   public static final String CHECKTURN_URL = "/checkTurn";
-  public static final String STOP_WATCHING = "/spectate/stopWatching";
+  public static final String STOP_WATCHING = "/spectator/stopWatching";
   public static final String SPECTATE_URL = "/spectator/game";
   public static final String SPECTATE_CHECK_URL = "/spectator/checkTurn";
 

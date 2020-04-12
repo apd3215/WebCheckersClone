@@ -1,5 +1,8 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.Application;
+import com.webcheckers.appl.Player;
+import com.webcheckers.model.Game;
 import spark.Response;
 import spark.Session;
 
@@ -36,7 +39,8 @@ public class GetSpectateStopWatchingRoute implements Route {
         final Session httpSession = request.session();
         Map<String, Object> vm = new HashMap<>();
 
-
+        Player spectator = httpSession.attribute(SessionAttributes.PLAYER);
+        spectator.stopSpectate();
 
         //Redirect to the game url
         response.redirect(HOME_URL);
