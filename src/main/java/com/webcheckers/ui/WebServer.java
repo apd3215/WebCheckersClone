@@ -62,6 +62,7 @@ public class WebServer {
   public static final String RESIGN_URL = "/resignGame";
   public static final String CHECKTURN_URL = "/checkTurn";
   public static final String SPECTATE_URL = "/spectate";
+  public static final String STOP_WATCHING = "/spectate/stopWatching";
 
 
   //
@@ -159,6 +160,7 @@ public class WebServer {
     post(RESIGN_URL, new PostResignRoute(templateEngine));
     post(BACKUP_URL, new PostBackUpMoveRoute(templateEngine));
     get(SPECTATE_URL, new GetSpectateRoute(templateEngine));
+    get(STOP_WATCHING, new GetSpectateStopWatchingRoute(templateEngine));
 
     LOG.config("WebServer is initialized.");
   }
