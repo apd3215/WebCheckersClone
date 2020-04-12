@@ -73,6 +73,7 @@ public class GetHomeRoute implements Route {
                     Application.gameCenter.endGame(game);
                 }
                 else {
+                    httpSession.attribute("ID", game.gameid);
                     response.redirect(GAME_URL);
                     return null;
                 }

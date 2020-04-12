@@ -30,7 +30,7 @@ public class GameCenter {
      * Adds a new game to the games list.
      */
     public void addGame(Game game) {
-        game.gameid = i;
+        game.gameid = this.i;
         this.i++;
         String redPlayer = game.getRedPlayer().getName();
         String whitePlayer = game.getWhitePlayer().getName();

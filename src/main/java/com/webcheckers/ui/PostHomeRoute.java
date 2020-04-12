@@ -76,7 +76,7 @@ public class PostHomeRoute implements Route {
         Player currentPlayer = httpSession.attribute(SessionAttributes.PLAYER);
         Game newGame = new Game(currentPlayer, whitePlayer);
         Application.gameCenter.addGame(newGame);
-        httpSession.attribute("ID", game.gameid);
+        httpSession.attribute("ID", newGame.gameid);
 
         httpSession.attribute(SessionAttributes.GAME, newGame);
 
