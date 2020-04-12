@@ -55,24 +55,37 @@ public class GetSpectatorGameRoute implements Route {
     LOG.finer("GetSpectatorGameRoute is invoked.");
     final Session httpSession = request.session();
 
+    Player spectator = httpSession.attribute(SessionAttributes.PLAYER);
     Map<String, Object> vm = new HashMap<>();
     Player playing = null;
     if (httpSession.attribute("isFirst") == null){
+
       String playingStr = request.queryParams("otherPlayer");
       playing = Application.playerLobby.getPlayers().get(playingStr);
       httpSession.attribute("Playing", playing);
-      httpSession.attribute("isFirst", false);
+
     } else {
       playing = httpSession.attribute("Playing");
     }
-      Player spectator = httpSession.attribute(SessionAttributes.PLAYER);
 
     Game game = Application.gameCenter.getGameByPlayer(playing);
 
+    if (httpSession.attribute("isFirst") == null){
+      spectator.startSpectate(game);
+      httpSession.attribute("isFirst", false);
+    }
 
     Gson gson = new Gson();
 
-    if (game != null) {
+    if (game == null){
+      game = Application.gameCenter.getBySpectator(spectator);
+      if (game == null){
+        response.redirect("/");
+        return null;
+      }
+    }
+
+    //if (game != null) {
       vm.put("title", "Game page!");
       vm.put("currentUser", spectator);
       vm.put("redPlayer", game.getRedPlayer());
@@ -88,26 +101,26 @@ public class GetSpectatorGameRoute implements Route {
 
       //TODO: Change logic
       if (game.getIsResigned() == playing){
-        modeOptions.put("gameOverMessage", playing.getName() + "resigned. BOO.");
+        modeOptions.put("gameOverMessage", playing.getName() + "resigned.");
         vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
+        spectator.stopSpectate(game);
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
       } else if (game.getIsResigned() != null){
         modeOptions.put("gameOverMessage", "Other Player resigned. You Win.");
         vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
+        spectator.stopSpectate(game);
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
       } if (game.getIsGameOver()){
           if (playing.equals(game.getWinner())) { //TODO: Fix (current player -> spectator)
             modeOptions.put("gameOverMessage", playing.getName() + " wins");
           }
         vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
+        spectator.stopSpectate(game);
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
       } else {
         vm.put("message", WELCOME_MSG);
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
       }
-    } else {
-      response.redirect("/");
-      return null;
-    }
+    //}
   }
 }

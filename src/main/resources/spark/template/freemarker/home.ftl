@@ -58,7 +58,7 @@
       <h3> Players Spectating:</h3>
       <#list spectating as person>
           <#if person != currentUser.name>
-              <p> person </p>
+              <p> ${person} </p>
           </#if>
       </#list>
     </#if>

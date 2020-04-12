@@ -13,6 +13,7 @@ import java.util.Hashtable;
 public class GameCenter {
     private Dictionary<String, Game> Games;
     private ArrayList<Game> GameArrayList;
+    private ArrayList<Game> GameStatsList;
 
     /**
      * Constructor, create new games hashtable and arraylist.
@@ -57,6 +58,15 @@ public class GameCenter {
         return null;
     }
 
+    public Game getBySpectator(Player player){
+        for (Game game: GameStatsList){
+            if (game.getSpectators().contains(player)){
+                return game;
+            }
+        }
+        return null;
+    }
+
     /**
      * Ends a game that is currently in progress
      * @param game the game to end
@@ -64,6 +74,8 @@ public class GameCenter {
     public void endGame(Game game){
         game.getRedPlayer().endGamePlayer();
         game.getWhitePlayer().endGamePlayer();
+        this.GameStatsList.add(game);
+        this.GameArrayList.remove(game);
     }
 
 }
