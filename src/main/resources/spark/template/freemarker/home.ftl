@@ -21,6 +21,7 @@
     <#include "message.ftl" />
 
     <#if signed ??>
+        <h3> Available Players:</h3>
       <#list signed as person>
         <#if person != currentUser.name>
             <form method="post" action="/game">
@@ -33,12 +34,36 @@
     <#else>
       <p>
         <#if num == 1>
-          ${num} player signed in.
+          ${num} Player signed in.
         <#else>
-          ${num} players signed in.
+          ${num} Players signed in.
         </#if>
       </p>
     </#if>
+
+    <#if playing ??>
+        <h3> Players inGame:</h3>
+      <#list playing as person>
+          <#if person != currentUser.name>
+              <form method="post" action="/spectate">  <!--- change path to /spectate after UI components --->
+                  <!-- <a id = "otherPlayer" href = "/game"> </a> --->
+                  <input name="otherPlayer" type="submit" value=${person} >
+                  <br> <br>
+              </form>
+          </#if>
+      </#list>
+    </#if>
+
+    <#if spectating ??>
+      <h3> Players Spectating:</h3>
+      <#list spectating as person>
+          <#if person != currentUser.name>
+              <p> person </p>
+          </#if>
+      </#list>
+    </#if>
+
+
 
 
     <!-- TODO: future content on the Home:

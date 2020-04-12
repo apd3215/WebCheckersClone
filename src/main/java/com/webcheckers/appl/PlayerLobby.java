@@ -129,8 +129,27 @@ public class PlayerLobby {
      */
     public ArrayList<String> get_logged_names() {
         ArrayList<String> keys = Collections.list(Users.keys());
-        return keys;
+        ArrayList<String> available = new ArrayList<>();
+        for(String name: keys) {
+            if (Players.get(name).isLogged() && !Players.get(name).isPlaying() && !Players.get(name).isSpectating()) {
+                available.add(name);
+            }
+        }
+        return available;
     }
+
+
+    public ArrayList<String> get_spectating() {
+        ArrayList<String> keys = Collections.list(Users.keys());
+        ArrayList<String> spectate = new ArrayList<>();
+        for(String name: keys) {
+            if (Players.get(name).isLogged() && !Players.get(name).isPlaying() && Players.get(name).isSpectating()) {
+                spectate.add(name);
+            }
+        }
+        return spectate;
+    }
+
 
     /**
      * Gets an array list of playing users
@@ -140,7 +159,7 @@ public class PlayerLobby {
         ArrayList<String> keys = Collections.list(Users.keys());
         ArrayList<String> playing = new ArrayList<>();
         for(String name: keys) {
-            if (Players.get(name).isLogged() && Players.get(name).isPlaying()) {
+            if (Players.get(name).isLogged() && Players.get(name).isPlaying() && !Players.get(name).isSpectating()) {
                 playing.add(name);
             }
         }

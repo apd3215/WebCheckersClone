@@ -88,6 +88,7 @@ public class GetHomeRoute implements Route {
             vm.put(VMAttributes.CURRENT_USER, httpSession.attribute(SessionAttributes.PLAYER));
             vm.put(VMAttributes.SIGNED, Application.playerLobby.get_logged_names());
             vm.put(VMAttributes.PLAYING, Application.playerLobby.get_playing());
+            vm.put(VMAttributes.SPECTATING, Application.playerLobby.get_spectating());
             return templateEngine.render(new ModelAndView(vm, "home.ftl"));
         }
     }

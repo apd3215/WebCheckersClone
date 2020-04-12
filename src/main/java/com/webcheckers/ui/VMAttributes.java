@@ -17,4 +17,5 @@ public class VMAttributes {
     static final String NUM_PLAYERS = "num";
     static final String SIGNED = "signed";
     static final String PLAYING = "playing";
+    static final String SPECTATING = "spectating";
 }
