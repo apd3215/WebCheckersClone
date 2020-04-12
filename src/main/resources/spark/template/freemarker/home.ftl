@@ -45,7 +45,7 @@
         <h3> Players inGame:</h3>
       <#list playing as person>
           <#if person != currentUser.name>
-              <form method="post" action="/spectate">  <!--- change path to /spectate after UI components --->
+              <form method="get" action="/spectator/game">  <!--- change path to /spectate after UI components --->
                   <!-- <a id = "otherPlayer" href = "/game"> </a> --->
                   <input name="otherPlayer" type="submit" value=${person} >
                   <br> <br>

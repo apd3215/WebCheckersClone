@@ -86,6 +86,10 @@ public class Game {
         this.isGameOver = true;
     }
 
+    public boolean getIsGameOver(){
+        return isGameOver;
+    }
+
     /**
      * Checks to see if the game is over, either by resignation or by one player winning
      * @return boolean true if game is over, false if game is not over

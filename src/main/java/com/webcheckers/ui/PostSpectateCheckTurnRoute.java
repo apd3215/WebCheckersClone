@@ -36,22 +36,27 @@ public class PostSpectateCheckTurnRoute implements Route {
         final Session httpSession = request.session();
         Gson gson = new Gson();
         Message message;
-        Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute("Player"));
+        Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute("Playing"));
 
-        Piece.PieceColor activeColor = httpSession.attribute("activeColor");
-        Piece.PieceColor gameColor = game.getActiveColor();
+        if (game != null) {
+            Piece.PieceColor activeColor = httpSession.attribute("activeColor");
+            Piece.PieceColor gameColor = game.getActiveColor();
 
-        if (activeColor == gameColor){
-            message = Message.info("false");
-            String move_json = gson.toJson(message);
-            response.body(move_json);
-            return move_json;
+            if (activeColor == gameColor) {
+                message = Message.info("false");
+                String move_json = gson.toJson(message);
+                response.body(move_json);
+                return move_json;
+            } else {
+                message = Message.info("true");
+                String move_json = gson.toJson(message);
+                response.body(move_json);
+                return move_json;
+            }
         }
-        else{
-            message = Message.info("true");
-            String move_json = gson.toJson(message);
-            response.body(move_json);
-            return move_json;
-        }
+        message = Message.info("true");
+        String move_json = gson.toJson(message);
+        response.body(move_json);
+        return move_json;
     }
 }
