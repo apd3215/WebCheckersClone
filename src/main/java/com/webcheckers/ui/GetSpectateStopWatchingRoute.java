@@ -40,7 +40,8 @@ public class GetSpectateStopWatchingRoute implements Route {
         Map<String, Object> vm = new HashMap<>();
 
         Player spectator = httpSession.attribute(SessionAttributes.PLAYER);
-        spectator.stopSpectate();
+        Game game = Application.gameCenter.getBySpectator(spectator);
+        spectator.stopSpectate(game);
 
         //Redirect to the game url
         response.redirect(HOME_URL);
