@@ -58,11 +58,9 @@ public class PostHomeRoute implements Route {
         final String otherPlayer = request.queryParams(OTHER);
         Player whitePlayer = Application.playerLobby.getPlayers().get(otherPlayer);
         Game game = Application.gameCenter.getGameByPlayer(whitePlayer);
-        httpSession.attribute("ID", game.gameid);
-
 
         //If we have a null game, we redirect to home
-        if (whitePlayer.isPlaying()){
+        if (game != null){
             vm.put(VMAttributes.TITLE, TITLE_STR);
             vm.put(VMAttributes.CURRENT_USER, httpSession.attribute(SessionAttributes.PLAYER));
             vm.put(VMAttributes.SIGNED, Application.playerLobby.get_logged_names());
@@ -78,6 +76,8 @@ public class PostHomeRoute implements Route {
         Player currentPlayer = httpSession.attribute(SessionAttributes.PLAYER);
         Game newGame = new Game(currentPlayer, whitePlayer);
         Application.gameCenter.addGame(newGame);
+        httpSession.attribute("ID", game.gameid);
+
         httpSession.attribute(SessionAttributes.GAME, newGame);
 
         vm.put(VMAttributes.TITLE, TITLE);

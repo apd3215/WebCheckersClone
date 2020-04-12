@@ -49,7 +49,11 @@ public class PostCheckTurnRoute implements Route {
         if (game == null){
             game = Application.gameCenter.getByID(httpSession.attribute("ID"));
             if (game == null){
-                return null;
+                Message message = Message.info("true");
+                String jsonMessage = gson.toJson(message);
+                response.body(jsonMessage);
+                get(HOME_URL, new GetHomeRoute(templateEngine)); //Home route (default)
+                return jsonMessage;
             }
         }
 
