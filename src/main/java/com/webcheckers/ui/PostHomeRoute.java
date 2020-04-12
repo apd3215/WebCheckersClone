@@ -58,6 +58,8 @@ public class PostHomeRoute implements Route {
         final String otherPlayer = request.queryParams(OTHER);
         Player whitePlayer = Application.playerLobby.getPlayers().get(otherPlayer);
         Game game = Application.gameCenter.getGameByPlayer(whitePlayer);
+        httpSession.attribute("ID", game.gameid);
+
 
         //If we have a null game, we redirect to home
         if (whitePlayer.isPlaying()){
