@@ -99,14 +99,13 @@ public class GetSpectatorGameRoute implements Route {
       final Map<String, Object> modeOptions = new HashMap<>(2);
       modeOptions.put("isGameOver", true);
 
-      //TODO: Change logic
       if (game.getIsResigned() == playing){
         modeOptions.put("gameOverMessage", playing.getName() + "resigned.");
         vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
         spectator.stopSpectate(game);
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
       } else if (game.getIsResigned() != null){
-        modeOptions.put("gameOverMessage", "Other Player resigned. You Win.");
+        modeOptions.put("gameOverMessage", "Your Player wins. Game Over.");
         vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
         spectator.stopSpectate(game);
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));

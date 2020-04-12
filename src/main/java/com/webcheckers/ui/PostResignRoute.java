@@ -39,7 +39,7 @@ public class PostResignRoute implements Route{
 
         httpSession.attribute("ID", -1);
         Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
-        get(WebServer.HOME_URL, new GetHomeRoute(templateEngine)); //Home route (default)
+        //get(WebServer.HOME_URL, new GetHomeRoute(templateEngine)); //Home route (default)
         return jsonMessage;
 
     }
