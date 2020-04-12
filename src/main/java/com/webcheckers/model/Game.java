@@ -26,6 +26,7 @@ public class Game {
     private Player winner;
     private int whitepieces;
     private int redpieces;
+    public int gameid;
 
     /**
      * Enum representing the view mode (player, spectator, replay)

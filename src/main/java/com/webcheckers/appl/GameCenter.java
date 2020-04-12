@@ -14,6 +14,7 @@ public class GameCenter {
     private Dictionary<String, Game> Games;
     private ArrayList<Game> GameArrayList;
     private ArrayList<Game> GameStatsList;
+    private int i;
 
     /**
      * Constructor, create new games hashtable and arraylist.
@@ -21,12 +22,16 @@ public class GameCenter {
     public GameCenter(){
         this.Games = new Hashtable<>();
         this.GameArrayList = new ArrayList<Game>();
+        this.GameStatsList = new ArrayList<Game>();
+        this.i = 0;
     }
 
     /**
      * Adds a new game to the games list.
      */
     public void addGame(Game game) {
+        game.gameid = i;
+        this.i++;
         String redPlayer = game.getRedPlayer().getName();
         String whitePlayer = game.getWhitePlayer().getName();
         Games.put(redPlayer + "," + whitePlayer, game);
@@ -67,11 +72,23 @@ public class GameCenter {
         return null;
     }
 
+    public Game getByID(int ID){
+        for (Game game: GameStatsList){
+            if (game.gameid == ID){
+                return game;
+            }
+        }
+        return null;
+    }
+
     /**
      * Ends a game that is currently in progress
      * @param game the game to end
      */
     public void endGame(Game game){
+        if (game == null){
+            return;
+        }
         game.getRedPlayer().endGamePlayer();
         game.getWhitePlayer().endGamePlayer();
         this.GameStatsList.add(game);

@@ -60,7 +60,7 @@ public class PostHomeRoute implements Route {
         Game game = Application.gameCenter.getGameByPlayer(whitePlayer);
 
         //If we have a null game, we redirect to home
-        if (game != null){
+        if (whitePlayer.isPlaying()){
             vm.put(VMAttributes.TITLE, TITLE_STR);
             vm.put(VMAttributes.CURRENT_USER, httpSession.attribute(SessionAttributes.PLAYER));
             vm.put(VMAttributes.SIGNED, Application.playerLobby.get_logged_names());
