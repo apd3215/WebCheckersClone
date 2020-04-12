@@ -8,11 +8,20 @@
     50% {background-color: white;}
    100% {background-color: lightgray;}
 }
+body {
+  background-image: url("../img/idek_background.png");
+  background-size: cover;
+  background-color: #cccccc;
+}
+/*
 @keyframes background-fades {
+
      0% {background-color: rgba(255, 192, 203, 0.4);}
     50% {background-color: rgba(255, 192, 203, 0.7);}
    100% {background-color: rgba(255, 192, 203, 0.4);}
 }
+
+   */
 
 /*
 * Generic Game Controls style
@@ -27,11 +36,11 @@ div#game-controls fieldset {
   flex: 1; /* same width */
   margin: 1em;
   border-radius: 5px;
-  border: 2px solid #6ECCFF;
+  border: 2px solid #910B0B;
 }
 div#game-controls fieldset legend {
   padding: 0 0.75em 0 0.75em;
-  color: #6ECCFF;
+  color: #910B0B;
   font-size: larger;
 }
 
@@ -66,12 +75,12 @@ fieldset#game-toolbar button {
   font-size: larger;
   cursor: pointer;
   background-color: #CAECFF;
-  border-color: #6ECCFF;
+  border-color: #910B0B;
   border-radius: 7px;
 }
 fieldset#game-toolbar button:disabled {
   background-color: lightgray;
-  border-color: darkgray;
+  border-color: #7a0900;
   cursor: default;
 }
 
@@ -82,6 +91,7 @@ div.game-board {
   clear: both;
   width: 100%;
   text-align: center;
+  color: #7a0900;
 }
 table#game-board {
   width: 690px;
@@ -95,6 +105,7 @@ table#game-board > tbody {
   height: 680px;
   display: block;
   padding: 5px;
+  color: #7a0900;
 }
 table#game-board td {
   width: 85px;

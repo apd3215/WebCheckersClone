@@ -36,13 +36,13 @@
             <div>
               <table data-color='RED'>
                 <tr>
-                  <td><img src="../img/single-piece-red.svg" /></td>
+                  <td><img src="../img/single-piece-red.svg" width="54px" height="54px" /></td>
                   <td class="name">Red</td>
                 </tr>
               </table>
               <table data-color='WHITE'>
                 <tr>
-                  <td><img src="../img/single-piece-white.svg" /></td>
+                  <td><img src="../img/single-piece-white.svg" width="54px" height="54px" /></td>
                   <td class="name">White</td>
                 </tr>
               </table>
