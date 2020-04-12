@@ -64,7 +64,6 @@ public class GameCenter {
     public void endGame(Game game){
         game.getRedPlayer().endGamePlayer();
         game.getWhitePlayer().endGamePlayer();
-        GameArrayList.remove(game);
     }
 
 }

@@ -90,8 +90,6 @@ public class GetGameRoute implements Route {
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
       }
       if (game.isGameOver()){
-
-
         if (player.equals(game.getWinner())){
           modeOptions.put("gameOverMessage", "you win");
         }
