@@ -1,10 +1,13 @@
 package com.webcheckers.ui;
 
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.TemplateEngine;
+import com.google.gson.Gson;
+import com.webcheckers.Application;
+import com.webcheckers.model.Game;
+import com.webcheckers.model.Piece;
+import com.webcheckers.util.Message;
+import spark.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
 /**
@@ -30,7 +33,25 @@ public class PostSpectateCheckTurnRoute implements Route {
      */
     @Override
     public Object handle(Request request, Response response) {
-        return null;
+        final Session httpSession = request.session();
+        Gson gson = new Gson();
+        Message message;
+        Game game = Application.gameCenter.getGameByPlayer(httpSession.attribute("Player"));
 
+        Piece.PieceColor activeColor = httpSession.attribute("activeColor");
+        Piece.PieceColor gameColor = game.getActiveColor();
+
+        if (activeColor == gameColor){
+            message = Message.info("false");
+            String move_json = gson.toJson(message);
+            response.body(move_json);
+            return move_json;
+        }
+        else{
+            message = Message.info("true");
+            String move_json = gson.toJson(message);
+            response.body(move_json);
+            return move_json;
+        }
     }
 }
