@@ -267,7 +267,8 @@ public class Game {
      * @return false if there is a double jump available, true otherwise.
      */
     private boolean checkBoardDoubleJump(int i, int j){
-        if (boardView.getSpace(i, j).getPiece().getType() == Piece.PieceType.KING){
+        if (boardView.getSpace(i, j).getPiece().getType() == Piece.PieceType.KING &&
+                this.activeColor == boardView.getSpace(i, j).getPiece().getColor()){
             boolean temp = check_DownLeft(i,j) && check_DownRight(i,j) && check_UpLeft(i,j)
                     && check_UpRight(i,j);
             if (!temp){
@@ -298,7 +299,8 @@ public class Game {
             for (int j = 0; j < 8; j++){
                 if (boardView.getSpace(i,j).getPiece() == null) {
                     continue;
-                } else if (boardView.getSpace(i, j).getPiece().getType() == Piece.PieceType.KING){
+                } else if (boardView.getSpace(i, j).getPiece().getType() == Piece.PieceType.KING &&
+                                                this.activeColor == boardView.getSpace(i, j).getPiece().getColor()){
                     boolean temp = check_DownLeft(i,j) && check_DownRight(i,j) && check_UpLeft(i,j)
                             && check_UpRight(i,j);
                     if (!temp){
@@ -594,7 +596,7 @@ public class Game {
             if (!b){
                 throw new Exception("Not a Valid Move.");
             } else {
-                setTurnAttr(move.getStart().getRow(), move.getStart().getCell());
+                setTurnAttr(move.getEnd().getRow(), move.getEnd().getCell());
             }
             return true;
         }
