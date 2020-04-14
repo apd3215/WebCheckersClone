@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joshua Yoder
  */
-public class GameValidateMoveTest {
+public class GameMoveTest {
     /**
      * Component under test
      */
