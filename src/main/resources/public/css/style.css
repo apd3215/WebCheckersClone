@@ -1,5 +1,9 @@
 body {
-  background: #CAECFF;
+  background: #870000; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #870000, #190a05); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #870000, #190a05) fixed;
+  /*background-image: url("../img/vc.jpg");*/
+  /*background-size: cover;*/
   font-family: 'Trebuchet MS', sans-serif;
   font-size: 14px;
 }
@@ -64,17 +68,18 @@ div.signin {
   left: 50%;
   margin-left: -85px;
   margin-top: 150px;
+  color: white;
 }
 
 div.page {
   background: white;
-  border: 1px solid #6ECCFF;
+  border: 1px solid #912f33;
   width: 710px;
   margin: 30px auto;
 }
 
 div.page h1 {
-  background: #6ECCFF;
+  background: #910B0B;
   margin: 0;
   padding: 10px 14px;
   color: white;
@@ -109,7 +114,7 @@ div.page div.body {
 }
 
 div.page div.footer {
-  background: #eee;
+  background: #7a0900;
   color: #888;
   padding: 5px 10px;
   font-size: 12px;
@@ -133,9 +138,9 @@ div.ERROR {
  */
 div.INFO {
   margin: 10px 0;
-  background: #CAECFF;
+  background: #bdb83c;
   filter: brightness(115%);
-  border: 1px solid #6ECCFF;
+  border: 1px solid #910B0B;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   padding: 4px;

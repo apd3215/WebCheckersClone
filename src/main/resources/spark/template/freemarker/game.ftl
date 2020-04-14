@@ -36,13 +36,13 @@
             <div>
               <table data-color='RED'>
                 <tr>
-                  <td><img src="../img/single-piece-red.svg" /></td>
+                  <td><img src="../img/single-piece-red.svg" width="54px" height="54px" /></td>
                   <td class="name">Red</td>
                 </tr>
               </table>
               <table data-color='WHITE'>
                 <tr>
-                  <td><img src="../img/single-piece-white.svg" /></td>
+                  <td><img src="../img/single-piece-white.svg" width="54px" height="54px" /></td>
                   <td class="name">White</td>
                 </tr>
               </table>
@@ -113,7 +113,7 @@
     </div>
   </div>
 
-  <audio id="audio" src="http://www.soundjay.com/button/beep-07.mp3" autostart="false" ></audio>
+  <audio id="audio" src="https://ipfs.io/ipfs/QmZVgt8WcaSYuhwhBTVFBsSqDHepNXyiUZG6LGaqhTqyQa" autostart="false" ></audio>
   
   <script data-main="/js/game/index" src="/js/require.js"></script>
   
