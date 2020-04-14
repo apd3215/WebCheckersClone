@@ -23,13 +23,13 @@ import com.google.gson.Gson;
 /**
  * The UI Controller to GET the game route.
  */
-public class GetSpectateRoute implements Route {
+public class GetSpectatorGameRoute implements Route {
 
   //Constants
   public static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
   public static final String GAME_TITLE = "Game page!";
 
-  private static final Logger LOG = Logger.getLogger(GetSpectateRoute.class.getName());
+  private static final Logger LOG = Logger.getLogger(GetSpectatorGameRoute.class.getName());
   private final TemplateEngine templateEngine;
 
   /**
@@ -37,10 +37,10 @@ public class GetSpectateRoute implements Route {
    *
    * @param templateEngine the HTML template rendering engine
    */
-  public GetSpectateRoute(final TemplateEngine templateEngine) {
+  public GetSpectatorGameRoute(final TemplateEngine templateEngine) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
     //
-    LOG.config("GetSpectateRoute is initialized.");
+    LOG.config("GetSpectatorGameRoute is initialized.");
   }
 
   /**
@@ -52,29 +52,40 @@ public class GetSpectateRoute implements Route {
    */
   @Override
   public Object handle(Request request, Response response) throws InterruptedException{
-    LOG.finer("GetSpectateRoute is invoked.");
+    LOG.finer("GetSpectatorGameRoute is invoked.");
     final Session httpSession = request.session();
 
-    Map<String, Object> vm = new HashMap<>();
-    
     Player spectator = httpSession.attribute(SessionAttributes.PLAYER);
+    Map<String, Object> vm = new HashMap<>();
+    Player playing = null;
+    if (httpSession.attribute("isFirst") == null){
 
-    Game game = Application.gameCenter.getGameByPlayer(
-      Application.playerLobby.getPlayers().get(
-        request.queryParams("otherPlayer")));
+      String playingStr = request.queryParams("otherPlayer");
+      playing = Application.playerLobby.getPlayers().get(playingStr);
+      httpSession.attribute("Playing", playing);
 
-    BoardView currBoard = game.getBoardView();
+    } else {
+      playing = httpSession.attribute("Playing");
+    }
 
-//    while(true){
-//      if (game.getBoardView().isChanged(currBoard)){
-//        redirect(/spectate)
-//      }
-//    }
+    Game game = Application.gameCenter.getGameByPlayer(playing);
 
+    if (httpSession.attribute("isFirst") == null){
+      spectator.startSpectate(game);
+      httpSession.attribute("isFirst", false);
+    }
 
     Gson gson = new Gson();
 
-    if (game != null) {
+    if (game == null){
+      game = Application.gameCenter.getBySpectator(spectator);
+      if (game == null){
+        response.redirect("/");
+        return null;
+      }
+    }
+
+    //if (game != null) {
       vm.put("title", "Game page!");
       vm.put("currentUser", spectator);
       vm.put("redPlayer", game.getRedPlayer());
@@ -83,34 +94,32 @@ public class GetSpectateRoute implements Route {
       vm.put("board", game.getBoardView());
       vm.put("activeColor", game.getActiveColor());
 
+      httpSession.attribute("activeColor", game.getActiveColor());
+
       final Map<String, Object> modeOptions = new HashMap<>(2);
       modeOptions.put("isGameOver", true);
 
-      //TODO: Change logic
-      if (game.getIsResigned() == httpSession.attribute(SessionAttributes.PLAYER)){
-        modeOptions.put("gameOverMessage", "You resigned. BOO.");
-        game.gameOver();
+      if (game.getIsResigned() == playing){
+        modeOptions.put("gameOverMessage", playing.getName() + "resigned.");
         vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
+        spectator.stopSpectate(game);
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
       } else if (game.getIsResigned() != null){
-        modeOptions.put("gameOverMessage", "Other Player resigned. You Win.");
-        game.gameOver();
+        modeOptions.put("gameOverMessage", "Your Player wins. Game Over.");
         vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
-        Application.gameCenter.endGame(game);
+        spectator.stopSpectate(game);
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
-      } if (game.isGameOver()){
-          if (spectator.equals(game.getWinner())) { //TODO: Fix (current player -> spectator)
-            modeOptions.put("gameOverMessage", "you win");
+      } if (game.getIsGameOver()){
+          if (playing.equals(game.getWinner())) { //TODO: Fix (current player -> spectator)
+            modeOptions.put("gameOverMessage", playing.getName() + " wins");
           }
         vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
+        spectator.stopSpectate(game);
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
       } else {
         vm.put("message", WELCOME_MSG);
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
       }
-    } else {
-      response.redirect("/");
-      return null;
-    }
+    //}
   }
 }

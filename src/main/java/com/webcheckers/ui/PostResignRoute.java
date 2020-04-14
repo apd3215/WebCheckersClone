@@ -13,26 +13,14 @@ import com.google.gson.Gson;
 
 import static spark.Spark.get;
 
-/**
- * UI Controller for post resign route
- * @author Jonathan Baxley
- * @author Dhaval Shrishrimal
- */
 public class PostResignRoute implements Route{
 
     private TemplateEngine templateEngine;
 
-    //Default Constructor
     public PostResignRoute(TemplateEngine templateEngine){
         this.templateEngine = templateEngine;
     }
 
-    /**
-     * Handles the resign game to end the game
-     * @param request http request
-     * @param response http response
-     * @return JsonMessage object
-     */
     @Override
     public Object handle(Request request, Response response){
         final Session httpSession = request.session();
@@ -42,12 +30,16 @@ public class PostResignRoute implements Route{
 
         if (game != null) {
             game.setIsResigned(httpSession.attribute("Player"));
+            game.gameOver();
         }
 
         Message message = Message.info("Successful");
         String jsonMessage = gson.toJson(message);
         response.body(jsonMessage);
 
+        httpSession.attribute("ID", -1);
+        Application.gameCenter.endGame(Application.gameCenter.getGameByPlayer(httpSession.attribute("Player")));
+        //get(WebServer.HOME_URL, new GetHomeRoute(templateEngine)); //Home route (default)
         return jsonMessage;
 
     }

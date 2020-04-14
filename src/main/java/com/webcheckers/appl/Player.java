@@ -1,5 +1,7 @@
 package com.webcheckers.appl;
 
+import com.webcheckers.model.Game;
+
 /**
  * Player class, represents a player in webcheckers.
  * @author Joe Netti
@@ -34,12 +36,14 @@ public class Player {
         return isSpectating;
     }
 
-    public void startSpectate(){
+    public void startSpectate(Game game){
         this.isSpectating = true;
+        game.getSpectators().add(this);
     }
 
-    public void stopSpectate(){
+    public void stopSpectate(Game game){
         this.isSpectating = false;
+        game.getSpectators().remove(this);
     }
 
     /**
