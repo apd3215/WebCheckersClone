@@ -95,7 +95,6 @@ public class GetGameRoute implements Route {
         }
         vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
         return templateEngine.render(new ModelAndView(vm, "game.ftl"));
-
       }
       else{
         vm.put("message", WELCOME_MSG);
