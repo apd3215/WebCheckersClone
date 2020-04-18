@@ -110,4 +110,19 @@ public class PostSubmitTurnRouteTest {
 
         assertEquals("{\"text\":\"Jump moves possible.\",\"type\":\"ERROR\"}", json);
     }
+
+    @Test
+    public void test_game_null() {
+        when(gameCenter.getGameByPlayer(player)).thenReturn(null);
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+
+        //Template engine tester
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+
+        //Call handle on the CuT
+        Object json = CuT.handle(request, response);
+
+        assertEquals("{\"text\":\"true\",\"type\":\"INFO\"}", json);
+    }
 }
