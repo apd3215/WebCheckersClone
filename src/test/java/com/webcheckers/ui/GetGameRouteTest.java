@@ -40,6 +40,7 @@ public class GetGameRouteTest {
     private Player otherPlayer;
     private PlayerLobby playerLobby;
     private GameCenter gameCenter;
+    private Game game;
 
     /**
      * Setup new mock objects for each test.
@@ -122,4 +123,97 @@ public class GetGameRouteTest {
 
         verify(response).redirect(WebServer.HOME_URL);
     }
+
+    @Test
+    public void test_resignedGameIsPlayer() {
+        //mock game class
+        game = mock(Game.class);
+
+        //Mock call to playerLobby
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(gameCenter.getGameByPlayer(player)).thenReturn(game);
+        when(game.getIsResigned()).thenReturn(player);
+
+        //Template engine tester
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+
+        //Call handle on the CuT
+        try {
+            CuT.handle(request, response);
+        } catch (InterruptedException e) {
+
+        }
+    }
+    
+    @Test
+    public void test_resignedGameIsNotPlayer() {
+        //mock game class
+        game = mock(Game.class);
+
+        //Mock call to playerLobby
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(gameCenter.getGameByPlayer(player)).thenReturn(game);
+        when(game.getIsResigned()).thenReturn(otherPlayer);
+
+        //Template engine tester
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+
+        //Call handle on the CuT
+        try {
+            CuT.handle(request, response);
+        } catch (InterruptedException e) {
+
+        }
+    }
+    
+    @Test
+    public void test_gameOver() {
+        //mock game class
+        game = mock(Game.class);
+
+        //Mock call to playerLobby
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(gameCenter.getGameByPlayer(player)).thenReturn(game);
+        when(game.getIsResigned()).thenReturn(null);
+        when(game.isGameOver()).thenReturn(true);
+
+        //Template engine tester
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+
+        //Call handle on the CuT
+        try {
+            CuT.handle(request, response);
+        } catch (InterruptedException e) {
+
+        }
+    }
+    
+    @Test
+    public void test_gameOverAndWinner() {
+        //mock game class
+        game = mock(Game.class);
+
+        //Mock call to playerLobby
+        when(session.attribute(SessionAttributes.PLAYER)).thenReturn(player);
+        when(gameCenter.getGameByPlayer(player)).thenReturn(game);
+        when(game.getIsResigned()).thenReturn(null);
+        when(game.isGameOver()).thenReturn(true);
+        when(game.getWinner()).thenReturn(player);
+
+        //Template engine tester
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+
+        //Call handle on the CuT
+        try {
+            CuT.handle(request, response);
+        } catch (InterruptedException e) {
+
+        }
+    }
+
+
 }
