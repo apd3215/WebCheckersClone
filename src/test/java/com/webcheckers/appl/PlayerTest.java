@@ -1,5 +1,11 @@
 package com.webcheckers.appl;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+
+import com.webcheckers.model.Game;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +23,7 @@ public class PlayerTest {
      * Mock Classes
      */
     private PlayerLobby playerLobby;
+    private Game game;
     private String name;
 
     /**
@@ -24,6 +31,7 @@ public class PlayerTest {
      */
     @BeforeEach
     public void setUp(){
+        game = mock(Game.class);
         name = "Test";
         playerLobby = new PlayerLobby();
         CuT = new Player("Test");
@@ -53,5 +61,23 @@ public class PlayerTest {
     @Test
     public void getName(){
         assert(CuT.getName().equals(name));
+    }
+
+    @Test
+    public void spectate(){
+        assertFalse(CuT.isSpectating());
+        CuT.startSpectate(game);
+        assertTrue(CuT.isSpectating());
+        CuT.stopSpectate(game);
+        assertFalse(CuT.isSpectating());
+    }
+
+    @Test
+    public void start_end_game() {
+        assertFalse(CuT.isPlaying());
+        CuT.startGamePlayer();
+        assertTrue(CuT.isPlaying());
+        CuT.endGamePlayer();
+        assertFalse(CuT.isPlaying());
     }
 }

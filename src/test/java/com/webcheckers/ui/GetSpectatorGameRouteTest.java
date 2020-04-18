@@ -1,6 +1,5 @@
 package com.webcheckers.ui;
 
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -9,7 +8,6 @@ import java.util.Hashtable;
 
 import com.webcheckers.appl.GameCenter;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import spark.TemplateEngine;

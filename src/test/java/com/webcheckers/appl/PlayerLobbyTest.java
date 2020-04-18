@@ -84,6 +84,14 @@ public class PlayerLobbyTest {
         assertFalse(playing.contains("user1"));
         assertFalse(playing.contains("user2"));
       }
+  
+      @Test
+      public void test_get_spectating() {
+        ArrayList<String> spectating = CuT.get_spectating();
+        assertNotNull(spectating);
+        assertEquals(0, spectating.size());
+        assertFalse(spectating.contains("user1"));
+      }
 
       /**
        * Sign out players

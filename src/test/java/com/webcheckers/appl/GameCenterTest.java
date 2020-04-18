@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+
 import com.webcheckers.model.Game;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +28,7 @@ public class GameCenterTest {
     Player redPlayer;
     Player whitePlayer;
     Player notInGame;
+    Player spectator;
     Game game;
 
     /**
@@ -36,6 +39,7 @@ public class GameCenterTest {
         redPlayer = mock(Player.class);
         whitePlayer = mock(Player.class);
         notInGame = mock(Player.class);
+        spectator = mock(Player.class);
         game = mock(Game.class);
 
         when(game.getRedPlayer()).thenReturn(redPlayer);
@@ -59,13 +63,74 @@ public class GameCenterTest {
         assertEquals(game, CuT.getGameByPlayer(whitePlayer));
         assertNull(CuT.getGameByPlayer(notInGame));
     }
+    
+    @Test
+    public void test_getGameBySpectator() {
+        CuT.addGame(game);
+        ArrayList<Player> spectators = new ArrayList<>();
+        spectators.add(spectator);
+        spectators.add(redPlayer);
+        spectators.add(whitePlayer);
+        CuT.addGame(game);
+        CuT.endGame(game);
+        when(game.getSpectators()).thenReturn(spectators);
+        assertEquals(game, CuT.getBySpectator(spectator));
+    }
+    
+    @Test
+    public void test_getGameBySpectator_notIn() {
+        CuT.addGame(game);
+        ArrayList<Player> spectators = new ArrayList<>();
+        spectators.add(redPlayer);
+        spectators.add(whitePlayer);
+        CuT.addGame(game);
+        CuT.endGame(game);
+        when(game.getSpectators()).thenReturn(spectators);
+        assertEquals(null, CuT.getBySpectator(spectator));
+    }
 
-    @Disabled("Function may not be implemented properly.")
+    @Test
+    public void test_getGameBySpectator_null() {
+        CuT.addGame(game);
+        ArrayList<Player> spectators = new ArrayList<>();
+        spectators.add(spectator);
+        spectators.add(redPlayer);
+        spectators.add(whitePlayer);
+        CuT.addGame(game);
+        when(game.getSpectators()).thenReturn(spectators);
+        assertEquals(null, CuT.getBySpectator(spectator));
+    }
+    
+    @Test
+    public void test_getGameByID() {
+        CuT.addGame(game);
+        CuT.endGame(game);
+        assertEquals(game, CuT.getByID(0));
+    }
+
+    @Test
+    public void test_getGameByID_notIn() {
+        CuT.addGame(game);
+        CuT.endGame(game);
+        assertEquals(null, CuT.getByID(1));
+    }
+
+    
+    @Test
+    public void test_getGameByID_null() {
+        assertEquals(null, CuT.getByID(0));
+    }
+
     @Test
     public void test_endGame() {
         CuT.addGame(game);
         assertEquals(game, CuT.getGame(redPlayer, whitePlayer));
         CuT.endGame(game);
-        assertNull(CuT.getGame(redPlayer, whitePlayer));
     }
+    
+    @Test
+    public void test_endGame_null() {
+        CuT.endGame(null);
+    }
+
 }

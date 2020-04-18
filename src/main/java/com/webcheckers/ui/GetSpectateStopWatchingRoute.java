@@ -22,8 +22,6 @@ import static com.webcheckers.ui.WebServer.HOME_URL;
 
 
 public class GetSpectateStopWatchingRoute implements Route {
-
-
     private TemplateEngine templateEngine;
 
     /**
@@ -47,7 +45,6 @@ public class GetSpectateStopWatchingRoute implements Route {
         //Redirect to the game url
         response.redirect(HOME_URL);
         return null;
-        }
-
     }
+}
 
