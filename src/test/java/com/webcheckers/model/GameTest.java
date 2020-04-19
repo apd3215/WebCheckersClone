@@ -88,4 +88,22 @@ public class GameTest {
     public void boardview_notnull() {
         assertNotNull(CuT.getBoardView());
     }
+
+
+    @Test
+    public void makeMove() throws Exception{
+        Position start = new Position(2, 3);
+        Position end = new Position(3, 4);
+
+        Move move = new Move(start, end);
+
+        assertEquals(CuT.check_board(), true);
+        assertEquals(CuT.isMoveValid(move), true);
+        CuT.makeMove(move);
+        CuT.getTurn().add_move(move);
+        CuT.backUp();
+        CuT.makeMove(move);
+        CuT.getTurn().add_move(move);
+        assertEquals(CuT.endTurn(), true);
+    }
 }
