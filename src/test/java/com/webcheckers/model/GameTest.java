@@ -106,4 +106,14 @@ public class GameTest {
         CuT.getTurn().add_move(move);
         assertEquals(CuT.endTurn(), true);
     }
+
+    @Test
+    public void getSpecator(){
+        assertNotNull(CuT.getSpectators());
+    }
+
+    @Test
+    public void gameNotOver(){
+        assertEquals(CuT.isGameOver(), false);
+    }
 }
