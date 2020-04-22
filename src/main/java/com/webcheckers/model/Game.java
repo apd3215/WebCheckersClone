@@ -46,6 +46,18 @@ public class Game {
         this.boardView = new BoardView();
         this.turn = new Turn();
         boardView.setBoard();
+        // setCustomBoard sets a board in a custom way _ is a space w is a white piece,
+        // W kinged r is a red piece, R kinged (any other char) leaves a space unchanged
+                          //  0  . 1  . 2  . 3  . 4 .  5  . 6  . 7
+        char[][] board = { { ' ', '_', ' ', '_', ' ', '_', ' ', '_' }, // 0
+                           { '_', ' ', '_', ' ', '_', ' ', '_', ' ' }, // 1
+                           { ' ', '_', ' ', '_', ' ', '_', ' ', '_' }, // 2
+                           { '_', ' ', '_', ' ', '_', ' ', '_', ' ' }, // 3
+                           { ' ', '_', ' ', '_', ' ', '_', ' ', '_' }, // 4
+                           { '_', ' ', '_', ' ', '_', ' ', '_', ' ' }, // 5
+                           { ' ', '_', ' ', '_', ' ', '_', ' ', '_' }, // 6
+                           { '_', ' ', '_', ' ', '_', ' ', '_', ' ' } }; // 7
+        this.setCustomBoard(board, boardView);
         this.isGameOver = false;
         this.isResigned = null;
         this.winner = null;
@@ -54,6 +66,24 @@ public class Game {
         this.spectators = new ArrayList<Player>();
         this.redPlayer.startGamePlayer();
         this.whitePlayer.startGamePlayer();
+    }
+
+    private void setCustomBoard(char[][] board, BoardView boardView) {
+        for (int i = 0; i <= 7; i++) {
+            for (int j = 0; j <= 7; j++) {
+                if (board[i][j] == '_') {
+                    boardView.getSpace(i, j).setPiece(null);
+                } else if (board[i][j] == 'w') {
+                    boardView.getSpace(i, j).setPiece(new Piece(PieceColor.WHITE));
+                } else if (board[i][j] == 'W') {
+                    boardView.getSpace(i, j).setPiece(new Piece(PieceColor.WHITE, Piece.PieceType.KING));
+                } else if (board[i][j] == 'r') {
+                    boardView.getSpace(i, j).setPiece(new Piece(PieceColor.RED));
+                } else if (board[i][j] == 'R') {
+                    boardView.getSpace(i, j).setPiece(new Piece(PieceColor.RED, Piece.PieceType.KING));
+                }
+            }
+        }
     }
 
     public Turn getTurn(){
